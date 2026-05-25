@@ -1034,12 +1034,11 @@ function submitForm() {
     }
   }
 
-  // Send to Make.com webhook → Google Sheets
-  fetch('https://script.google.com/macros/s/AKfycbwjriMNtKEArACmDnb-2l7kkDFvnV9qvi0nVFwsemTWr_1JKXn1bxzYEXUypBREhiCD/exec', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
-  }).catch(() => {}); // fire and forget
+  // Send to Google Apps Script → Google Sheets (no-cors)
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', 'https://script.google.com/macros/s/AKfycbwjriMNtKEArACmDnb-2l7kkDFvnV9qvi0nVFwsemTWr_1JKXn1bxzYEXUypBREhiCD/exec', true);
+  xhr.setRequestHeader('Content-Type', 'text/plain');
+  xhr.send(JSON.stringify(data));
 
   showSuccess();
 }
