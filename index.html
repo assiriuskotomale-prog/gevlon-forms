@@ -1035,7 +1035,7 @@ function submitForm() {
   }
 
   // Send to Make.com webhook → Google Sheets
-  fetch('https://https://script.google.com/macros/s/AKfycbwjriMNtKEArACmDnb-2l7kkDFvnV9qvi0nVFwsemTWr_1JKXn1bxzYEXUypBREhiCD/exec/7qbl71gcpamnfm42dm8s1iix3ws7d5p2', {
+  fetch('https://script.google.com/macros/s/AKfycbwjriMNtKEArACmDnb-2l7kkDFvnV9qvi0nVFwsemTWr_1JKXn1bxzYEXUypBREhiCD/exec', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
