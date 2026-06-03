@@ -333,34 +333,111 @@ function computeCeto() {
   document.getElementById('ceto_label').textContent = t;
 }
 
+// ===== BLE AILink (UUIDs corrects - protocole AILink FFE0) =====
+var BLE_SERVICE    = '0000ffe0-0000-1000-8000-00805f9b34fb';
+var BLE_NOTIFY     = '0000ffe2-0000-1000-8000-00805f9b34fb'; // MCU → APP (mesures)
+var BLE_WRITE      = '0000ffe1-0000-1000-8000-00805f9b34fb'; // APP → MCU (commandes)
+var bleDevice = null;
+var bleServer = null;
+
+function parseAiLinkData(dataView) {
+  // Protocole A7: [A7][len][CID_hi][CID_lo][CMD_hi][CMD_lo][data...][checksum]
+  var bytes = new Uint8Array(dataView.buffer);
+  if (bytes.length < 6) return null;
+
+  // Chercher le header A7
+  var start = -1;
+  for (var i = 0; i < bytes.length; i++) {
+    if (bytes[i] === 0xA7) { start = i; break; }
+  }
+  if (start === -1) return null;
+
+  var cid = (bytes[start+2] << 8) | bytes[start+3];
+  var cmd = (bytes[start+4] << 8) | bytes[start+5];
+  var payload = bytes.slice(start+6, bytes.length-1);
+
+  // Poids stable (CMD typique pour résultat final balance)
+  // Poids = 2 octets, unité 0.1 kg (little-endian)
+  if (payload.length >= 2) {
+    var poids_raw = (payload[1] << 8) | payload[0];
+    if (poids_raw > 0 && poids_raw < 3000) { // sanity check 0-300 kg
+      var poids = poids_raw / 10;
+      return { poids: poids, cid: cid, cmd: cmd, raw: Array.from(bytes).map(b => b.toString(16).padStart(2,'0')).join(' ') };
+    }
+  }
+  return null;
+}
+
 async function connecterBalance() {
   var btn = document.getElementById('bt-btn');
   var st = document.getElementById('bt-status');
+
   if (!navigator.bluetooth) {
     st.style.display='block'; st.style.background='#fff1f2'; st.style.color='#dc2626';
-    st.textContent = 'Bluetooth non supporté. Utilisez Chrome Android.'; return;
+    st.textContent = 'Web Bluetooth non supporté. Utilisez Chrome sur Android (HTTPS requis).'; return;
   }
-  btn.textContent='🔄...'; btn.disabled=true;
+
+  btn.textContent='🔄 Recherche...'; btn.disabled=true;
+  st.style.display='block'; st.style.background='#eff6ff'; st.style.color='#1e40af';
+  st.textContent = 'Sélectionnez votre balance AiLink dans la liste...';
+
   try {
-    var dev = await navigator.bluetooth.requestDevice({acceptAllDevices:true,optionalServices:['0000181d-0000-1000-8000-00805f9b34fb']});
-    st.style.display='block'; st.style.background='#f0fdf4'; st.style.color='#166534';
-    st.textContent='✓ Balance connectée : '+dev.name+'. Pesez-vous...';
-    try {
-      var srv = await dev.gatt.connect();
-      var svc = await srv.getPrimaryService('0000181d-0000-1000-8000-00805f9b34fb');
-      var ch = await svc.getCharacteristic('0000181d-0000-1000-8000-00805f9b34fb');
-      ch.addEventListener('characteristicvaluechanged', function(e) {
-        var kg = e.target.value.getUint16(1, true) * 0.005;
-        document.getElementById('poids').value = kg.toFixed(1);
+    bleDevice = await navigator.bluetooth.requestDevice({
+      filters: [
+        { namePrefix: 'AiLink' },
+        { namePrefix: 'AI Link' },
+        { namePrefix: 'AILink' }
+      ],
+      optionalServices: [BLE_SERVICE]
+    });
+
+    st.textContent = '🔗 Connexion à ' + bleDevice.name + '...';
+    bleServer = await bleDevice.gatt.connect();
+
+    var service = await bleServer.getPrimaryService(BLE_SERVICE);
+    var notifyChar = await service.getCharacteristic(BLE_NOTIFY);
+
+    notifyChar.addEventListener('characteristicvaluechanged', function(event) {
+      var result = parseAiLinkData(event.target.value);
+      if (result) {
+        document.getElementById('poids').value = result.poids.toFixed(1);
         computeIMC();
-        st.textContent='✓ Poids importé : '+kg.toFixed(1)+' kg';
-      });
-      await ch.startNotifications();
-    } catch(e) { st.textContent='✓ Connecté ('+dev.name+') - saisie manuelle du poids'; }
-  } catch(e) {
-    st.style.display='block'; st.style.background='#fff7ed'; st.style.color='#c2410c';
-    st.textContent = e.name==='NotFoundError' ? 'Aucune balance trouvée.' : 'Connexion annulée.';
-  } finally { btn.textContent='📡 Connecter'; btn.disabled=false; }
+        st.style.background = '#f0fdf4'; st.style.color = '#166534';
+        st.textContent = '✓ Poids importé : ' + result.poids.toFixed(1) + ' kg — Complétez les autres champs depuis l'app AiCare.';
+      } else {
+        // Log pour debug - afficher les données brutes
+        var bytes = new Uint8Array(event.target.value.buffer);
+        var hex = Array.from(bytes).map(b=>b.toString(16).padStart(2,'0')).join(' ');
+        st.textContent = '📡 Données reçues : ' + hex + ' — Montez sur la balance pour déclencher la mesure.';
+      }
+    });
+
+    await notifyChar.startNotifications();
+
+    st.style.background = '#f0fdf4'; st.style.color = '#166534';
+    st.textContent = '✓ Balance ' + bleDevice.name + ' connectée ! Montez sur la balance...';
+
+    bleDevice.addEventListener('gattserverdisconnected', function() {
+      st.style.background = '#fff7ed'; st.style.color = '#c2410c';
+      st.textContent = '⚡ Balance déconnectée.';
+      btn.textContent = '📡 Reconnecter'; btn.disabled = false;
+    });
+
+  } catch(err) {
+    st.style.display='block';
+    if (err.name === 'NotFoundError') {
+      st.style.background='#fff7ed'; st.style.color='#c2410c';
+      st.textContent = 'Aucune balance AiLink trouvée. Vérifiez que la balance est allumée.';
+    } else if (err.name === 'SecurityError') {
+      st.style.background='#fff1f2'; st.style.color='#dc2626';
+      st.textContent = 'HTTPS requis. Accédez via gevlon-nutrition.github.io (pas en fichier local).';
+    } else {
+      st.style.background='#f8fafc'; st.style.color='#475569';
+      st.textContent = 'Connexion annulée.';
+    }
+  } finally {
+    btn.textContent = '📡 Connecter'; btn.disabled = false;
+  }
 }
 
 async function envoyerDonnees() {
