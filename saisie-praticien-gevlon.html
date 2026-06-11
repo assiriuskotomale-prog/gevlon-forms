@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gevlon — Saisie praticien</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ny:#00308F;--nyl:#E6F1FB;--ny2:#B5D4F4;--ny8:#0C447C;
+  --or:#F9921C;--orl:#FFF4E8;
+  --cn:#278a01;--cnl:#EAF3DE;--cn2:#C0DD97;--cn8:#27500A;
+  --ca:#854F0B;--cal:#FAEEDA;--ca2:#FAC775;--ca8:#633806;
+  --cp:#A32D2D;--cpl:#FCEBEB;--cp2:#F7C1C1;--cp8:#791F1F;
+  --cs:#00308F;--csl:#E6F1FB;
+  --co:#534AB7;--col:#EEEDFE;--co8:#3C3489;
+  --dark:#1C1C2E;--mid:#5A6080;--grey:#F5F5F7;--bord:#E0E0E8;
+  --white:#fff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Poppins',sans-serif;background:#F0F4FA;color:var(--dark);min-height:100vh}
+
+/* ── HEADER ── */
+.hdr{background:var(--ny);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,48,143,.3)}
+.hdr-logo{font-family:'Montserrat',sans-serif;font-size:18px;font-weight:800;color:#fff;letter-spacing:-.5px}
+.hdr-logo span{color:var(--or)}
+.hdr-sub{font-size:11px;color:var(--ny2);font-weight:400;margin-top:2px}
+.hdr-badge{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:11px;padding:4px 10px;border-radius:20px}
+
+/* ── LAYOUT ── */
+.container{max-width:780px;margin:0 auto;padding:24px 16px 60px}
+
+/* ── ID CLIENT STICKY ── */
+.id-bar{background:var(--ny);border-radius:10px;padding:12px 16px;margin-bottom:20px;display:flex;align-items:center;gap:12px}
+.id-bar label{font-size:11px;font-weight:600;color:var(--ny2);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+.id-bar input{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);border-radius:6px;padding:7px 12px;font-family:'Poppins',sans-serif;font-size:13px;color:#fff;flex:1;outline:none}
+.id-bar input::placeholder{color:rgba(255,255,255,.45)}
+.id-bar input:focus{border-color:rgba(255,255,255,.6);background:rgba(255,255,255,.15)}
+.id-hash{font-family:monospace;font-size:12px;background:rgba(255,255,255,.1);color:var(--or);padding:6px 10px;border-radius:6px;min-width:90px;text-align:center;letter-spacing:.05em}
+.load-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:6px;padding:5px 12px;font-size:12px;cursor:pointer;font-family:inherit}
+.load-btn:hover{background:rgba(255,255,255,.28)}
+.load-banner{border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:12.5px;line-height:1.6;display:none}
+.load-banner.ok{display:block;background:var(--cnl);border:0.5px solid var(--cn2);color:var(--cn8)}
+.load-banner.warn{display:block;background:var(--cal);border:0.5px solid var(--ca2);color:var(--ca8)}
+.load-banner.err{display:block;background:var(--cpl);border:0.5px solid var(--cp2);color:var(--cp8)}
+
+/* ── SECTION CARDS ── */
+.section{background:#fff;border-radius:12px;border:1px solid var(--bord);margin-bottom:16px;overflow:hidden}
+.section-head{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--bord);cursor:pointer;user-select:none}
+.section-head.open{border-bottom-color:var(--bord)}
+.s-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.s-title{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;color:var(--ny)}
+.s-sub{font-size:11px;color:var(--mid);margin-top:1px}
+.s-chevron{margin-left:auto;font-size:18px;color:var(--mid);transition:transform .2s}
+.section-head.open .s-chevron{transform:rotate(180deg)}
+.section-body{padding:16px;display:none}
+.section-body.open{display:block}
+
+/* ── GRILLE DE CHAMPS ── */
+.grid{display:grid;gap:10px;margin-bottom:10px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:1fr 1fr 1fr}
+.g4{grid-template-columns:1fr 1fr 1fr 1fr}
+.g1{grid-template-columns:1fr}
+.fg{display:flex;flex-direction:column;gap:4px}
+.fg label{font-size:11px;font-weight:500;color:var(--mid);text-transform:uppercase;letter-spacing:.05em}
+.fg input,.fg select,.fg textarea{font-family:'Poppins',sans-serif;font-size:13px;padding:8px 10px;border:1px solid var(--bord);border-radius:7px;background:var(--grey);color:var(--dark);outline:none;width:100%;transition:border-color .15s}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--ny);background:#fff}
+.fg textarea{resize:vertical;min-height:60px;line-height:1.5}
+.unit{font-size:11px;color:var(--mid);margin-top:2px}
+
+/* ── STATUT CHIPS ── */
+.status-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:3px}
+.chip{font-size:11px;padding:3px 9px;border-radius:20px;cursor:pointer;border:1px solid var(--bord);background:#fff;color:var(--mid);transition:all .12s;user-select:none}
+.chip.sel-ok{background:var(--cnl);border-color:var(--cn2);color:var(--cn8);font-weight:500}
+.chip.sel-warn{background:var(--cal);border-color:var(--ca2);color:var(--ca8);font-weight:500}
+.chip.sel-bad{background:var(--cpl);border-color:var(--cp2);color:var(--cp8);font-weight:500}
+
+/* ── INTERPRÉTATION LIVE ── */
+.interp{font-size:11.5px;padding:6px 10px;border-radius:6px;margin-top:4px;line-height:1.5}
+.interp.ok{background:var(--cnl);color:var(--cn8)}
+.interp.warn{background:var(--cal);color:var(--ca8)}
+.interp.bad{background:var(--cpl);color:var(--cp8)}
+.interp.info{background:var(--nyl);color:var(--ny8)}
+
+/* ── SÉPARATEUR PILIER ── */
+.pilier-label{display:flex;align-items:center;gap:8px;margin:12px 0 8px}
+.pl-badge{font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px}
+.pl-line{flex:1;height:1px;background:var(--bord)}
+
+/* ── BOUTON GÉNÉRER ── */
+.gen-btn{width:100%;padding:14px;background:var(--ny);color:#fff;font-family:'Poppins',sans-serif;font-size:14px;font-weight:600;border:none;border-radius:10px;cursor:pointer;margin-top:16px;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .2s}
+.gen-btn:hover{opacity:.9}
+.gen-btn:disabled{opacity:.5;cursor:not-allowed}
+.gen-btn.loading{background:var(--mid)}
+
+/* ── RÉSULTAT PLAN ── */
+.plan-result{background:var(--grey);border:1px solid var(--bord);border-radius:10px;padding:16px;margin-top:16px;font-size:13px;line-height:1.7;white-space:pre-wrap;display:none;color:var(--dark);max-height:500px;overflow-y:auto}
+.plan-result.visible{display:block}
+.copy-btn{margin-top:8px;background:var(--cnl);color:var(--cn8);border:1px solid var(--cn2);border-radius:7px;padding:7px 14px;font-family:'Poppins',sans-serif;font-size:12px;font-weight:500;cursor:pointer}
+.copy-btn:hover{background:var(--cn2)}
+
+/* ── INFO BOX ── */
+.info-box{background:var(--nyl);border-left:3px solid var(--ny);border-radius:0 7px 7px 0;padding:8px 12px;font-size:12px;color:var(--ny8);line-height:1.5;margin-bottom:12px}
+
+/* ── RESPONSIVE ── */
+@media(max-width:520px){
+  .g2,.g3,.g4{grid-template-columns:1fr 1fr}
+  .g4{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div>
+    <div class="hdr-logo">&#x26A1; gevlon <span>·</span> praticien</div>
+    <div class="hdr-sub">Saisie biométrique & génération plan de base</div>
+  </div>
+  <div class="hdr-badge">Kit complet v2</div>
+</div>
+
+<div class="container">
+
+  <!-- IDENTIFIANT CLIENT -->
+  <div class="id-bar">
+    <label>WhatsApp client</label>
+    <input type="tel" id="whatsapp" placeholder="+229 01 XX XX XX XX" oninput="genHash()">
+    <div class="id-hash" id="hash_display">GEV-????</div>
+    <button class="load-btn" onclick="chargerClient()">⬇ Charger</button>
+  </div>
+
+  <div class="load-banner" id="loadBanner"></div>
+
+  <!-- SECTION 1 : PROFIL GÉNÉRAL -->
+  <div class="section">
+    <div class="section-head open" onclick="toggleSection(this)">
+      <div class="s-icon" style="background:#E6F1FB">👤</div>
+      <div><div class="s-title">Profil général</div><div class="s-sub">Identité, contexte, objectif</div></div>
+      <span class="s-chevron">▾</span>
+    </div>
+    <div class="section-body open">
+      <div class="grid g2">
+        <div class="fg"><label>Initiale + prénom</label><input id="p_nom" placeholder="Ex : A. Floriane"></div>
+        <div class="fg"><label>Âge</label><input id="p_age" type="number" placeholder="18" min="10" max="90"></div>
+      </div>
+      <div class="grid g3">
+        <div class="fg"><label>Sexe</label>
+          <select id="p_sexe"><option value="F">Féminin</option><option value="M">Masculin</option></select>
+        </div>
+        <div class="fg"><label>Profession</label><input id="p_prof" placeholder="Ex : Étudiante"></div>
+        <div class="fg"><label>Type de travail</label>
+          <select id="p_travail"><option>Sédentaire</option><option>Actif</option><option>Très physique</option></select>
+        </div>
+      </div>
+      <div class="grid g2">
+        <div class="fg"><label>Objectif principal</label>
+          <select id="p_objectif">
+            <option>Perte de poids</option>
+            <option>Contrôle glycémie / diabète</option>
+            <option>Énergie / fatigue chronique</option>
+            <option>Équilibre hormonal</option>
+            <option>Santé cardiovasculaire</option>
+            <option>Prise de masse</option>
+            <option>Autre</option>
+          </select>
+        </div>
+        <div class="fg"><label>Motivation (0–10)</label>
+          <input id="p_motiv" type="number" min="0" max="10" placeholder="10">
+        </div>
+      </div>
+      <div class="grid g1">
+        <div class="fg"><label>Diagnostics médicaux actifs</label>
+          <div class="status-row" id="diag_chips">
+            <div class="chip" onclick="tChip(this)">Surpoids / Obésité</div>
+            <div class="chip" onclick="tChip(this)">Hypertension</div>
+            <div class="chip" onclick="tChip(this)">Diabète type 2</div>
+            <div class="chip" onclick="tChip(this)">Prédiabète</div>
+            <div class="chip" onclick="tChip(this)">Dyslipidémie</div>
+            <div class="chip" onclick="tChip(this)">SOPK / Kystes</div>
+            <div class="chip" onclick="tChip(this)">Hypothyroïdie</div>
+            <div class="chip" onclick="tChip(this)">Insuffisance rénale</div>
+            <div class="chip" onclick="tChip(this)">Aucun connu</div>
+          </div>
+        </div>
+      </div>
+      <div class="grid g2" style="margin-top:8px">
+        <div class="fg"><label>Antécédents familiaux</label><input id="p_antec" placeholder="Ex : diabète père, HTA mère..."></div>
+        <div class="fg"><label>Stress perçu (0–10)</label><input id="p_stress" type="number" min="0" max="10" placeholder="5"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 : BALANCE GEVLON -->
+  <div class="section">
+    <div class="section-head" onclick="toggleSection(this)">
+      <div class="s-icon" style="background:#EAF3DE">⚖️</div>
+      <div><div class="s-title">Balance Gevlon — Composition corporelle</div><div class="s-sub">Données lues dans l'appli AiCare · saisie manuelle</div></div>
+      <span class="s-chevron">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="info-box">Lis les valeurs dans l'appli AiCare après mesure, puis saisis-les ici. Ne pas retranscrire "obésité notation" ni les libellés fantaisistes de l'app — utiliser les valeurs brutes uniquement.</div>
+
+      <div class="pilier-label"><span class="pl-badge" style="background:#E6F1FB;color:#0C447C">Anthropométrie</span><div class="pl-line"></div></div>
+      <div class="grid g3">
+        <div class="fg"><label>Taille (cm)</label><input id="b_taille" type="number" placeholder="161" oninput="calcIMC()"></div>
+        <div class="fg"><label>Poids (kg)</label><input id="b_poids" type="number" step="0.1" placeholder="65,9" oninput="calcIMC()"></div>
+        <div class="fg"><label>IMC calculé</label><input id="b_imc" placeholder="—" readonly style="background:#f0f0f0;color:var(--ny);font-weight:600"></div>
+      </div>
+      <div id="imc_interp" class="interp info" style="display:none"></div>
+
+      <div class="pilier-label" style="margin-top:14px"><span class="pl-badge" style="background:#EAF3DE;color:#27500A">Composition</span><div class="pl-line"></div></div>
+      <div class="grid g4">
+        <div class="fg"><label>% Masse grasse</label><input id="b_pcg" type="number" step="0.1" placeholder="36,6" oninput="interpMG()"><div class="unit">BFR</div></div>
+        <div class="fg"><label>Masse grasse (kg)</label><input id="b_mg" type="number" step="0.1" placeholder="24,1"></div>
+        <div class="fg"><label>Masse maigre (kg)</label><input id="b_mm" type="number" step="0.1" placeholder="41,8"></div>
+        <div class="fg"><label>Graisse viscérale</label><input id="b_gv" type="number" step="0.1" placeholder="6" oninput="interpGV()"></div>
+      </div>
+      <div id="mg_interp" class="interp" style="display:none"></div>
+
+      <div class="grid g4" style="margin-top:8px">
+        <div class="fg"><label>Masse musculaire (kg)</label><input id="b_muscle" type="number" step="0.1" placeholder="31,3"></div>
+        <div class="fg"><label>Masse musc. squel. (kg)</label><input id="b_mms" type="number" step="0.1" placeholder="19,8" oninput="interpMMS()"></div>
+        <div class="fg"><label>% Protéines</label><input id="b_prot" type="number" step="0.1" placeholder="10,7" oninput="interpProt()"></div>
+        <div class="fg"><label>% Hydratation</label><input id="b_hydrat" type="number" step="0.1" placeholder="45,3"></div>
+      </div>
+
+      <div class="grid g3" style="margin-top:8px">
+        <div class="fg"><label>BMR (kcal/j)</label><input id="b_bmr" type="number" placeholder="1368"></div>
+        <div class="fg"><label>Âge corporel</label><input id="b_agec" type="number" placeholder="19" oninput="interpAge()"></div>
+        <div class="fg"><label>Masse osseuse (kg)</label><input id="b_os" type="number" step="0.1" placeholder="2,5"></div>
+      </div>
+      <div id="prot_interp" class="interp" style="display:none"></div>
+    </div>
+  </div>
+
+  <!-- SECTION 3 : CENTISOUPLE -->
+  <div class="section">
+    <div class="section-head" onclick="toggleSection(this)">
+      <div class="s-icon" style="background:#FAEEDA">📏</div>
+      <div><div class="s-title">Centisouple — Mensurations</div><div class="s-sub">Tour de taille obligatoire · autres selon programme</div></div>
+      <span class="s-chevron">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="grid g3">
+        <div class="fg"><label>Tour de taille (cm) <span style="color:var(--cp)">★</span></label><input id="c_taille" type="number" step="0.5" placeholder="—" oninput="interpTailleC()"></div>
+        <div class="fg"><label>Tour de hanche (cm)</label><input id="c_hanche" type="number" step="0.5" placeholder="89"></div>
+        <div class="fg"><label>Rapport Taille/Hanche</label><input id="c_rth" placeholder="—" readonly style="background:#f0f0f0;color:var(--ny);font-weight:600"></div>
+      </div>
+      <div id="taille_interp" class="interp" style="display:none"></div>
+      <div class="grid g3" style="margin-top:8px">
+        <div class="fg"><label>Tour de cuisse (cm)</label><input id="c_cuisse" type="number" step="0.5" placeholder="54"></div>
+        <div class="fg"><label>Tour de bras (cm)</label><input id="c_bras" type="number" step="0.5" placeholder="25"></div>
+        <div class="fg"><label>Tour de poitrine (cm)</label><input id="c_poitrine" type="number" step="0.5" placeholder="—"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4 : YASEE 4-EN-1 -->
+  <div class="section">
+    <div class="section-head" onclick="toggleSection(this)">
+      <div class="s-icon" style="background:#FCEBEB">🩺</div>
+      <div><div class="s-title">YASEE 4-en-1 — Paramètres biologiques</div><div class="s-sub">Glycémie · Tension · Acide urique · Cétonémie</div></div>
+      <span class="s-chevron">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="info-box">Mesures effectuées à jeun le matin. Consigner heure et conditions si différentes.</div>
+      <div class="grid g2">
+        <div class="fg">
+          <label>Glycémie à jeun (mmol/L ou mg/dL)</label>
+          <input id="y_glyc" type="number" step="0.1" placeholder="Ex : 5,2 mmol/L ou 94 mg/dL" oninput="interpGlyc()">
+          <div class="status-row" id="glyc_unit">
+            <div class="chip sel-ok" onclick="selUnit(this,'mmol')">mmol/L</div>
+            <div class="chip" onclick="selUnit(this,'mgdl')">mg/dL</div>
+          </div>
+        </div>
+        <div class="fg">
+          <label>Tension artérielle</label>
+          <div style="display:flex;gap:6px;align-items:center">
+            <input id="y_tas" type="number" placeholder="120" style="flex:1"> <span style="font-size:12px;color:var(--mid)">/</span>
+            <input id="y_tad" type="number" placeholder="80" style="flex:1">
+          </div>
+          <div class="unit">mmHg (sys / dia)</div>
+          <div id="ta_interp" class="interp" style="display:none;margin-top:4px"></div>
+        </div>
+      </div>
+      <div class="grid g2" style="margin-top:8px">
+        <div class="fg">
+          <label>Acide urique (µmol/L ou mg/dL)</label>
+          <input id="y_uric" type="number" step="0.1" placeholder="Ex : 350 µmol/L ou 5,9 mg/dL" oninput="interpUric()">
+          <div class="status-row" id="uric_unit">
+            <div class="chip sel-ok" onclick="selUnitU(this,'umol')">µmol/L</div>
+            <div class="chip" onclick="selUnitU(this,'mgdl')">mg/dL</div>
+          </div>
+        </div>
+        <div class="fg">
+          <label>Cétonémie (mmol/L)</label>
+          <input id="y_ceto" type="number" step="0.1" placeholder="Ex : 0,3 mmol/L" oninput="interpCeto()">
+          <div id="ceto_interp" class="interp" style="display:none;margin-top:4px"></div>
+        </div>
+      </div>
+      <div id="glyc_interp" class="interp" style="display:none;margin-top:4px"></div>
+      <div id="uric_interp" class="interp" style="display:none;margin-top:4px"></div>
+    </div>
+  </div>
+
+  <!-- SECTION 5 : HABITUDES (résumé questionnaire) -->
+  <div class="section">
+    <div class="section-head" onclick="toggleSection(this)">
+      <div class="s-icon" style="background:#EAF3DE">📋</div>
+      <div><div class="s-title">Habitudes — Résumé questionnaire</div><div class="s-sub">Points clés issus du questionnaire mode de vie</div></div>
+      <span class="s-chevron">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="info-box">Ces champs condensent les informations du questionnaire. Coller les données brutes ou résumer les points clés. Le générateur de plan les interprètera cliniquement.</div>
+
+      <div class="pilier-label"><span class="pl-badge" style="background:#EAF3DE;color:#27500A">N — Nutrition</span><div class="pl-line"></div></div>
+      <div class="grid g2">
+        <div class="fg"><label>Nb repas/jour</label>
+          <select id="h_repas"><option>1</option><option>2</option><option selected>3</option><option>4+</option></select>
+        </div>
+        <div class="fg"><label>Grignotage</label>
+          <select id="h_grigno"><option>Jamais</option><option selected>Parfois</option><option>Souvent</option></select>
+        </div>
+      </div>
+      <div class="grid g1">
+        <div class="fg"><label>Rappel alimentaire 24h</label>
+          <textarea id="h_rappel24" placeholder="Ex : Thé le matin, légumes + frites le midi, riz sauce le soir..."></textarea>
+        </div>
+      </div>
+      <div class="grid g1">
+        <div class="fg"><label>Habitudes problématiques identifiées</label>
+          <div class="status-row">
+            <div class="chip" onclick="tChip(this)">Friture fréquente</div>
+            <div class="chip" onclick="tChip(this)">Glucides élevés</div>
+            <div class="chip" onclick="tChip(this)">Repas après 20h</div>
+            <div class="chip" onclick="tChip(this)">Peu de légumes</div>
+            <div class="chip" onclick="tChip(this)">Peu de protéines</div>
+            <div class="chip" onclick="tChip(this)">Boissons sucrées</div>
+            <div class="chip" onclick="tChip(this)">Hydratation faible</div>
+            <div class="chip" onclick="tChip(this)">Saute des repas</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pilier-label" style="margin-top:12px"><span class="pl-badge" style="background:#FAEEDA;color:#633806">A — Activité</span><div class="pl-line"></div></div>
+      <div class="grid g2">
+        <div class="fg"><label>Activité physique (jours/sem)</label>
+          <select id="h_actjours"><option>0</option><option selected>1</option><option>2</option><option>3</option><option>4</option><option>5+</option></select>
+        </div>
+        <div class="fg"><label>Type d'activité principale</label>
+          <select id="h_acttype">
+            <option>Marche / déplacements</option>
+            <option>Sport (gym, fitness)</option>
+            <option>Travail physique</option>
+            <option>Loisirs actifs</option>
+            <option>Aucune</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg" style="margin-top:8px"><label>Heures assis par jour</label>
+        <select id="h_sedjours"><option>Moins de 2h</option><option>2–4h</option><option selected>4–6h</option><option>6–8h</option><option>Plus de 8h</option></select>
+      </div>
+
+      <div class="pilier-label" style="margin-top:12px"><span class="pl-badge" style="background:#E6F1FB;color:#0C447C">S — Sommeil & Stress</span><div class="pl-line"></div></div>
+      <div class="grid g3">
+        <div class="fg"><label>Heures de sommeil/nuit</label>
+          <select id="h_sommeil"><option>Moins de 5h</option><option>5–6h</option><option>6–7h</option><option>7–8h</option><option>Plus de 8h</option></select>
+        </div>
+        <div class="fg"><label>Qualité du sommeil</label>
+          <select id="h_qualsom"><option>Mauvaise</option><option>Moyenne</option><option>Bonne</option><option>Excellente</option></select>
+        </div>
+        <div class="fg"><label>Sources de stress</label>
+          <input id="h_stress_src" placeholder="Ex : études, travail, famille...">
+        </div>
+      </div>
+
+      <div class="pilier-label" style="margin-top:12px"><span class="pl-badge" style="background:#fff;color:#5A6080;border:1px solid #E0E0E8">Autre</span><div class="pl-line"></div></div>
+      <div class="grid g2">
+        <div class="fg"><label>Tabac</label>
+          <select id="h_tabac"><option>Non-fumeur</option><option>Ex-fumeur</option><option>Occasionnel</option><option>Régulier</option></select>
+        </div>
+        <div class="fg"><label>Alcool</label>
+          <select id="h_alcool"><option>Jamais</option><option>Occasionnel</option><option>Hebdomadaire</option><option>Quotidien</option></select>
+        </div>
+      </div>
+      <div class="fg" style="margin-top:8px"><label>Attentes exprimées par le client</label>
+        <textarea id="h_attentes" placeholder="Ex : un programme efficace, perdre du ventre en 1 mois..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 6 : AUTONOMIE CLIENT -->
+  <div class="section">
+    <div class="section-head" onclick="toggleSection(this)">
+      <div class="s-icon" style="background:#EEEDFE">🎯</div>
+      <div><div class="s-title">Profil d'autonomie client</div><div class="s-sub">Comment s'est déroulée la prise en charge initiale</div></div>
+      <span class="s-chevron">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="grid g2">
+        <div class="fg"><label>Questionnaire rempli</label>
+          <select id="a_questionnaire">
+            <option>Seul, sans aide</option>
+            <option>Avec aide WhatsApp</option>
+            <option>Rempli par le praticien</option>
+            <option>Partiellement rempli</option>
+          </select>
+        </div>
+        <div class="fg"><label>Mesures balance effectuées</label>
+          <select id="a_balance">
+            <option>Seul chez lui (PS)</option>
+            <option>Guidé par le PS</option>
+            <option>Au cabinet Gevlon</option>
+            <option>Non effectuées</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid g2">
+        <div class="fg"><label>Centisouple effectué</label>
+          <select id="a_centisouple">
+            <option>Seul</option>
+            <option>Guidé par PS</option>
+            <option>Au cabinet</option>
+            <option>Non effectué</option>
+          </select>
+        </div>
+        <div class="fg"><label>YASEE effectué</label>
+          <select id="a_yasee">
+            <option>Seul</option>
+            <option>Guidé par PS</option>
+            <option>Au cabinet</option>
+            <option>Non effectué</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg" style="margin-top:8px"><label>Profil d'accompagnement estimé</label>
+        <div class="status-row">
+          <div class="chip" onclick="selProfil(this,'A')">A — Autonome</div>
+          <div class="chip" onclick="selProfil(this,'B')">B — Guidé</div>
+          <div class="chip" onclick="selProfil(this,'C')">C — Accompagnement intensif</div>
+        </div>
+        <input type="hidden" id="a_profil" value="">
+      </div>
+      <div class="fg" style="margin-top:8px"><label>Observations praticien (non transmises au client)</label>
+        <textarea id="a_obs" placeholder="Ex : client timide, répond par oui facilement, à challenger lors de l'entretien..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOUTON GÉNÉRER -->
+  <button class="gen-btn" id="genBtn" onclick="genererPlan()">
+    ⚡ Générer le plan de base NAPSO™
+  </button>
+
+  <div class="plan-result" id="planResult"></div>
+  <button class="copy-btn" id="copyBtn" style="display:none" onclick="copierPlan()">📋 Copier le plan de base</button>
+
+</div>
+
+<script>
+// ── HASH WHATSAPP ──────────────────────────────────────────────
+const GEVLON_API = 'https://script.google.com/macros/s/AKfycbz5fXTf-PI_U80Wu4A3HpS27SL4GuoAYuA_DGikCg_m6AlDi3bTT3JiAUQ8fvMXHXMp/exec';
+
+async function chargerClient(){
+  const wa = document.getElementById('whatsapp').value.trim();
+  if(!wa){ alert("Saisis d'abord le numéro WhatsApp."); return; }
+  const banner = document.getElementById('loadBanner');
+  banner.className = 'load-banner';
+  banner.textContent = '⏳ Chargement...'; banner.style.display = 'block';
+  try{
+    const resp = await fetch(GEVLON_API + '?wa=' + encodeURIComponent(wa));
+    const d = await resp.json();
+    if(!d.found){ banner.className='load-banner warn'; banner.textContent='⚠ Aucun dossier trouvé pour ce numéro.'; return; }
+    let msg = '✓ Dossier chargé —';
+    if(d.questionnaire){
+      const q=d.questionnaire;
+      const g=id=>document.getElementById(id);
+      if(q.nom_prenom) g('cfg_name').value=q.nom_prenom;
+      if(q.age) g('cfg_age').value=q.age;
+      if(q.profession) g('cfg_job').value=String(q.profession).replace(/_/g,' ');
+      if(q.sexe) g('cfg_sex').value=q.sexe==='Femme'?'F':'M';
+      if(q.niveau_motivation){g('cfg_motiv').value=q.niveau_motivation;document.getElementById('mv').textContent=q.niveau_motivation;}
+      if(q.niveau_stress) g('cfg_stress') && (g('cfg_stress').value=q.niveau_stress);
+      let nutr=[];
+      if(q.rappel_24h) nutr.push('Rappel 24h : '+q.rappel_24h);
+      if(q.attente_gevlon) nutr.push('Attentes : '+q.attente_gevlon);
+      if(nutr.length && g('cfg_nutr')) g('cfg_nutr').value=nutr.join('\n');
+      msg+=' questionnaire ✓';
+    }
+    if(d.mesures){
+      const m=d.mesures;
+      const g=id=>document.getElementById(id);
+      if(m.poids) g('b_poids').value=m.poids;
+      if(m.taille) g('b_taille').value=m.taille;
+      if(m.imc) g('b_imc').value=m.imc;
+      if(m.mg) g('b_pcg').value=m.mg;
+      if(m.mm) g('b_muscle').value=m.mm;
+      if(m.bmr) g('b_bmr').value=m.bmr;
+      if(m.age_corp) g('b_agec').value=m.age_corp;
+      if(m.tour_taille) g('c_taille').value=m.tour_taille;
+      if(m.tour_hanches) g('c_hanche').value=m.tour_hanches;
+      if(m.tour_bras) g('c_bras').value=m.tour_bras;
+      if(m.tension_sys) g('y_tas').value=m.tension_sys;
+      if(m.tension_dia) g('y_tad').value=m.tension_dia;
+      if(m.glycemie) g('y_glyc').value=m.glycemie;
+      if(m.acide_urique) g('y_uric').value=m.acide_urique;
+      if(m.cetonemie) g('y_ceto').value=m.cetonemie;
+      try{ calcIMC(); interpMG(); interpTailleC(); calcRTH(); interpTa(); interpGlyc(); interpUric(); interpCeto(); }catch(e){}
+      msg+=' mesures ('+(m.date_mesure||'')+') ✓';
+    }
+    banner.className='load-banner ok'; banner.textContent=msg;
+  }catch(err){
+    banner.className='load-banner err'; banner.textContent='✗ Erreur : '+err.message;
+  }
+}
+
+async function genHash(){
+  const wa=document.getElementById('whatsapp').value.replace(/\s/g,'');
+  if(wa.length<8){document.getElementById('hash_display').textContent='GEV-????';return;}
+  const enc=new TextEncoder().encode(wa);
+  const buf=await crypto.subtle.digest('SHA-256',enc);
+  const hex=Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  document.getElementById('hash_display').textContent='GEV-'+hex.slice(0,6).toUpperCase();
+}
+
+// ── TOGGLE SECTIONS ────────────────────────────────────────────
+function toggleSection(head){
+  head.classList.toggle('open');
+  head.nextElementSibling.classList.toggle('open');
+  head.querySelector('.s-chevron').style.transform=head.classList.contains('open')?'rotate(180deg)':'rotate(0)';
+}
+
+// ── CHIPS ──────────────────────────────────────────────────────
+function tChip(el){el.classList.toggle('sel-ok');}
+function selUnit(el,v){document.querySelectorAll('#glyc_unit .chip').forEach(c=>c.classList.remove('sel-ok'));el.classList.add('sel-ok');el.dataset.unit=v;}
+function selUnitU(el,v){document.querySelectorAll('#uric_unit .chip').forEach(c=>c.classList.remove('sel-ok'));el.classList.add('sel-ok');el.dataset.unit=v;}
+function selProfil(el,v){document.querySelectorAll('.fg .chip[onclick*="selProfil"]').forEach(c=>c.classList.remove('sel-ok','sel-warn','sel-bad'));const cls=v==='A'?'sel-ok':v==='B'?'sel-warn':'sel-bad';el.classList.add(cls);document.getElementById('a_profil').value=v;}
+
+// ── CALCULS LIVE ───────────────────────────────────────────────
+function calcIMC(){
+  const t=parseFloat(document.getElementById('b_taille').value);
+  const p=parseFloat(document.getElementById('b_poids').value);
+  if(!t||!p)return;
+  const imc=(p/((t/100)**2)).toFixed(1);
+  document.getElementById('b_imc').value=imc;
+  const el=document.getElementById('imc_interp');el.style.display='block';
+  if(imc<18.5){el.className='interp warn';el.textContent=`IMC ${imc} — Insuffisance pondérale`;}
+  else if(imc<25){el.className='interp ok';el.textContent=`IMC ${imc} — Poids normal`;}
+  else if(imc<30){el.className='interp warn';el.textContent=`IMC ${imc} — Surpoids`;}
+  else{el.className='interp bad';el.textContent=`IMC ${imc} — Obésité (classe ${imc<35?'I':imc<40?'II':'III'})`;}
+  calcRTH();
+}
+
+function interpMG(){
+  const v=parseFloat(document.getElementById('b_pcg').value);
+  const sexe=document.getElementById('p_sexe').value;
+  const el=document.getElementById('mg_interp');if(isNaN(v)){el.style.display='none';return;}
+  el.style.display='block';
+  const seuils=sexe==='F'?[21,33]:[14,25];
+  if(v<seuils[0]){el.className='interp warn';el.textContent=`% masse grasse ${v}% — Faible (norme F : 21–33%)`;}
+  else if(v<=seuils[1]){el.className='interp ok';el.textContent=`% masse grasse ${v}% — Dans la norme (${seuils[0]}–${seuils[1]}%)`;}
+  else{el.className='interp bad';el.textContent=`% masse grasse ${v}% — Élevé · Cible : réduire sous ${seuils[1]}% sans toucher à la masse musculaire`;}
+}
+
+function interpGV(){
+  const v=parseFloat(document.getElementById('b_gv').value);
+  const el=document.getElementById('mg_interp');if(isNaN(v))return;
+  const msg=v<=9?`Graisse viscérale ${v} — Niveau normal (≤9). Le risque métabolique est maîtrisé.`:v<=14?`Graisse viscérale ${v} — Élevée (10–14). Risque métabolique modéré à adresser.`:`Graisse viscérale ${v} — Très élevée (>14). Risque cardiovasculaire et métabolique — priorité clinique.`;
+  const cls=v<=9?'ok':v<=14?'warn':'bad';
+  el.style.display='block';el.className='interp '+cls;el.textContent=msg;
+}
+
+function interpProt(){
+  const v=parseFloat(document.getElementById('b_prot').value);
+  const el=document.getElementById('prot_interp');if(isNaN(v)){el.style.display='none';return;}
+  el.style.display='block';
+  if(v<16){el.className='interp bad';el.textContent=`% protéines ${v}% — Insuffisant (norme ≥16%). Apports protéiques à augmenter urgemment pour préserver la masse musculaire.`;}
+  else{el.className='interp ok';el.textContent=`% protéines ${v}% — Dans la norme.`;}
+}
+
+function interpMMS(){
+  const v=parseFloat(document.getElementById('b_mms').value);
+  const poids=parseFloat(document.getElementById('b_poids').value)||70;
+  const sexe=document.getElementById('p_sexe').value;
+  const el=document.getElementById('prot_interp');if(isNaN(v)){el.style.display='none';return;}
+  // Seuils SMM/poids : F >30%, M >33%
+  const ratio=v/poids*100;
+  el.style.display='block';
+  if((sexe==='F'&&ratio<30)||(sexe==='M'&&ratio<33)){el.className='interp warn';el.textContent=`Masse musculaire squelettique ${v} kg (${ratio.toFixed(1)}% du poids) — Faible. Le renforcement musculaire est une priorité, pas une option.`;}
+  else{el.className='interp ok';el.textContent=`Masse musculaire squelettique ${v} kg — Standard.`;}
+}
+
+function interpAge(){
+  const age=parseInt(document.getElementById('p_age').value)||18;
+  const agec=parseInt(document.getElementById('b_agec').value);
+  if(isNaN(agec))return;
+  const el=document.getElementById('prot_interp');el.style.display='block';
+  if(agec>age+3){el.className='interp bad';el.textContent=`Âge corporel ${agec} ans vs âge réel ${age} ans — Écart significatif (+${agec-age} ans). Signal de stress métabolique chronique.`;}
+  else if(agec>age){el.className='interp warn';el.textContent=`Âge corporel ${agec} ans vs âge réel ${age} ans — Légèrement supérieur. À surveiller.`;}
+  else{el.className='interp ok';el.textContent=`Âge corporel ${agec} ans — Bon score.`;}
+}
+
+function interpTailleC(){
+  const v=parseFloat(document.getElementById('c_taille').value);
+  const sexe=document.getElementById('p_sexe').value;
+  const el=document.getElementById('taille_interp');if(isNaN(v)){el.style.display='none';return;}
+  el.style.display='block';
+  const seuil=sexe==='F'?80:94;
+  if(v<seuil){el.className='interp ok';el.textContent=`Tour de taille ${v} cm — Risque cardiovasculaire faible (seuil F : <80 cm)`;}
+  else if(v<(sexe==='F'?88:102)){el.className='interp warn';el.textContent=`Tour de taille ${v} cm — Risque cardiovasculaire modéré. Action recommandée.`;}
+  else{el.className='interp bad';el.textContent=`Tour de taille ${v} cm — Risque cardiovasculaire élevé. Réduction prioritaire.`;}
+  calcRTH();
+}
+
+function calcRTH(){
+  const t=parseFloat(document.getElementById('c_taille').value);
+  const h=parseFloat(document.getElementById('c_hanche').value);
+  if(!t||!h)return;
+  const rth=(t/h).toFixed(2);
+  document.getElementById('c_rth').value=rth;
+}
+
+function interpGlyc(){
+  const v=parseFloat(document.getElementById('y_glyc').value);
+  const unit=document.querySelector('#glyc_unit .sel-ok')?.dataset?.unit||'mmol';
+  const el=document.getElementById('glyc_interp');if(isNaN(v)){el.style.display='none';return;}
+  const mmol=unit==='mgdl'?v/18:v;
+  el.style.display='block';
+  const ta_el=document.getElementById('ta_interp');
+  if(mmol<3.9){el.className='interp warn';el.textContent=`Glycémie ${v} ${unit==='mgdl'?'mg/dL':'mmol/L'} — Hypoglycémie. À investiguer.`;}
+  else if(mmol<5.6){el.className='interp ok';el.textContent=`Glycémie ${v} ${unit==='mgdl'?'mg/dL':'mmol/L'} — Normale (< 5,6 mmol/L à jeun).`;}
+  else if(mmol<7.0){el.className='interp warn';el.textContent=`Glycémie ${v} ${unit==='mgdl'?'mg/dL':'mmol/L'} — Prédiabète (5,6–6,9 mmol/L). Intervention nutritionnelle prioritaire.`;}
+  else{el.className='interp bad';el.textContent=`Glycémie ${v} ${unit==='mgdl'?'mg/dL':'mmol/L'} — Zone diabétique (≥7 mmol/L). Consultation médicale urgente.`;}
+}
+
+function interpTa(){
+  const s=parseInt(document.getElementById('y_tas').value);
+  const d=parseInt(document.getElementById('y_tad').value);
+  const el=document.getElementById('ta_interp');if(!s||!d){el.style.display='none';return;}
+  el.style.display='block';
+  if(s<120&&d<80){el.className='interp ok';el.textContent=`TA ${s}/${d} mmHg — Optimale.`;}
+  else if(s<130&&d<80){el.className='interp ok';el.textContent=`TA ${s}/${d} mmHg — Normale haute.`;}
+  else if(s<140||d<90){el.className='interp warn';el.textContent=`TA ${s}/${d} mmHg — Hypertension stade 1. À surveiller.`;}
+  else{el.className='interp bad';el.textContent=`TA ${s}/${d} mmHg — Hypertension stade 2+. Suivi médical requis.`;}
+}
+
+function interpUric(){
+  const v=parseFloat(document.getElementById('y_uric').value);
+  const unit=document.querySelector('#uric_unit .sel-ok')?.dataset?.unit||'umol';
+  const el=document.getElementById('uric_interp');if(isNaN(v)){el.style.display='none';return;}
+  const umol=unit==='mgdl'?v*59.48:v;
+  el.style.display='block';
+  if(umol<360){el.className='interp ok';el.textContent=`Acide urique ${v} ${unit==='mgdl'?'mg/dL':'µmol/L'} — Normal (< 360 µmol/L).`;}
+  else if(umol<420){el.className='interp warn';el.textContent=`Acide urique ${v} ${unit==='mgdl'?'mg/dL':'µmol/L'} — Légèrement élevé. Réduction des purines conseillée.`;}
+  else{el.className='interp bad';el.textContent=`Acide urique ${v} ${unit==='mgdl'?'mg/dL':'µmol/L'} — Hyperuricémie. Risque de goutte. Adaptation nutritionnelle obligatoire.`;}
+}
+
+function interpCeto(){
+  const v=parseFloat(document.getElementById('y_ceto').value);
+  const el=document.getElementById('ceto_interp');if(isNaN(v)){el.style.display='none';return;}
+  el.style.display='block';
+  if(v<0.5){el.className='interp info';el.textContent=`Cétonémie ${v} mmol/L — État glucidique normal. Pas de cétose.`;}
+  else if(v<1.5){el.className='interp ok';el.textContent=`Cétonémie ${v} mmol/L — Cétose nutritionnelle légère.`;}
+  else if(v<3.0){el.className='interp ok';el.textContent=`Cétonémie ${v} mmol/L — Cétose nutritionnelle optimale (AfroKeto).`;}
+  else{el.className='interp warn';el.textContent=`Cétonémie ${v} mmol/L — Cétose élevée. Surveiller hydratation et électrolytes.`;}
+}
+
+document.getElementById('y_tas').addEventListener('input',interpTa);
+document.getElementById('y_tad').addEventListener('input',interpTa);
+
+// ── COLLECTE DONNÉES ───────────────────────────────────────────
+function collectData(){
+  const g=id=>document.getElementById(id)?.value||'—';
+  const chips=sel=>([...document.querySelectorAll(sel)].filter(c=>c.classList.contains('sel-ok')).map(c=>c.textContent.trim()).join(', ')||'Aucun');
+  return {
+    whatsapp:g('whatsapp'), hash:document.getElementById('hash_display').textContent,
+    nom:g('p_nom'), age:g('p_age'), sexe:g('p_sexe'), prof:g('p_prof'),
+    travail:g('p_travail'), objectif:g('p_objectif'), motiv:g('p_motiv'),
+    stress:g('p_stress'), diags:chips('#diag_chips .chip'), antec:g('p_antec'),
+    b_taille:g('b_taille'), b_poids:g('b_poids'), b_imc:g('b_imc'),
+    b_pcg:g('b_pcg'), b_mg:g('b_mg'), b_mm:g('b_mm'), b_gv:g('b_gv'),
+    b_muscle:g('b_muscle'), b_mms:g('b_mms'), b_prot:g('b_prot'),
+    b_hydrat:g('b_hydrat'), b_bmr:g('b_bmr'), b_agec:g('b_agec'), b_os:g('b_os'),
+    c_taille:g('c_taille'), c_hanche:g('c_hanche'), c_rth:g('c_rth'),
+    c_cuisse:g('c_cuisse'), c_bras:g('c_bras'), c_poitrine:g('c_poitrine'),
+    y_glyc:g('y_glyc'), y_glycunit:(document.querySelector('#glyc_unit .sel-ok')?.textContent||'mmol/L'),
+    y_tas:g('y_tas'), y_tad:g('y_tad'),
+    y_uric:g('y_uric'), y_uricunit:(document.querySelector('#uric_unit .sel-ok')?.textContent||'µmol/L'),
+    y_ceto:g('y_ceto'),
+    h_repas:g('h_repas'), h_grigno:g('h_grigno'), h_rappel24:g('h_rappel24'),
+    h_habits:chips('.fg .chip[onclick*="tChip"]'),
+    h_actjours:g('h_actjours'), h_acttype:g('h_acttype'), h_sedjours:g('h_sedjours'),
+    h_sommeil:g('h_sommeil'), h_qualsom:g('h_qualsom'), h_stress_src:g('h_stress_src'),
+    h_tabac:g('h_tabac'), h_alcool:g('h_alcool'), h_attentes:g('h_attentes'),
+    a_questionnaire:g('a_questionnaire'), a_balance:g('a_balance'),
+    a_centisouple:g('a_centisouple'), a_yasee:g('a_yasee'),
+    a_profil:g('a_profil'), a_obs:g('a_obs'),
+  };
+}
+
+// ── GÉNÉRATION PLAN DE BASE ────────────────────────────────────
+async function genererPlan(){
+  const btn=document.getElementById('genBtn');
+  const out=document.getElementById('planResult');
+  const copyBtn=document.getElementById('copyBtn');
+  btn.disabled=true;btn.className='gen-btn loading';btn.textContent='⏳ Génération en cours…';
+  out.className='plan-result visible';out.textContent='Analyse des données biométriques…';
+  copyBtn.style.display='none';
+
+  const d=collectData();
+
+  const prompt=`Tu es un praticien expert en nutrition LCHF/AfroKeto chez Gevlon Nutrition (Porto-Novo, Bénin).
+Tu dois générer un PLAN DE BASE NAPSO™ structuré et cliniquement rigoureux pour le client suivant.
+
+=== DONNÉES CLIENT ===
+Identifiant : ${d.hash} (WhatsApp : ${d.whatsapp})
+Nom : ${d.nom} | Âge : ${d.age} ans | Sexe : ${d.sexe}
+Profession : ${d.prof} | Type de travail : ${d.travail}
+Objectif : ${d.objectif} | Motivation : ${d.motiv}/10 | Stress : ${d.stress}/10
+Diagnostics actifs : ${d.diags}
+Antécédents familiaux : ${d.antec}
+
+=== BALANCE GEVLON — COMPOSITION CORPORELLE ===
+Taille : ${d.b_taille} cm | Poids : ${d.b_poids} kg | IMC : ${d.b_imc}
+% Masse grasse (BFR) : ${d.b_pcg}% | Masse grasse : ${d.b_mg} kg | Masse maigre : ${d.b_mm} kg
+Graisse viscérale : ${d.b_gv} | Masse musculaire totale : ${d.b_muscle} kg
+Masse musculaire squelettique : ${d.b_mms} kg | % Protéines : ${d.b_prot}%
+% Hydratation : ${d.b_hydrat}% | BMR : ${d.b_bmr} kcal/j
+Âge corporel : ${d.b_agec} ans | Masse osseuse : ${d.b_os} kg
+
+=== CENTISOUPLE — MENSURATIONS ===
+Tour de taille : ${d.c_taille} cm | Tour de hanche : ${d.c_hanche} cm | RTH : ${d.c_rth}
+Tour de cuisse : ${d.c_cuisse} cm | Tour de bras : ${d.c_bras} cm | Tour de poitrine : ${d.c_poitrine} cm
+
+=== YASEE 4-EN-1 ===
+Glycémie à jeun : ${d.y_glyc} ${d.y_glycunit}
+Tension artérielle : ${d.y_tas}/${d.y_tad} mmHg
+Acide urique : ${d.y_uric} ${d.y_uricunit}
+Cétonémie : ${d.y_ceto} mmol/L
+
+=== HABITUDES DE VIE ===
+Repas/jour : ${d.h_repas} | Grignotage : ${d.h_grigno}
+Rappel alimentaire 24h : ${d.h_rappel24}
+Habitudes problématiques : ${d.h_habits}
+Activité physique : ${d.h_actjours} jour(s)/sem | Type : ${d.h_acttype}
+Sédentarité : ${d.h_sedjours}/jour
+Sommeil : ${d.h_sommeil} | Qualité : ${d.h_qualsom}
+Sources de stress : ${d.h_stress_src}
+Tabac : ${d.h_tabac} | Alcool : ${d.h_alcool}
+Attentes client : ${d.h_attentes}
+
+=== PROFIL D'AUTONOMIE ===
+Questionnaire : ${d.a_questionnaire} | Balance : ${d.a_balance}
+Centisouple : ${d.a_centisouple} | YASEE : ${d.a_yasee}
+Profil estimé : ${d.a_profil}
+
+=== RÈGLES D'INTERPRÉTATION CLINIQUE OBLIGATOIRES ===
+1. Si masse musculaire squelettique faible ET % graisse élevé → renforcement musculaire = ACTION OBLIGATOIRE (pas option)
+2. Si % protéines < 16% → apport protéique = ACTION OBLIGATOIRE avec exemples locaux concrets
+3. Si rappel 24h pauvre en protéines → prescrire sources protéiques avec exemples béninois précis
+4. Si activité physique ≤ 1 jour/sem → prescrire progression réaliste (pas 45 min/jour direct)
+5. Si glycémie en zone prédiabète ou diabète → adapter urgence pilier N et mentionner suivi médical
+6. Si tour de taille > seuil → mentionner risque cardiovasculaire dans pilier P
+7. Si âge corporel > âge réel > 2 ans → signaler stress métabolique dans pilier P
+8. Si sommeil < 6h → pilier S = PRIORITÉ HAUTE avec mécanisme scientifique clair
+9. Ne pas reprendre les libellés fantaisistes de l'app balance (ex: "obésité notation lourd")
+10. Toujours utiliser des références alimentaires locales béninoises (gboma, wagashi, poisson fumé, lanhouin, huile de palme rouge, karité alimentaire, etc.)
+11. Les compléments et appareils (Polar H10, Berry, YASEE) doivent être présentés comme "disponibles chez Gevlon" jamais "en pharmacie"
+
+=== FORMAT DU PLAN DE BASE ===
+Structure : 5 piliers NAPSO™
+Pour chaque pilier :
+- CONTEXTE CLINIQUE (2-3 phrases basées sur les données réelles du client)
+- ACTIONS OBLIGATOIRES (non négociables, numérotées)
+- OPTIONS À CHOISIR (minimum 2, labellisées Option A, Option B, Option C)
+- À VÉRIFIER si pertinent
+
+Pilier O — Objectifs & Jalons : tableau de jalons Mois 1 / Mois 2-3 / Mois 4-6 / À 12 mois
+Protocole de mesures hebdomadaires en fin de document.
+Ton chaleureux, bienveillant, vouvoiement systématique.`;
+
+  try{
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:4000,
+        messages:[{role:'user',content:prompt}]
+      })
+    });
+    const data=await resp.json();
+    const txt=data.content?.map(c=>c.text||'').join('\n')||'Erreur : réponse vide.';
+    out.textContent=txt;
+    copyBtn.style.display='block';
+  }catch(err){
+    out.textContent='Erreur de connexion : '+err.message;
+  }
+  btn.disabled=false;btn.className='gen-btn';btn.innerHTML='⚡ Générer le plan de base NAPSO™';
+}
+
+function copierPlan(){
+  navigator.clipboard.writeText(document.getElementById('planResult').textContent);
+  const btn=document.getElementById('copyBtn');
+  btn.textContent='✅ Copié !';setTimeout(()=>btn.textContent='📋 Copier le plan de base',2000);
+}
+</script>
+</body>
+</html>
