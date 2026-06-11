@@ -475,17 +475,26 @@ async function chargerClient(){
     let msg = '✓ Dossier chargé —';
     if(d.questionnaire){
       const q=d.questionnaire;
-      const g=id=>document.getElementById(id);
-      if(q.nom_prenom) g('cfg_name').value=q.nom_prenom;
-      if(q.age) g('cfg_age').value=q.age;
-      if(q.profession) g('cfg_job').value=String(q.profession).replace(/_/g,' ');
-      if(q.sexe) g('cfg_sex').value=q.sexe==='Femme'?'F':'M';
-      if(q.niveau_motivation){g('cfg_motiv').value=q.niveau_motivation;document.getElementById('mv').textContent=q.niveau_motivation;}
-      if(q.niveau_stress) g('cfg_stress') && (g('cfg_stress').value=q.niveau_stress);
+      const gs=id=>{const el=document.getElementById(id);return el;};
+      const sv=(id,val)=>{const el=gs(id);if(el&&val!==undefined&&val!=='')el.value=val;};
+      sv('p_nom', q.nom_prenom);
+      sv('p_age', q.age);
+      if(q.profession) sv('p_prof', String(q.profession).replace(/_/g,' '));
+      if(q.sexe){const s=gs('p_sexe');if(s)s.value=q.sexe==='Femme'||q.sexe==='F'?'F':'M';}
+      sv('p_motiv', q.niveau_motivation);
+      sv('p_stress', q.niveau_stress);
+      if(q.objectif_principal){const o=gs('p_objectif');if(o)o.value=String(q.objectif_principal).replace(/_/g,' ');}
       let nutr=[];
       if(q.rappel_24h) nutr.push('Rappel 24h : '+q.rappel_24h);
-      if(q.attente_gevlon) nutr.push('Attentes : '+q.attente_gevlon);
-      if(nutr.length && g('cfg_nutr')) g('cfg_nutr').value=nutr.join('\n');
+      if(nutr.length) sv('h_rappel24', nutr.join('\n'));
+      if(q.attente_gevlon) sv('h_attentes', q.attente_gevlon);
+      if(q.sommeil_duree){const s=gs('h_sommeil');if(s){
+        const map={'moins_5h':'Moins de 5h','5_6h':'5–6h','6_7h':'6–7h','7_8h':'7–8h','plus_8h':'Plus de 8h'};
+        s.value=map[q.sommeil_duree]||s.value;
+      }}
+      if(q.activite_niveau){const a=gs('h_actjours');if(a)a.value=q.activite_niveau.replace(/[^0-9]/g,'')||'1';}
+      if(q.stress_sources) sv('h_stress_src', String(q.stress_sources).replace(/,/g,', '));
+      if(q.antecedents) sv('p_antec', String(q.antecedents).replace(/,/g,', '));
       msg+=' questionnaire ✓';
     }
     if(d.mesures){
