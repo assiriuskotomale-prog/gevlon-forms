@@ -877,4 +877,39 @@ Profil estimé : ${d.a_profil}
 Structure : 5 piliers NAPSO™
 Pour chaque pilier :
 - CONTEXTE CLINIQUE (2-3 phrases basées sur les données réelles du client)
-- ACTIONS OBLIGATOIRES (non négociabl
+- ACTIONS OBLIGATOIRES (non négociables, numérotées)
+- OPTIONS À CHOISIR (minimum 2, labellisées Option A, Option B, Option C)
+- À VÉRIFIER si pertinent
+
+Pilier O — Objectifs & Jalons : tableau de jalons Mois 1 / Mois 2-3 / Mois 4-6 / À 12 mois
+Protocole de mesures hebdomadaires en fin de document.
+Ton chaleureux, bienveillant, vouvoiement systématique.`;
+
+  try{
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:4000,
+        messages:[{role:'user',content:prompt}]
+      })
+    });
+    const data=await resp.json();
+    const txt=data.content?.map(c=>c.text||'').join('\n')||'Erreur : réponse vide.';
+    out.textContent=txt;
+    copyBtn.style.display='block';
+  }catch(err){
+    out.textContent='Erreur de connexion : '+err.message;
+  }
+  btn.disabled=false;btn.className='gen-btn';btn.innerHTML='⚡ Générer le plan de base NAPSO™';
+}
+
+function copierPlan(){
+  navigator.clipboard.writeText(document.getElementById('planResult').textContent);
+  const btn=document.getElementById('copyBtn');
+  btn.textContent='✅ Copié !';setTimeout(()=>btn.textContent='📋 Copier le plan de base',2000);
+}
+</script>
+</body>
+</html>
