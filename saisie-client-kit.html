@@ -127,7 +127,7 @@ body{font-family:'DM Sans',sans-serif;background:#f0f4f8;color:var(--gray-800);m
 <div class="field-row2">
 <div class="field">
 <label>Taille</label>
-<div class="field-row"><input type="number" id="taille" placeholder="175" step="0.5"><span class="field-unit">cm</span></div>
+<div class="field-row"><input type="number" id="taille" placeholder="161" step="0.5" oninput="computeIMC()"><span class="field-unit">cm</span></div>
 </div>
 <div class="field">
 <label>Tour de taille</label>
@@ -381,6 +381,11 @@ document.getElementById('date_mesure').value = new Date().toISOString().split('T
 function computeIMC() {
   var p = parseFloat(document.getElementById('poids').value);
   var t = parseFloat(document.getElementById('taille').value);
+  // Auto-correction : si taille saisie en mètres (ex: 1.51 au lieu de 151), convertir en cm
+  if (!isNaN(t) && t > 0 && t < 3) {
+    t = Math.round(t * 100);
+    document.getElementById('taille').value = t;
+  }
   if (!isNaN(p) && !isNaN(t) && t > 0) {
     var imc = p / ((t/100) * (t/100));
     document.getElementById('imc').value = imc.toFixed(1);
@@ -612,13 +617,18 @@ async function connecterBalance() {
 
 function envoyerDonnees() {
   var wa = document.getElementById('whatsapp').value.trim();
+  // Normaliser le WhatsApp : supprimer + et espaces, garder chiffres uniquement
+  wa = wa.replace(/[^0-9]/g, '');
   var p = document.getElementById('poids').value;
   if (!wa) { alert('Entrez votre numéro WhatsApp pour continuer.'); return; }
   if (!p) { alert('Entrez votre poids.'); return; }
   var btn = document.getElementById('submit-btn');
   btn.disabled = true; btn.textContent = 'Envoi...';
   var data = {
-    type: 'saisie_client_kit',
+    type: 'saisie_biometrique',
+    source: document.getElementById('source_saisie') ? document.getElementById('source_saisie').value : 'client_autonome',
+    age: document.getElementById('age') ? document.getElementById('age').value : '',
+    sexe: document.getElementById('sexe') ? document.getElementById('sexe').value : '',
     whatsapp: wa,
     prenom: document.getElementById('prenom').value,
     date_mesure: document.getElementById('date_mesure').value,
