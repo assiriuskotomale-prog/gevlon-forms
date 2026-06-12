@@ -278,17 +278,22 @@ body{font-family:'DM Sans',sans-serif;background:#f0f4f8;color:var(--gray-800);m
 <div class="section-divider-sub">Cible &#224; jeun : 4.4 &mdash; 7.2 mmol/L</div>
 </div>
 <div class="field-row2">
-<div class="field">
+<div class="field" style="grid-column:span 2">
 <label>Glyc&#233;mie</label>
-<div style="display:flex;gap:6px;align-items:center">
-  <input type="number" id="glycemie" placeholder="5.2" step="0.1" oninput="computeGlycemie()" style="flex:1;padding:.6rem .75rem;border:1.5px solid #e5e7eb;border-radius:8px;font-size:.9rem;background:white;">
-  <select id="glycemie_unite" style="padding:.55rem .5rem;border:1.5px solid #e5e7eb;border-radius:8px;font-size:.82rem;background:white;color:#374151;min-width:80px;" onchange="computeGlycemie()">
+<div style="display:flex;gap:6px;align-items:stretch;">
+  <input type="number" id="glycemie" placeholder="5.2" step="0.1" oninput="computeGlycemie()" style="flex:1;min-width:0;padding:.6rem .75rem;border:1.5px solid #e5e7eb;border-radius:8px;font-size:.9rem;background:white;">
+  <select id="glycemie_unite" style="flex-shrink:0;padding:.55rem .4rem;border:1.5px solid #e5e7eb;border-radius:8px;font-size:.82rem;background:white;color:#374151;" onchange="computeGlycemie()">
     <option value="mmol">mmol/L</option>
     <option value="mgdl">mg/dL</option>
   </select>
+  <select id="glycemie_ctx" style="flex-shrink:0;padding:.55rem .4rem;border:1.5px solid #e5e7eb;border-radius:8px;font-size:.82rem;background:white;color:#374151;">
+    <option value="jeun">&#192; jeun</option>
+    <option value="post-repas-2h">Post-repas 2h</option>
+    <option value="autre">Autre</option>
+  </select>
 </div>
 </div>
-<div class="field">
+<div class="field" style="display:none">
 <label>Contexte</label>
 <select id="glycemie_ctx">
 <option value="jeun">&#192; jeun</option>
@@ -304,17 +309,21 @@ body{font-family:'DM Sans',sans-serif;background:#f0f4f8;color:var(--gray-800);m
 <div class="section-divider-sub">Cible : H &lt;420 &middot; F &lt;360 &#956;mol/L</div>
 </div>
 <div class="field-row2">
-<div class="field">
+<div class="field" style="grid-column:span 2">
 <label>Acide urique</label>
-<div style="display:flex;gap:6px;align-items:center">
-  <input type="number" id="au" placeholder="350" oninput="computeAU()" style="flex:1;padding:.6rem .75rem;border:1.5px solid #e5e7eb;border-radius:8px;font-size:.9rem;background:white;">
-  <select id="au_unite" style="padding:.55rem .5rem;border:1.5px solid #e5e7eb;border-radius:8px;font-size:.82rem;background:white;color:#374151;min-width:80px;" onchange="computeAU()">
+<div style="display:flex;gap:6px;align-items:stretch;">
+  <input type="number" id="au" placeholder="350" oninput="computeAU()" style="flex:1;min-width:0;padding:.6rem .75rem;border:1.5px solid #e5e7eb;border-radius:8px;font-size:.9rem;background:white;">
+  <select id="au_unite" style="flex-shrink:0;padding:.55rem .4rem;border:1.5px solid #e5e7eb;border-radius:8px;font-size:.82rem;background:white;color:#374151;" onchange="computeAU()">
     <option value="umol">µmol/L</option>
     <option value="mgdl">mg/dL</option>
   </select>
+  <select id="genre" onchange="computeAU()" style="flex-shrink:0;padding:.55rem .4rem;border:1.5px solid #e5e7eb;border-radius:8px;font-size:.82rem;background:white;color:#374151;">
+    <option value="homme">Homme</option>
+    <option value="femme">Femme</option>
+  </select>
 </div>
 </div>
-<div class="field">
+<div class="field" style="display:none">
 <label>Genre</label>
 <select id="genre" onchange="computeAU()">
 <option value="homme">Homme</option>
