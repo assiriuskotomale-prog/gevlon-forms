@@ -23,6 +23,9 @@ body{font-family:'DM Sans',sans-serif;background:#f0f4f8;color:var(--gray-800);m
 .field:last-child{margin-bottom:0;}
 .field label{display:block;font-size:.78rem;font-weight:600;color:var(--gray-600);margin-bottom:.4rem;}
 .field input, .field select{width:100%;padding:.65rem .875rem;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:.9rem;color:var(--gray-800);outline:none;transition:border-color .15s;background:white;}
+.yasee-row{display:flex;gap:6px;align-items:center;width:100%;}
+.yasee-row input{flex:1 1 0;min-width:0;width:auto !important;padding:.65rem .75rem;}
+.yasee-row select{flex:0 0 auto;width:auto !important;padding:.65rem .5rem;}
 .field input:focus, .field select:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(0,48,143,.08);}
 .field-row{display:flex;gap:.5rem;align-items:center;}
 .field-row input{flex:1;}
@@ -280,13 +283,13 @@ body{font-family:'DM Sans',sans-serif;background:#f0f4f8;color:var(--gray-800);m
 <div class="field-row2">
 <div class="field" style="grid-column:span 2">
 <label>Glyc&#233;mie</label>
-<div style="display:flex;gap:6px;align-items:stretch;">
-  <input type="number" id="glycemie" placeholder="5.2" step="0.1" oninput="computeGlycemie()" style="flex:1;min-width:0;padding:.6rem .75rem;border:1.5px solid #e5e7eb;border-radius:8px;font-size:.9rem;background:white;">
-  <select id="glycemie_unite" style="flex-shrink:0;padding:.55rem .4rem;border:1.5px solid #e5e7eb;border-radius:8px;font-size:.82rem;background:white;color:#374151;" onchange="computeGlycemie()">
+<div class="yasee-row">
+  <input type="number" id="glycemie" placeholder="5.2" step="0.1" oninput="computeGlycemie()">
+  <select id="glycemie_unite" onchange="computeGlycemie()">
     <option value="mmol">mmol/L</option>
     <option value="mgdl">mg/dL</option>
   </select>
-  <select id="glycemie_ctx" style="flex-shrink:0;padding:.55rem .4rem;border:1.5px solid #e5e7eb;border-radius:8px;font-size:.82rem;background:white;color:#374151;">
+  <select id="glycemie_ctx">
     <option value="jeun">&#192; jeun</option>
     <option value="post-repas-2h">Post-repas 2h</option>
     <option value="autre">Autre</option>
@@ -311,13 +314,13 @@ body{font-family:'DM Sans',sans-serif;background:#f0f4f8;color:var(--gray-800);m
 <div class="field-row2">
 <div class="field" style="grid-column:span 2">
 <label>Acide urique</label>
-<div style="display:flex;gap:6px;align-items:stretch;">
-  <input type="number" id="au" placeholder="350" oninput="computeAU()" style="flex:1;min-width:0;padding:.6rem .75rem;border:1.5px solid #e5e7eb;border-radius:8px;font-size:.9rem;background:white;">
-  <select id="au_unite" style="flex-shrink:0;padding:.55rem .4rem;border:1.5px solid #e5e7eb;border-radius:8px;font-size:.82rem;background:white;color:#374151;" onchange="computeAU()">
+<div class="yasee-row">
+  <input type="number" id="au" placeholder="350" oninput="computeAU()">
+  <select id="au_unite" onchange="computeAU()">
     <option value="umol">µmol/L</option>
     <option value="mgdl">mg/dL</option>
   </select>
-  <select id="genre" onchange="computeAU()" style="flex-shrink:0;padding:.55rem .4rem;border:1.5px solid #e5e7eb;border-radius:8px;font-size:.82rem;background:white;color:#374151;">
+  <select id="genre" onchange="computeAU()">
     <option value="homme">Homme</option>
     <option value="femme">Femme</option>
   </select>
