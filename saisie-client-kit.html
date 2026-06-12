@@ -280,11 +280,13 @@ body{font-family:'DM Sans',sans-serif;background:#f0f4f8;color:var(--gray-800);m
 <div class="field-row2">
 <div class="field">
 <label>Glyc&#233;mie</label>
-<div class="field-row"><input type="number" id="glycemie" placeholder="5.2" step="0.1" oninput="computeGlycemie()">
-<select id="glycemie_unite" style="padding:.3rem .5rem;border:1px solid #e5e7eb;border-radius:6px;font-size:.82rem;background:white;color:#374151;" onchange="computeGlycemie()">
-  <option value="mmol">mmol/L</option>
-  <option value="mgdl">mg/dL</option>
-</select></div>
+<div style="display:flex;gap:6px;align-items:center">
+  <input type="number" id="glycemie" placeholder="5.2" step="0.1" oninput="computeGlycemie()" style="flex:1;padding:.6rem .75rem;border:1.5px solid #e5e7eb;border-radius:8px;font-size:.9rem;background:white;">
+  <select id="glycemie_unite" style="padding:.55rem .5rem;border:1.5px solid #e5e7eb;border-radius:8px;font-size:.82rem;background:white;color:#374151;min-width:80px;" onchange="computeGlycemie()">
+    <option value="mmol">mmol/L</option>
+    <option value="mgdl">mg/dL</option>
+  </select>
+</div>
 </div>
 <div class="field">
 <label>Contexte</label>
@@ -304,11 +306,13 @@ body{font-family:'DM Sans',sans-serif;background:#f0f4f8;color:var(--gray-800);m
 <div class="field-row2">
 <div class="field">
 <label>Acide urique</label>
-<div class="field-row"><input type="number" id="au" placeholder="350" oninput="computeAU()">
-<select id="au_unite" style="padding:.3rem .5rem;border:1px solid #e5e7eb;border-radius:6px;font-size:.82rem;background:white;color:#374151;" onchange="computeAU()">
-  <option value="umol">µmol/L</option>
-  <option value="mgdl">mg/dL</option>
-</select></div>
+<div style="display:flex;gap:6px;align-items:center">
+  <input type="number" id="au" placeholder="350" oninput="computeAU()" style="flex:1;padding:.6rem .75rem;border:1.5px solid #e5e7eb;border-radius:8px;font-size:.9rem;background:white;">
+  <select id="au_unite" style="padding:.55rem .5rem;border:1.5px solid #e5e7eb;border-radius:8px;font-size:.82rem;background:white;color:#374151;min-width:80px;" onchange="computeAU()">
+    <option value="umol">µmol/L</option>
+    <option value="mgdl">mg/dL</option>
+  </select>
+</div>
 </div>
 <div class="field">
 <label>Genre</label>
@@ -691,4 +695,14 @@ function confirmerWA() {
   var msg = 'Bonjour Gevlon ! Voici mes mesures du ' + d + ':\n\n';
   msg += 'WhatsApp: ' + wa + '\n';
   msg += 'Poids: ' + p + ' kg\n';
-  if (document.getElementById('tour_taille').value) msg +=
+  if (document.getElementById('tour_taille').value) msg += 'Tour de taille: ' + document.getElementById('tour_taille').value + ' cm\n';
+  if (sys && dia) msg += 'Tension: ' + sys + '/' + dia + ' mmHg\n';
+  if (g) msg += 'Glycémie: ' + g + ' mmol/L\n';
+  if (document.getElementById('au').value) msg += 'Acide urique: ' + document.getElementById('au').value + ' µmol/L\n';
+  if (document.getElementById('ceto').value) msg += 'Cétonémie: ' + document.getElementById('ceto').value + ' mmol/L\n';
+  if (document.getElementById('commentaire').value) msg += '\nCommentaire: ' + document.getElementById('commentaire').value;
+  window.open('https://wa.me/22952798080?text=' + encodeURIComponent(msg), '_blank');
+}
+</script>
+</body>
+</html>
