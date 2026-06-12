@@ -94,13 +94,6 @@ body{font-family:'DM Sans',sans-serif;background:#f0f4f8;color:var(--gray-800);m
 <label>&#128247; Votre num&#233;ro WhatsApp <span style="color:var(--red)">*</span></label>
 <input type="tel" id="whatsapp" placeholder="+229 XX XX XX XX" inputmode="tel">
 </div>
-<div class="field" style="margin-top:.5rem;">
-<label style="font-size:.8rem;color:#6b7280;">Saisie effectuée par</label>
-<select id="source_saisie" style="width:100%;padding:.5rem .75rem;border:1.5px solid #e5e7eb;border-radius:8px;font-size:.85rem;background:white;color:#374151;">
-  <option value="client_autonome">Le client lui-même</option>
-  <option value="PS">Un Point Santé (PS)</option>
-</select>
-</div>
 <div class="field-row2">
 <div class="field">
 <label>Pr&#233;nom</label>
@@ -150,6 +143,24 @@ body{font-family:'DM Sans',sans-serif;background:#f0f4f8;color:var(--gray-800);m
 <label>Tour de bras</label>
 <div class="field-row"><input type="number" id="tour_bras" placeholder="32" step="0.5"><span class="field-unit">cm</span></div>
 </div>
+</div>
+<div class="field-row2">
+<div class="field">
+<label>Tour de cuisse</label>
+<div class="field-row"><input type="number" id="tour_cuisse" placeholder="55" step="0.5"><span class="field-unit">cm</span></div>
+</div>
+<div class="field">
+<label>Tour de poitrine</label>
+<div class="field-row"><input type="number" id="tour_poitrine" placeholder="90" step="0.5"><span class="field-unit">cm</span></div>
+</div>
+</div>
+<div style="margin-top:.6rem">
+<label style="font-size:.8rem;color:#6b7280;font-weight:500">Cette section a été remplie :</label>
+<select id="auto_centisouple" style="width:100%;padding:.5rem .75rem;border:1.5px solid #e5e7eb;border-radius:8px;font-size:.82rem;background:white;color:#374151;margin-top:.25rem">
+  <option value="seul">Seul(e)</option>
+  <option value="guide_ps">Guidé(e) par un Point Santé</option>
+  <option value="cabinet">Au cabinet Gevlon</option>
+</select>
 </div>
 </div>
 
@@ -208,6 +219,14 @@ body{font-family:'DM Sans',sans-serif;background:#f0f4f8;color:var(--gray-800);m
 <div class="bia-note">
   <span class="bia-note-icon">&#x2139;&#xFE0F;</span>
   <span>La balance transmet le poids, le BMR et l'âge corporel automatiquement.<br><strong>% masse grasse et masse musculaire</strong> : ouvrez AiCare après votre mesure et reportez les valeurs ci-dessous.</span>
+</div>
+<div style="margin-bottom:.75rem">
+<label style="font-size:.8rem;color:#6b7280;font-weight:500">Cette section a été remplie :</label>
+<select id="auto_balance" style="width:100%;padding:.5rem .75rem;border:1.5px solid #e5e7eb;border-radius:8px;font-size:.82rem;background:white;color:#374151;margin-top:.25rem">
+  <option value="seul">Seul(e) (appli AiCare)</option>
+  <option value="guide_ps">Guidé(e) par un Point Santé</option>
+  <option value="cabinet">Au cabinet Gevlon</option>
+</select>
 </div>
 
 <div class="field-row2">
@@ -312,6 +331,14 @@ body{font-family:'DM Sans',sans-serif;background:#f0f4f8;color:var(--gray-800);m
 </div>
 </div>
 <div class="computed">Statut : <strong id="ceto_label">—</strong></div>
+<div style="margin-top:.8rem">
+<label style="font-size:.8rem;color:#6b7280;font-weight:500">Cette section a été remplie :</label>
+<select id="auto_yasee" style="width:100%;padding:.5rem .75rem;border:1.5px solid #e5e7eb;border-radius:8px;font-size:.82rem;background:white;color:#374151;margin-top:.25rem">
+  <option value="seul">Seul(e)</option>
+  <option value="guide_ps">Guidé(e) par un Point Santé</option>
+  <option value="cabinet">Au cabinet Gevlon</option>
+</select>
+</div>
 </div>
 
 <!-- RESSENTI -->
@@ -591,17 +618,19 @@ function envoyerDonnees() {
   var btn = document.getElementById('submit-btn');
   btn.disabled = true; btn.textContent = 'Envoi...';
   var data = {
-    type: 'saisie_biometrique',
-    source: document.getElementById('source_saisie') ? document.getElementById('source_saisie').value : 'client_autonome',
+    type: 'saisie_client_kit',
     whatsapp: wa,
     prenom: document.getElementById('prenom').value,
-    age: document.getElementById('age').value,
-    sexe: document.getElementById('sexe').value,
     date_mesure: document.getElementById('date_mesure').value,
     taille: document.getElementById('taille').value,
     tour_taille: document.getElementById('tour_taille').value,
     tour_hanches: document.getElementById('tour_hanches').value,
     tour_bras: document.getElementById('tour_bras').value,
+    tour_cuisse: document.getElementById('tour_cuisse').value,
+    tour_poitrine: document.getElementById('tour_poitrine').value,
+    auto_centisouple: document.getElementById('auto_centisouple').value,
+    auto_yasee: document.getElementById('auto_yasee').value,
+    auto_balance: document.getElementById('auto_balance') ? document.getElementById('auto_balance').value : 'non_renseigne',
     poids: p,
     imc: document.getElementById('imc').value,
     mg: document.getElementById('mg').value,
