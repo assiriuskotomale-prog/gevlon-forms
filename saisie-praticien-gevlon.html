@@ -581,10 +581,37 @@ async function chargerClient(){
       if(m.tour_bras) g('c_bras').value=m.tour_bras;
       if(m.tension_sys) g('y_tas').value=m.tension_sys;
       if(m.tension_dia) g('y_tad').value=m.tension_dia;
-      if(m.glycemie) g('y_glyc').value=m.glycemie;
-      if(m.acide_urique) g('y_uric').value=m.acide_urique;
+      if(m.glycemie){
+        g('y_glyc').value=m.glycemie;
+        // Sélectionner la bonne unité glycémie
+        if(m.glycemie_unite){
+          document.querySelectorAll('#glyc_unit .chip').forEach(c=>c.classList.remove('sel-ok'));
+          const gu=document.querySelector('#glyc_unit .chip[onclick*="'+m.glycemie_unite+'"]');
+          if(gu) gu.classList.add('sel-ok');
+        }
+      }
+      if(m.acide_urique){
+        g('y_uric').value=m.acide_urique;
+        // Sélectionner la bonne unité acide urique
+        if(m.acide_urique_unite){
+          const au_map={'umol':'umol','mgdl':'mgdl'};
+          document.querySelectorAll('#uric_unit .chip').forEach(c=>c.classList.remove('sel-ok'));
+          const au_sel=document.querySelector('#uric_unit .chip[onclick*="'+au_map[m.acide_urique_unite]+'"]');
+          if(au_sel) au_sel.classList.add('sel-ok');
+        }
+      }
       if(m.cetonemie) g('y_ceto').value=m.cetonemie;
-      try{ calcIMC(); interpMG(); interpTailleC(); calcRTH(); interpTa(); interpGlyc(); interpUric(); interpCeto(); }catch(e){}
+      // Champs manquants depuis la feuille 2
+      if(m.tour_cuisse) g('c_cuisse').value=m.tour_cuisse;
+      if(m.tour_poitrine) g('c_poitrine').value=m.tour_poitrine;
+      if(m.mg) g('b_mg').value=m.mg;
+      if(m.mm) g('b_mm').value=m.mm;
+      if(m.mms) g('b_mms').value=m.mms;
+      if(m.prot) g('b_prot').value=m.prot;
+      if(m.hydrat) g('b_hydrat').value=m.hydrat;
+      if(m.gv) g('b_gv').value=m.gv;
+      if(m.os) g('b_os').value=m.os;
+      try{ calcIMC(); interpMG(); interpGV(); interpMMS(); interpProt(); interpTailleC(); calcRTH(); interpTa(); interpGlyc(); interpUric(); interpCeto(); }catch(e){}
       msg+=' mesures ('+(m.date_mesure||'')+') ✓';
     }
     banner.className='load-banner ok'; banner.textContent=msg;
@@ -850,39 +877,4 @@ Profil estimé : ${d.a_profil}
 Structure : 5 piliers NAPSO™
 Pour chaque pilier :
 - CONTEXTE CLINIQUE (2-3 phrases basées sur les données réelles du client)
-- ACTIONS OBLIGATOIRES (non négociables, numérotées)
-- OPTIONS À CHOISIR (minimum 2, labellisées Option A, Option B, Option C)
-- À VÉRIFIER si pertinent
-
-Pilier O — Objectifs & Jalons : tableau de jalons Mois 1 / Mois 2-3 / Mois 4-6 / À 12 mois
-Protocole de mesures hebdomadaires en fin de document.
-Ton chaleureux, bienveillant, vouvoiement systématique.`;
-
-  try{
-    const resp=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:4000,
-        messages:[{role:'user',content:prompt}]
-      })
-    });
-    const data=await resp.json();
-    const txt=data.content?.map(c=>c.text||'').join('\n')||'Erreur : réponse vide.';
-    out.textContent=txt;
-    copyBtn.style.display='block';
-  }catch(err){
-    out.textContent='Erreur de connexion : '+err.message;
-  }
-  btn.disabled=false;btn.className='gen-btn';btn.innerHTML='⚡ Générer le plan de base NAPSO™';
-}
-
-function copierPlan(){
-  navigator.clipboard.writeText(document.getElementById('planResult').textContent);
-  const btn=document.getElementById('copyBtn');
-  btn.textContent='✅ Copié !';setTimeout(()=>btn.textContent='📋 Copier le plan de base',2000);
-}
-</script>
-</body>
-</html>
+- ACTIONS OBLIGATOIRES (non négociabl
