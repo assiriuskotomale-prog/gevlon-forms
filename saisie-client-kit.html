@@ -280,7 +280,11 @@ body{font-family:'DM Sans',sans-serif;background:#f0f4f8;color:var(--gray-800);m
 <div class="field-row2">
 <div class="field">
 <label>Glyc&#233;mie</label>
-<div class="field-row"><input type="number" id="glycemie" placeholder="5.2" step="0.1" oninput="computeGlycemie()"><span class="field-unit">mmol/L</span></div>
+<div class="field-row"><input type="number" id="glycemie" placeholder="5.2" step="0.1" oninput="computeGlycemie()">
+<select id="glycemie_unite" style="padding:.3rem .5rem;border:1px solid #e5e7eb;border-radius:6px;font-size:.82rem;background:white;color:#374151;" onchange="computeGlycemie()">
+  <option value="mmol">mmol/L</option>
+  <option value="mgdl">mg/dL</option>
+</select></div>
 </div>
 <div class="field">
 <label>Contexte</label>
@@ -300,7 +304,11 @@ body{font-family:'DM Sans',sans-serif;background:#f0f4f8;color:var(--gray-800);m
 <div class="field-row2">
 <div class="field">
 <label>Acide urique</label>
-<div class="field-row"><input type="number" id="au" placeholder="350" oninput="computeAU()"><span class="field-unit">&#956;mol/L</span></div>
+<div class="field-row"><input type="number" id="au" placeholder="350" oninput="computeAU()">
+<select id="au_unite" style="padding:.3rem .5rem;border:1px solid #e5e7eb;border-radius:6px;font-size:.82rem;background:white;color:#374151;" onchange="computeAU()">
+  <option value="umol">µmol/L</option>
+  <option value="mgdl">mg/dL</option>
+</select></div>
 </div>
 <div class="field">
 <label>Genre</label>
@@ -650,8 +658,10 @@ function envoyerDonnees() {
     tension_sys: document.getElementById('sys').value,
     tension_dia: document.getElementById('dia').value,
     glycemie: document.getElementById('glycemie').value,
+    glycemie_unite: document.getElementById('glycemie_unite') ? document.getElementById('glycemie_unite').value : 'mmol',
     glycemie_contexte: document.getElementById('glycemie_ctx').value,
     acide_urique: document.getElementById('au').value,
+    acide_urique_unite: document.getElementById('au_unite') ? document.getElementById('au_unite').value : 'umol',
     cetonemie: document.getElementById('ceto').value,
     ceto_contexte: document.getElementById('ceto_ctx').value,
     energie: document.getElementById('energie').value,
@@ -681,14 +691,4 @@ function confirmerWA() {
   var msg = 'Bonjour Gevlon ! Voici mes mesures du ' + d + ':\n\n';
   msg += 'WhatsApp: ' + wa + '\n';
   msg += 'Poids: ' + p + ' kg\n';
-  if (document.getElementById('tour_taille').value) msg += 'Tour de taille: ' + document.getElementById('tour_taille').value + ' cm\n';
-  if (sys && dia) msg += 'Tension: ' + sys + '/' + dia + ' mmHg\n';
-  if (g) msg += 'Glycémie: ' + g + ' mmol/L\n';
-  if (document.getElementById('au').value) msg += 'Acide urique: ' + document.getElementById('au').value + ' µmol/L\n';
-  if (document.getElementById('ceto').value) msg += 'Cétonémie: ' + document.getElementById('ceto').value + ' mmol/L\n';
-  if (document.getElementById('commentaire').value) msg += '\nCommentaire: ' + document.getElementById('commentaire').value;
-  window.open('https://wa.me/22952798080?text=' + encodeURIComponent(msg), '_blank');
-}
-</script>
-</body>
-</html>
+  if (document.getElementById('tour_taille').value) msg +=
