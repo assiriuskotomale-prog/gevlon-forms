@@ -475,26 +475,95 @@ async function chargerClient(){
     let msg = '✓ Dossier chargé —';
     if(d.questionnaire){
       const q=d.questionnaire;
-      const gs=id=>{const el=document.getElementById(id);return el;};
-      const sv=(id,val)=>{const el=gs(id);if(el&&val!==undefined&&val!=='')el.value=val;};
+      const gs=id=>document.getElementById(id);
+      const sv=(id,val)=>{const el=gs(id);if(el&&val!==undefined&&String(val).trim()!=='')el.value=val;};
+
+      // Profil général
       sv('p_nom', q.nom_prenom);
       sv('p_age', q.age);
       if(q.profession) sv('p_prof', String(q.profession).replace(/_/g,' '));
-      if(q.sexe){const s=gs('p_sexe');if(s)s.value=q.sexe==='Femme'||q.sexe==='F'?'F':'M';}
+      if(q.sexe){const s=gs('p_sexe');if(s)s.value=(q.sexe==='Femme'||q.sexe==='F')?'F':'M';}
       sv('p_motiv', q.niveau_motivation);
       sv('p_stress', q.niveau_stress);
-      if(q.objectif_principal){const o=gs('p_objectif');if(o)o.value=String(q.objectif_principal).replace(/_/g,' ');}
+
+      // Objectif — mapper les codes vers les options du select
+      if(q.objectif_principal){
+        const oMap={
+          'Perte_poids':'Perte de poids','Perte de poids':'Perte de poids',
+          'Glycemie':'Contrôle glycémie / diabète','Contrôle glycémie / diabète':'Contrôle glycémie / diabète',
+          'Energie':'Énergie / fatigue chronique','Énergie / fatigue chronique':'Énergie / fatigue chronique',
+          'Prevention':'Santé cardiovasculaire','Bienetre':'Énergie / fatigue chronique',
+          'Multiple':'Autre'
+        };
+        const o=gs('p_objectif');
+        if(o){const mapped=oMap[q.objectif_principal];if(mapped)o.value=mapped;}
+      }
+
+      // Antécédents et ville
+      if(q.antecedents) sv('p_antec', String(q.antecedents).replace(/,/g,', '));
+
+      // Construire le rappel alimentaire depuis les fréquences (pas de champ rappel_24h dans le questionnaire)
+      const freqLabel={'Jamais':'jamais','1-2x':'1-2x/sem','3-4x':'3-4x/sem','Quotidien':'quotidien'};
+      const freqs=[
+        ['Riz/ablo', q.freq_riz], ['Pain/baguette', q.freq_pain], ['Pâtes', q.freq_pates],
+        ['Tubercules', q.freq_tubercules], ['Gari/attiéké', q.freq_gari],
+        ['Légumineuses', q.freq_legumineuses], ['Protéines animales', q.freq_proteines],
+        ['Légumes verts', q.freq_legverts], ['Fruits', q.freq_fruits],
+        ['Huile palme/coco', q.freq_huile], ['Avocat', q.freq_avocat],
+        ['Laitiers', q.freq_laitiers]
+      ];
+      const freqLines=freqs.filter(([l,v])=>v&&v!=='').map(([l,v])=>l+' : '+(freqLabel[v]||v));
       let nutr=[];
-      if(q.rappel_24h) nutr.push('Rappel 24h : '+q.rappel_24h);
+      if(freqLines.length) nutr.push('Fréquences : '+freqLines.join(' | '));
+      if(q.cuisine) nutr.push('Cuisine : '+String(q.cuisine).replace(/_/g,' '));
+      if(q.nb_repas) nutr.push('Repas/jour : '+q.nb_repas);
+      if(q.grignotage) nutr.push('Grignotage : '+q.grignotage);
+      if(q.repas_apres_20h) nutr.push('Repas après 20h : '+q.repas_apres_20h);
+      if(q.boissons_sucrees) nutr.push('Boissons sucrées : '+q.boissons_sucrees);
       if(nutr.length) sv('h_rappel24', nutr.join('\n'));
+
+      // Attentes
       if(q.attente_gevlon) sv('h_attentes', q.attente_gevlon);
+
+      // Habitudes problématiques — cocher les chips correspondantes
+      const habProb=[];
+      if(q.freq_riz==='Quotidien'||q.freq_pates==='Quotidien'||q.freq_pain==='Quotidien') habProb.push('Glucides élevés');
+      if(q.boissons_sucrees&&q.boissons_sucrees!=='Jamais') habProb.push('Boissons sucrées');
+      if(q.grignotage==='Souvent') habProb.push('Grignotage fréquent');
+      if(q.repas_apres_20h==='Oui') habProb.push('Repas après 20h');
+      if(q.freq_legverts==='Jamais'||q.freq_legverts==='1-2x') habProb.push('Peu de légumes');
+      if(q.freq_proteines==='Jamais'||q.freq_proteines==='1-2x') habProb.push('Peu de protéines');
+      if(q.eau&&parseInt(q.eau)<6) habProb.push('Hydratation faible');
+      if(habProb.length){
+        document.querySelectorAll('.fg .chip[onclick*="tChip"]').forEach(chip=>{
+          if(habProb.some(h=>chip.textContent.trim().includes(h.split(' ')[0]))){
+            chip.classList.add('sel-ok');
+          }
+        });
+      }
+
+      // Sommeil
       if(q.sommeil_duree){const s=gs('h_sommeil');if(s){
         const map={'moins_5h':'Moins de 5h','5_6h':'5–6h','6_7h':'6–7h','7_8h':'7–8h','plus_8h':'Plus de 8h'};
         s.value=map[q.sommeil_duree]||s.value;
       }}
-      if(q.activite_niveau){const a=gs('h_actjours');if(a)a.value=q.activite_niveau.replace(/[^0-9]/g,'')||'1';}
+      if(q.sommeil_qualite){const s=gs('h_qualsom');if(s){
+        const map={'Mauvaise':'Mauvaise','Moyenne':'Moyenne','Bonne':'Bonne','Excellente':'Excellente'};
+        s.value=map[q.sommeil_qualite]||s.value;
+      }}
+
+      // Activité
+      if(q.activite_niveau){
+        const a=gs('h_actjours');
+        if(a){const n=parseInt(q.activite_niveau);a.value=isNaN(n)?'1':String(Math.min(n,5));}
+      }
+
+      // Stress
       if(q.stress_sources) sv('h_stress_src', String(q.stress_sources).replace(/,/g,', '));
-      if(q.antecedents) sv('p_antec', String(q.antecedents).replace(/,/g,', '));
+
+      // Intolerances → antécédents
+      if(q.intolerances_detail) sv('p_antec', (gs('p_antec')?.value||'')+(q.antecedents?', ':'')+String(q.intolerances_detail));
+
       msg+=' questionnaire ✓';
     }
     if(d.mesures){
