@@ -394,6 +394,10 @@
       <label class="option-row"><input type="checkbox" name="sante[]" value="Steatose"> Stéatose hépatique (foie gras)</label>
       <label class="option-row"><input type="checkbox" name="sante[]" value="Dyslipidémie"> Dyslipidémie (cholestérol / triglycérides élevés)</label>
       <label class="option-row"><input type="checkbox" name="sante[]" value="Aucun"> Aucun diagnostic connu</label>
+      <label class="option-row"><input type="checkbox" name="sante[]" value="Autre" onclick="toggleConditional('sante_autre_detail', this.checked)"> Autre</label>
+      <div id="sante_autre_detail" class="conditional-block">
+        <input type="text" name="sante_detail" placeholder="Précisez votre condition...">
+      </div>
     </div>
   </div>
 
@@ -427,6 +431,10 @@
       <label class="option-row"><input type="checkbox" name="antecedents[]" value="Cardiovasculaire"> Maladies cardiovasculaires (infarctus, AVC)</label>
       <label class="option-row"><input type="checkbox" name="antecedents[]" value="Renale"> Insuffisance rénale</label>
       <label class="option-row"><input type="checkbox" name="antecedents[]" value="Aucun"> Aucun antécédent connu</label>
+      <label class="option-row"><input type="checkbox" name="antecedents[]" value="Autre" onclick="toggleConditional('antec_autre_detail', this.checked)"> Autre</label>
+      <div id="antec_autre_detail" class="conditional-block">
+        <input type="text" name="antecedents_detail" placeholder="Précisez (cancer, épilepsie, autre maladie chronique...)">
+      </div>
     </div>
   </div>
 
@@ -1048,6 +1056,25 @@ function submitForm() {
       data[key] = data[key].join(', ');
     }
   }
+  // Renommer les clés avec [] → sans crochets pour compatibilité Make.com
+  const keyMap = {
+    'sante[]': 'sante',
+    'antecedents[]': 'antecedents',
+    'symptomes[]': 'symptomes',
+    'sport_type[]': 'sport_type',
+    'stress_sources[]': 'stress_sources',
+    'tentatives[]': 'tentatives'
+  };
+  for (let oldKey in keyMap) {
+    if (data[oldKey] !== undefined) {
+      data[keyMap[oldKey]] = data[oldKey];
+      delete data[oldKey];
+    }
+  }
+  // Garantir que les champs checkbox vides envoient une valeur explicite
+  ['sante','antecedents','symptomes','sport_type','stress_sources','tentatives'].forEach(k => {
+    if (!data[k]) data[k] = '';
+  });
 
   // Send to Make.com webhook → Google Sheets
   fetch('https://hook.eu1.make.com/7qbl71gcpamnfm42dm8s1iix3ws7d5p2', {
