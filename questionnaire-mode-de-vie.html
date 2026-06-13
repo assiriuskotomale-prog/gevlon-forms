@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Questionnaire Mode de Vie — Gevlon Nutrition & Lifestyle</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Mulish:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --blue: #00308F;
@@ -19,8 +19,8 @@
     --text-muted: #64748B;
     --border: #E2E8F0;
     --cream: #F8FAFC;
-    --sans: 'Mulish', sans-serif;
-    --serif: 'Syne', sans-serif;
+    --sans: 'Poppins', sans-serif;
+    --serif: 'Montserrat', sans-serif;
     --radius: 12px;
     --shadow: 0 2px 16px rgba(0,48,143,0.07);
     --shadow-focus: 0 0 0 3px rgba(0,48,143,0.15);
@@ -305,7 +305,10 @@
 
   <div class="qcard">
     <div class="qcard-top"><div class="qnum">3</div><div><div class="qlabel">Numéro WhatsApp <span class="req">*</span></div><div class="qhint">Ce numéro est votre identifiant unique — utilisez le même numéro à chaque séance de mesure.</div></div></div>
-    <input type="text" name="whatsapp" id="wa_field" placeholder="+229 XX XX XX XX" required oninput="autoGenRef()">
+    <input type="tel" name="whatsapp" id="wa_field" placeholder="+229 01 XX XX XX XX" required
+  oninput="autoGenRef(); this.value=this.value.replace(/[^0-9]/g,'');"
+  onpaste="setTimeout(()=>{this.value=this.value.replace(/[^0-9]/g,'');autoGenRef();},0)">
+<div style="font-size:.75rem;color:var(--text-muted);margin-top:.3rem">Saisissez uniquement les chiffres — ex : 22901527980</div>
   </div>
 
   <div class="qcard" style="background:var(--blue-light); border:1.5px solid rgba(0,48,143,0.15);">
@@ -1077,7 +1080,7 @@ function submitForm() {
   });
 
   // Send to Make.com webhook → Google Sheets
-  fetch('https://hook.eu1.make.com/7qbl71gcpamnfm42dm8s1iix3ws7d5p2', {
+  fetch('https://https://script.google.com/macros/s/AKfycbwjriMNtKEArACmDnb-2l7kkDFvnV9qvi0nVFwsemTWr_1JKXn1bxzYEXUypBREhiCD/exec/7qbl71gcpamnfm42dm8s1iix3ws7d5p2', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
