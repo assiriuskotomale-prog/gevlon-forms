@@ -191,6 +191,38 @@ body{font-family:'Poppins',sans-serif;background:#F0F4FA;color:var(--dark);min-h
     </div>
   </div>
 
+  <!-- SECTION 1bis : DONNÉES CLINIQUES -->
+  <div class="section">
+    <div class="section-head" onclick="toggleSection(this)">
+      <div class="s-icon" style="background:#FCEBEB">⚕️</div>
+      <div><div class="s-title">Données cliniques</div><div class="s-sub">Médicaments, antécédents, symptômes, dépistage</div></div>
+      <span class="s-chevron">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="grid g2">
+        <div class="fg"><label>Médicaments en cours</label><input id="cl_medicaments" placeholder="Ex : Metformine, antihypertenseur..."></div>
+        <div class="fg"><label>Statut hormonal (femme)</label><input id="cl_hormones" placeholder="Ex : cycles réguliers, ménopause, SOPK..."></div>
+      </div>
+      <div class="grid g1" style="margin-top:8px">
+        <div class="fg"><label>Symptômes actuels signalés</label><input id="cl_symptomes" placeholder="Ex : fatigue, vertiges, ballonnements..."></div>
+      </div>
+      <div class="grid g2" style="margin-top:8px">
+        <div class="fg"><label>Intolérances / allergies</label><input id="cl_intolerances" placeholder="Ex : lactose, arachides..."></div>
+        <div class="fg"><label>Douleurs / limitations physiques</label><input id="cl_douleurs" placeholder="Ex : genoux, dos..."></div>
+      </div>
+      <div class="fg" style="margin-top:8px">
+        <label>Ronflements / apnée du sommeil</label>
+        <select id="cl_ronflements">
+          <option value="Non">Non</option>
+          <option value="Ronfle_seulement">Ronfle sans pauses connues</option>
+          <option value="Apnee">Pauses respiratoires (apnée suspectée/diagnostiquée)</option>
+          <option value="Ne_sait_pas">Ne sait pas</option>
+        </select>
+        <div class="interp" id="apnee_alert" style="display:none;margin-top:4px;background:#FCEBEB;color:#7A1F1F;padding:6px 10px;border-radius:6px;font-size:12px">⚠ Signal de dépistage d'apnée du sommeil — envisager une orientation si non diagnostiquée.</div>
+      </div>
+    </div>
+  </div>
+
   <!-- SECTION 2 : BALANCE GEVLON -->
   <div class="section">
     <div class="section-head" onclick="toggleSection(this)">
@@ -329,6 +361,11 @@ body{font-family:'Poppins',sans-serif;background:#F0F4FA;color:var(--dark);min-h
         </div>
       </div>
       <div class="grid g1">
+        <div class="fg"><label>Nutrition — éléments complémentaires</label>
+          <textarea id="h_nutr_complement" placeholder="Fast-food, fritures, sucre ajouté, mode de cuisson, sel, jeûne, alcool, digestion..."></textarea>
+        </div>
+      </div>
+      <div class="grid g1">
         <div class="fg"><label>Habitudes problématiques identifiées</label>
           <div class="status-row">
             <div class="chip" onclick="tChip(this)">Friture fréquente</div>
@@ -386,6 +423,9 @@ body{font-family:'Poppins',sans-serif;background:#F0F4FA;color:var(--dark);min-h
       </div>
       <div class="fg" style="margin-top:8px"><label>Attentes exprimées par le client</label>
         <textarea id="h_attentes" placeholder="Ex : un programme efficace, perdre du ventre en 1 mois..."></textarea>
+      </div>
+      <div class="fg" style="margin-top:8px"><label>Contexte psychosocial</label>
+        <textarea id="h_psychosocial" placeholder="Tentatives antérieures, régimes passés, évolution du poids, soutien entourage, contraintes pratiques, rapport au corps..."></textarea>
       </div>
     </div>
   </div>
@@ -579,9 +619,6 @@ async function chargerClient(){
         if(o){const mapped=oMap[q.objectif_principal];if(mapped)o.value=mapped;}
       }
 
-      // Antécédents et ville
-      if(q.antecedents) sv('p_antec', String(q.antecedents).replace(/,/g,', '));
-
       // Construire le rappel alimentaire depuis les fréquences (pas de champ rappel_24h dans le questionnaire)
       const freqLabel={'Jamais':'jamais','1-2x':'1-2x/sem','3-4x':'3-4x/sem','Quotidien':'quotidien'};
       const freqs=[
@@ -602,8 +639,34 @@ async function chargerClient(){
       if(q.boissons_sucrees) nutr.push('Boissons sucrées : '+q.boissons_sucrees);
       if(nutr.length) sv('h_rappel24', nutr.join('\n'));
 
+      // Nutrition — éléments complémentaires
+      let nutrCompl=[];
+      if(q.faim_matin) nutrCompl.push('Appétit matin : '+String(q.faim_matin).replace(/_/g,' '));
+      if(q.fringales) nutrCompl.push('Fringales : '+String(q.fringales).replace(/_/g,' '));
+      if(q.freq_fast_food) nutrCompl.push('Fast-food : '+(freqLabel[q.freq_fast_food]||q.freq_fast_food));
+      if(q.freq_friture) nutrCompl.push('Fritures : '+(freqLabel[q.freq_friture]||q.freq_friture));
+      if(q.freq_sucre_ajout) nutrCompl.push('Sucre ajouté : '+(freqLabel[q.freq_sucre_ajout]||q.freq_sucre_ajout));
+      if(q.mode_cuisson) nutrCompl.push('Mode de cuisson : '+String(q.mode_cuisson).replace(/_/g,' '));
+      if(q.sel_usage) nutrCompl.push('Usage du sel : '+String(q.sel_usage).replace(/_/g,' '));
+      if(q.jeune_pratique) nutrCompl.push('Jeûne intermittent : '+q.jeune_pratique+(q.jeune_detail?' ('+q.jeune_detail+')':''));
+      if(q.alcool) nutrCompl.push('Alcool : '+q.alcool);
+      if(q.digestion) nutrCompl.push('Digestion : '+String(q.digestion).replace(/_/g,' '));
+      if(nutrCompl.length) sv('h_nutr_complement', nutrCompl.join('\n'));
+
       // Attentes
       if(q.attente_gevlon) sv('h_attentes', q.attente_gevlon);
+
+      // Contexte psychosocial — bloc condensé
+      let psycho=[];
+      if(q.tentatives) psycho.push('Tentatives antérieures : '+q.tentatives+(q.tentatives_detail?' — '+q.tentatives_detail:''));
+      if(q.regimes_passes) psycho.push('Régimes essayés : '+String(q.regimes_passes).replace(/,/g,', ').replace(/_/g,' '));
+      if(q.perdre_prendre) psycho.push('Évolution du poids : '+String(q.perdre_prendre).replace(/_/g,' '));
+      if(q.poids_cible) psycho.push('Poids cible : '+q.poids_cible);
+      if(q.delai_objectif) psycho.push('Délai souhaité : '+String(q.delai_objectif).replace(/_/g,' '));
+      if(q.soutien_entourage) psycho.push('Soutien entourage : '+String(q.soutien_entourage).replace(/_/g,' '));
+      if(q.contraintes_pratiques) psycho.push('Contraintes pratiques : '+String(q.contraintes_pratiques).replace(/,/g,', ').replace(/_/g,' '));
+      if(q.rapport_corps) psycho.push('Rapport au corps : '+String(q.rapport_corps).replace(/_/g,' '));
+      if(psycho.length) sv('h_psychosocial', psycho.join('\n'));
 
       // Habitudes problématiques — cocher les chips correspondantes
       const habProb=[];
@@ -624,8 +687,23 @@ async function chargerClient(){
 
       // Sommeil, activité et stress : désormais mesurés précisément dans Bilan (section NAPSO), pas dans QMV
 
-      // Intolerances → antécédents
-      if(q.intolerances_detail) sv('p_antec', (gs('p_antec')?.value||'')+(q.antecedents?', ':'')+String(q.intolerances_detail));
+      // Données cliniques
+      if(q.medicaments==='Oui'||q.medicaments_detail) sv('cl_medicaments', q.medicaments_detail||q.medicaments);
+      if(q.hormones && q.hormones!=='NA') sv('cl_hormones', String(q.hormones).replace(/_/g,' '));
+      if(q.symptomes && q.symptomes!=='Aucun') sv('cl_symptomes', String(q.symptomes).replace(/,/g,', ').replace(/_/g,' '));
+      if(q.intolerances==='Oui'||q.intolerances_detail) sv('cl_intolerances', q.intolerances_detail||q.intolerances);
+      if(q.douleurs && q.douleurs!=='Aucune') sv('cl_douleurs', String(q.douleurs).replace(/_/g,' '));
+      if(q.ronflements){
+        const rEl=gs('cl_ronflements');
+        if(rEl) rEl.value=q.ronflements;
+        if(q.ronflements==='Apnee'){
+          const alertEl=gs('apnee_alert');
+          if(alertEl) alertEl.style.display='block';
+        }
+      }
+
+      // Antécédents
+      if(q.antecedents && q.antecedents!=='' && q.antecedents!=='Aucun') sv('p_antec', String(q.antecedents).replace(/,/g,', '));
 
       msg+=' questionnaire ✓';
     }
