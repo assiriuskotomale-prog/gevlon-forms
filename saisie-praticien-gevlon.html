@@ -172,15 +172,16 @@ body{font-family:'Poppins',sans-serif;background:#F0F4FA;color:var(--dark);min-h
       <div class="grid g1">
         <div class="fg"><label>Diagnostics médicaux actifs</label>
           <div class="status-row" id="diag_chips">
-            <div class="chip" onclick="tChip(this)">Surpoids / Obésité</div>
-            <div class="chip" onclick="tChip(this)">Hypertension</div>
-            <div class="chip" onclick="tChip(this)">Diabète type 2</div>
-            <div class="chip" onclick="tChip(this)">Prédiabète</div>
-            <div class="chip" onclick="tChip(this)">Dyslipidémie</div>
-            <div class="chip" onclick="tChip(this)">SOPK / Kystes</div>
-            <div class="chip" onclick="tChip(this)">Hypothyroïdie</div>
-            <div class="chip" onclick="tChip(this)">Insuffisance rénale</div>
-            <div class="chip" onclick="tChip(this)">Aucun connu</div>
+            <div class="chip" data-val="Surpoids_Obesite" onclick="tChip(this)">Surpoids / Obésité</div>
+            <div class="chip" data-val="Diabete_T2" onclick="tChip(this)">Diabète type 2</div>
+            <div class="chip" data-val="Prediabete" onclick="tChip(this)">Prédiabète</div>
+            <div class="chip" data-val="Hypertension" onclick="tChip(this)">Hypertension</div>
+            <div class="chip" data-val="SOPK" onclick="tChip(this)">SOPK / Kystes</div>
+            <div class="chip" data-val="Hypothyroidie" onclick="tChip(this)">Hypothyroïdie</div>
+            <div class="chip" data-val="Insuffisance_renale" onclick="tChip(this)">Insuffisance rénale</div>
+            <div class="chip" data-val="Steatose" onclick="tChip(this)">Stéatose hépatique</div>
+            <div class="chip" data-val="Dyslipidémie" onclick="tChip(this)">Dyslipidémie</div>
+            <div class="chip" data-val="Aucun" onclick="tChip(this)">Aucun connu</div>
           </div>
         </div>
       </div>
@@ -252,17 +253,7 @@ body{font-family:'Poppins',sans-serif;background:#F0F4FA;color:var(--dark);min-h
 
       <div class="grid g4" style="margin-top:8px">
         <div class="fg"><label>Masse musculaire (kg)</label><input id="b_muscle" type="number" step="0.1" placeholder="31,3"></div>
-        <div class="fg"><label>Masse musc. squel. (kg)</label><input id="b_mms" type="number" step="0.1" placeholder="19,8" oninput="interpMMS()"></div>
-        <div class="fg"><label>% Protéines</label><input id="b_prot" type="number" step="0.1" placeholder="10,7" oninput="interpProt()"></div>
-        <div class="fg"><label>% Hydratation</label><input id="b_hydrat" type="number" step="0.1" placeholder="45,3"></div>
       </div>
-
-      <div class="grid g3" style="margin-top:8px">
-        <div class="fg"><label>BMR (kcal/j)</label><input id="b_bmr" type="number" placeholder="1368"></div>
-        <div class="fg"><label>Âge corporel</label><input id="b_agec" type="number" placeholder="19" oninput="interpAge()"></div>
-        <div class="fg"><label>Masse osseuse (kg)</label><input id="b_os" type="number" step="0.1" placeholder="2,5"></div>
-      </div>
-      <div id="prot_interp" class="interp" style="display:none"></div>
     </div>
   </div>
 
@@ -280,10 +271,9 @@ body{font-family:'Poppins',sans-serif;background:#F0F4FA;color:var(--dark);min-h
         <div class="fg"><label>Rapport Taille/Hanche</label><input id="c_rth" placeholder="—" readonly style="background:#f0f0f0;color:var(--ny);font-weight:600"></div>
       </div>
       <div id="taille_interp" class="interp" style="display:none"></div>
-      <div class="grid g3" style="margin-top:8px">
+      <div class="grid g2" style="margin-top:8px">
         <div class="fg"><label>Tour de cuisse (cm)</label><input id="c_cuisse" type="number" step="0.5" placeholder="54"></div>
         <div class="fg"><label>Tour de bras (cm)</label><input id="c_bras" type="number" step="0.5" placeholder="25"></div>
-        <div class="fg"><label>Tour de poitrine (cm)</label><input id="c_poitrine" type="number" step="0.5" placeholder="—"></div>
       </div>
     </div>
   </div>
@@ -619,6 +609,16 @@ async function chargerClient(){
         if(o){const mapped=oMap[q.objectif_principal];if(mapped)o.value=mapped;}
       }
 
+      // Diagnostics médicaux actifs — cocher les chips depuis sante
+      if(q.sante){
+        const santeVals=String(q.sante).split(',').map(s=>s.trim());
+        document.querySelectorAll('#diag_chips .chip').forEach(chip=>{
+          if(santeVals.includes(chip.getAttribute('data-val'))){
+            chip.classList.add('sel-ok');
+          }
+        });
+      }
+
       // Construire le rappel alimentaire depuis les fréquences (pas de champ rappel_24h dans le questionnaire)
       const freqLabel={'Jamais':'jamais','1-2x':'1-2x/sem','3-4x':'3-4x/sem','Quotidien':'quotidien'};
       const freqs=[
@@ -688,11 +688,11 @@ async function chargerClient(){
       // Sommeil, activité et stress : désormais mesurés précisément dans Bilan (section NAPSO), pas dans QMV
 
       // Données cliniques
-      if(q.medicaments==='Oui'||q.medicaments_detail) sv('cl_medicaments', q.medicaments_detail||q.medicaments);
-      if(q.hormones && q.hormones!=='NA') sv('cl_hormones', String(q.hormones).replace(/_/g,' '));
-      if(q.symptomes && q.symptomes!=='Aucun') sv('cl_symptomes', String(q.symptomes).replace(/,/g,', ').replace(/_/g,' '));
-      if(q.intolerances==='Oui'||q.intolerances_detail) sv('cl_intolerances', q.intolerances_detail||q.intolerances);
-      if(q.douleurs && q.douleurs!=='Aucune') sv('cl_douleurs', String(q.douleurs).replace(/_/g,' '));
+      if(q.medicaments) sv('cl_medicaments', q.medicaments==='Oui'?(q.medicaments_detail||'Oui — détail non précisé'):'Non');
+      if(q.hormones) sv('cl_hormones', q.hormones==='NA'?'Non applicable':String(q.hormones).replace(/_/g,' '));
+      if(q.symptomes!==undefined && q.symptomes!=='') sv('cl_symptomes', q.symptomes==='Aucun'?'Aucun':String(q.symptomes).replace(/,/g,', ').replace(/_/g,' '));
+      if(q.intolerances) sv('cl_intolerances', q.intolerances==='Oui'?(q.intolerances_detail||'Oui — détail non précisé'):'Non');
+      if(q.douleurs) sv('cl_douleurs', q.douleurs==='Aucune'?'Aucune':String(q.douleurs).replace(/_/g,' '));
       if(q.ronflements){
         const rEl=gs('cl_ronflements');
         if(rEl) rEl.value=q.ronflements;
@@ -786,6 +786,7 @@ async function chargerClient(){
         const pssEl=g('h_pss_total'); if(pssEl) pssEl.value=pssTotal;
       }
       svm('h_stress_src_precis', m.stress_source);
+      svm('h_stress_src', m.stress_source);
       svm('h_stress_signe', m.stress_signe);
 
       // Ressenti
@@ -856,36 +857,6 @@ function interpGV(){
   const msg=v<=9?`Graisse viscérale ${v} — Niveau normal (≤9). Le risque métabolique est maîtrisé.`:v<=14?`Graisse viscérale ${v} — Élevée (10–14). Risque métabolique modéré à adresser.`:`Graisse viscérale ${v} — Très élevée (>14). Risque cardiovasculaire et métabolique — priorité clinique.`;
   const cls=v<=9?'ok':v<=14?'warn':'bad';
   el.style.display='block';el.className='interp '+cls;el.textContent=msg;
-}
-
-function interpProt(){
-  const v=parseFloat(document.getElementById('b_prot').value);
-  const el=document.getElementById('prot_interp');if(isNaN(v)){el.style.display='none';return;}
-  el.style.display='block';
-  if(v<16){el.className='interp bad';el.textContent=`% protéines ${v}% — Insuffisant (norme ≥16%). Apports protéiques à augmenter urgemment pour préserver la masse musculaire.`;}
-  else{el.className='interp ok';el.textContent=`% protéines ${v}% — Dans la norme.`;}
-}
-
-function interpMMS(){
-  const v=parseFloat(document.getElementById('b_mms').value);
-  const poids=parseFloat(document.getElementById('b_poids').value)||70;
-  const sexe=document.getElementById('p_sexe').value;
-  const el=document.getElementById('prot_interp');if(isNaN(v)){el.style.display='none';return;}
-  // Seuils SMM/poids : F >30%, M >33%
-  const ratio=v/poids*100;
-  el.style.display='block';
-  if((sexe==='F'&&ratio<30)||(sexe==='M'&&ratio<33)){el.className='interp warn';el.textContent=`Masse musculaire squelettique ${v} kg (${ratio.toFixed(1)}% du poids) — Faible. Le renforcement musculaire est une priorité, pas une option.`;}
-  else{el.className='interp ok';el.textContent=`Masse musculaire squelettique ${v} kg — Standard.`;}
-}
-
-function interpAge(){
-  const age=parseInt(document.getElementById('p_age').value)||18;
-  const agec=parseInt(document.getElementById('b_agec').value);
-  if(isNaN(agec))return;
-  const el=document.getElementById('prot_interp');el.style.display='block';
-  if(agec>age+3){el.className='interp bad';el.textContent=`Âge corporel ${agec} ans vs âge réel ${age} ans — Écart significatif (+${agec-age} ans). Signal de stress métabolique chronique.`;}
-  else if(agec>age){el.className='interp warn';el.textContent=`Âge corporel ${agec} ans vs âge réel ${age} ans — Légèrement supérieur. À surveiller.`;}
-  else{el.className='interp ok';el.textContent=`Âge corporel ${agec} ans — Bon score.`;}
 }
 
 function interpTailleC(){
@@ -965,21 +936,42 @@ function collectData(){
     nom:g('p_nom'), age:g('p_age'), sexe:g('p_sexe'), prof:g('p_prof'),
     travail:g('p_travail'), objectif:g('p_objectif'), motiv:g('p_motiv'),
     stress:g('p_stress'), diags:chips('#diag_chips .chip'), antec:g('p_antec'),
+    // Données cliniques
+    cl_medicaments:g('cl_medicaments'), cl_hormones:g('cl_hormones'),
+    cl_symptomes:g('cl_symptomes'), cl_intolerances:g('cl_intolerances'),
+    cl_douleurs:g('cl_douleurs'), cl_ronflements:g('cl_ronflements'),
+    // Balance Gevlon (champs fiables uniquement)
     b_taille:g('b_taille'), b_poids:g('b_poids'), b_imc:g('b_imc'),
     b_pcg:g('b_pcg'), b_mg:g('b_mg'), b_mm:g('b_mm'), b_gv:g('b_gv'),
-    b_muscle:g('b_muscle'), b_mms:g('b_mms'), b_prot:g('b_prot'),
-    b_hydrat:g('b_hydrat'), b_bmr:g('b_bmr'), b_agec:g('b_agec'), b_os:g('b_os'),
+    b_muscle:g('b_muscle'),
+    // Centisouple
     c_taille:g('c_taille'), c_hanche:g('c_hanche'), c_rth:g('c_rth'),
-    c_cuisse:g('c_cuisse'), c_bras:g('c_bras'), c_poitrine:g('c_poitrine'),
+    c_cuisse:g('c_cuisse'), c_bras:g('c_bras'),
+    // YASEE
     y_glyc:g('y_glyc'), y_glycunit:(document.querySelector('#glyc_unit .sel-ok')?.textContent||'mmol/L'),
     y_tas:g('y_tas'), y_tad:g('y_tad'),
     y_uric:g('y_uric'), y_uricunit:(document.querySelector('#uric_unit .sel-ok')?.textContent||'µmol/L'),
     y_ceto:g('y_ceto'),
+    // Analyses de laboratoire
+    lb_gaj:g('lb_gaj'), lb_hba1c:g('lb_hba1c'), lb_tg:g('lb_tg'), lb_hdl:g('lb_hdl'),
+    lb_insuline:g('lb_insuline'), lb_homa:g('lb_homa'), lb_ratio:g('lb_ratio'), lb_date:g('lb_date'),
+    // Habitudes — résumé questionnaire
     h_repas:g('h_repas'), h_grigno:g('h_grigno'), h_rappel24:g('h_rappel24'),
+    h_nutr_complement:g('h_nutr_complement'),
     h_habits:chips('.fg .chip[onclick*="tChip"]'),
     h_actjours:g('h_actjours'), h_acttype:g('h_acttype'), h_sedjours:g('h_sedjours'),
     h_sommeil:g('h_sommeil'), h_qualsom:g('h_qualsom'), h_stress_src:g('h_stress_src'),
     h_tabac:g('h_tabac'), h_alcool:g('h_alcool'), h_attentes:g('h_attentes'),
+    h_psychosocial:g('h_psychosocial'),
+    // NAPSO — mesures précises
+    h_actfreq:g('h_actfreq'), h_actduree:g('h_actduree'), h_acttype_precis:g('h_acttype_precis'),
+    h_actrpe:g('h_actrpe'), h_actsedent:g('h_actsedent'),
+    h_coucher:g('h_coucher'), h_lever:g('h_lever'), h_endorm:g('h_endorm'),
+    h_reveils:g('h_reveils'), h_qualreveil:g('h_qualreveil'), h_ecrans:g('h_ecrans'), h_chronotype:g('h_chronotype'),
+    h_pss1:g('h_pss1'), h_pss2:g('h_pss2'), h_pss3:g('h_pss3'), h_pss4:g('h_pss4'), h_pss_total:g('h_pss_total'),
+    h_stress_src_precis:g('h_stress_src_precis'), h_stress_signe:g('h_stress_signe'),
+    h_energie:g('h_energie'), h_faim:g('h_faim'), h_commentaire:g('h_commentaire'),
+    // Autonomie
     a_questionnaire:g('a_questionnaire'), a_balance:g('a_balance'),
     a_centisouple:g('a_centisouple'), a_yasee:g('a_yasee'),
     a_profil:g('a_profil'), a_obs:g('a_obs'),
@@ -1004,56 +996,89 @@ Tu dois générer un PLAN DE BASE NAPSO™ structuré et cliniquement rigoureux 
 Identifiant : ${d.hash} (WhatsApp : ${d.whatsapp})
 Nom : ${d.nom} | Âge : ${d.age} ans | Sexe : ${d.sexe}
 Profession : ${d.prof} | Type de travail : ${d.travail}
-Objectif : ${d.objectif} | Motivation : ${d.motiv}/10 | Stress : ${d.stress}/10
+Objectif : ${d.objectif} | Motivation : ${d.motiv}/10 | Stress perçu : ${d.stress}/10
 Diagnostics actifs : ${d.diags}
 Antécédents familiaux : ${d.antec}
+
+=== DONNÉES CLINIQUES ===
+Médicaments en cours : ${d.cl_medicaments}
+Statut hormonal : ${d.cl_hormones}
+Symptômes actuels : ${d.cl_symptomes}
+Intolérances / allergies : ${d.cl_intolerances}
+Douleurs / limitations physiques : ${d.cl_douleurs}
+Ronflements / apnée du sommeil : ${d.cl_ronflements}
 
 === BALANCE GEVLON — COMPOSITION CORPORELLE ===
 Taille : ${d.b_taille} cm | Poids : ${d.b_poids} kg | IMC : ${d.b_imc}
 % Masse grasse (BFR) : ${d.b_pcg}% | Masse grasse : ${d.b_mg} kg | Masse maigre : ${d.b_mm} kg
 Graisse viscérale : ${d.b_gv} | Masse musculaire totale : ${d.b_muscle} kg
-Masse musculaire squelettique : ${d.b_mms} kg | % Protéines : ${d.b_prot}%
-% Hydratation : ${d.b_hydrat}% | BMR : ${d.b_bmr} kcal/j
-Âge corporel : ${d.b_agec} ans | Masse osseuse : ${d.b_os} kg
 
 === CENTISOUPLE — MENSURATIONS ===
 Tour de taille : ${d.c_taille} cm | Tour de hanche : ${d.c_hanche} cm | RTH : ${d.c_rth}
-Tour de cuisse : ${d.c_cuisse} cm | Tour de bras : ${d.c_bras} cm | Tour de poitrine : ${d.c_poitrine} cm
+Tour de cuisse : ${d.c_cuisse} cm | Tour de bras : ${d.c_bras} cm
 
-=== YASEE 4-EN-1 ===
+=== YASEE 4-EN-1 (auto-mesure) ===
 Glycémie à jeun : ${d.y_glyc} ${d.y_glycunit}
 Tension artérielle : ${d.y_tas}/${d.y_tad} mmHg
 Acide urique : ${d.y_uric} ${d.y_uricunit}
 Cétonémie : ${d.y_ceto} mmol/L
 
-=== HABITUDES DE VIE ===
+=== ANALYSES DE LABORATOIRE (si disponibles) ===
+Glycémie à jeun labo : ${d.lb_gaj} mmol/L | HbA1c : ${d.lb_hba1c}% | Date : ${d.lb_date}
+Triglycérides : ${d.lb_tg} mmol/L | HDL : ${d.lb_hdl} mmol/L | Ratio TG/HDL : ${d.lb_ratio}
+Insulinémie : ${d.lb_insuline} µUI/mL | HOMA-IR : ${d.lb_homa}
+
+=== HABITUDES DE VIE — RÉSUMÉ ===
 Repas/jour : ${d.h_repas} | Grignotage : ${d.h_grigno}
 Rappel alimentaire 24h : ${d.h_rappel24}
-Habitudes problématiques : ${d.h_habits}
-Activité physique : ${d.h_actjours} jour(s)/sem | Type : ${d.h_acttype}
-Sédentarité : ${d.h_sedjours}/jour
-Sommeil : ${d.h_sommeil} | Qualité : ${d.h_qualsom}
-Sources de stress : ${d.h_stress_src}
+Nutrition — éléments complémentaires : ${d.h_nutr_complement}
+Habitudes problématiques identifiées : ${d.h_habits}
 Tabac : ${d.h_tabac} | Alcool : ${d.h_alcool}
 Attentes client : ${d.h_attentes}
+
+=== NAPSO — ACTIVITÉ (mesures précises) ===
+Fréquence : ${d.h_actfreq} séance(s)/sem | Durée : ${d.h_actduree} min | Type : ${d.h_acttype_precis}
+Intensité perçue (RPE 1-10) : ${d.h_actrpe} | Sédentarité : ${d.h_actsedent} h/jour
+
+=== NAPSO — SOMMEIL (mesures précises) ===
+Coucher : ${d.h_coucher} | Lever : ${d.h_lever} | Endormissement : ${d.h_endorm} min
+Réveils nocturnes : ${d.h_reveils} | Qualité du réveil (1-5) : ${d.h_qualreveil}
+Écrans avant sommeil : ${d.h_ecrans} | Chronotype : ${d.h_chronotype}
+
+=== NAPSO — STRESS (PSS-4) ===
+Score PSS-4 total (0-16) : ${d.h_pss_total}
+Source principale de stress : ${d.h_stress_src_precis}
+Signes physiques de stress : ${d.h_stress_signe}
+
+=== RESSENTI CLIENT ===
+Énergie (1-10) : ${d.h_energie} | Faim (1-10) : ${d.h_faim}
+Commentaire libre : ${d.h_commentaire}
+
+=== CONTEXTE PSYCHOSOCIAL ===
+${d.h_psychosocial}
 
 === PROFIL D'AUTONOMIE ===
 Questionnaire : ${d.a_questionnaire} | Balance : ${d.a_balance}
 Centisouple : ${d.a_centisouple} | YASEE : ${d.a_yasee}
 Profil estimé : ${d.a_profil}
+Observations PS (internes, non transmises au client) : ${d.a_obs}
 
 === RÈGLES D'INTERPRÉTATION CLINIQUE OBLIGATOIRES ===
-1. Si masse musculaire squelettique faible ET % graisse élevé → renforcement musculaire = ACTION OBLIGATOIRE (pas option)
-2. Si % protéines < 16% → apport protéique = ACTION OBLIGATOIRE avec exemples locaux concrets
-3. Si rappel 24h pauvre en protéines → prescrire sources protéiques avec exemples béninois précis
-4. Si activité physique ≤ 1 jour/sem → prescrire progression réaliste (pas 45 min/jour direct)
-5. Si glycémie en zone prédiabète ou diabète → adapter urgence pilier N et mentionner suivi médical
-6. Si tour de taille > seuil → mentionner risque cardiovasculaire dans pilier P
-7. Si âge corporel > âge réel > 2 ans → signaler stress métabolique dans pilier P
-8. Si sommeil < 6h → pilier S = PRIORITÉ HAUTE avec mécanisme scientifique clair
-9. Ne pas reprendre les libellés fantaisistes de l'app balance (ex: "obésité notation lourd")
-10. Toujours utiliser des références alimentaires locales béninoises (gboma, wagashi, poisson fumé, lanhouin, huile de palme rouge, karité alimentaire, etc.)
-11. Les compléments et appareils (Polar H10, Berry, YASEE) doivent être présentés comme "disponibles chez Gevlon" jamais "en pharmacie"
+1. Si masse grasse (BFR) élevée ET masse musculaire totale faible → renforcement musculaire = ACTION OBLIGATOIRE (pas option)
+2. Si rappel 24h ou nutrition complémentaire indiquent un apport protéique pauvre → prescrire sources protéiques avec exemples béninois précis
+3. Si activité physique ≤ 1 séance/sem → prescrire progression réaliste (pas 45 min/jour direct), en partant de la fréquence réelle déclarée
+4. Si glycémie (YASEE ou labo) en zone prédiabète ou diabète, ou HbA1c ≥ 5.7%, ou HOMA-IR > 2 → adapter urgence pilier N et mentionner suivi médical
+5. Si tour de taille > seuil (F : 80cm, H : 94cm) → mentionner risque cardiovasculaire dans pilier P
+6. Si score PSS-4 ≥ 8 (sur 16) → pilier S (stress) = PRIORITÉ HAUTE, proposer des leviers concrets adaptés à la source de stress déclarée
+7. Si durée de sommeil estimée (coucher→lever moins endormissement) < 6h, ou qualité de réveil ≤ 2/5 → pilier S = PRIORITÉ HAUTE avec mécanisme scientifique clair
+8. Si ronflements = "Apnee" → signaler explicitement le besoin d'orientation médicale pour dépistage d'apnée du sommeil, ne pas minimiser
+9. Si médicaments en cours signalés → vérifier compatibilité avec les recommandations LCHF (notamment antidiabétiques, antihypertenseurs) et le mentionner explicitement
+10. Si intolérances/allergies signalées → exclure strictement ces aliments de toutes les suggestions
+11. Si douleurs/limitations physiques signalées → adapter les recommandations d'activité en conséquence (pas de prescription générique ignorant la contrainte)
+12. Ne pas reprendre les libellés fantaisistes de l'app balance (ex: "obésité notation lourd")
+13. Toujours utiliser des références alimentaires locales béninoises (gboma, wagashi, poisson fumé, lanhouin, huile de palme rouge, karité alimentaire, etc.)
+14. Les compléments et appareils (Polar H10, Berry, YASEE) doivent être présentés comme "disponibles chez Gevlon" jamais "en pharmacie"
+15. Tenir compte du contexte psychosocial (tentatives antérieures, régimes passés, soutien de l'entourage) pour calibrer le ton et le niveau d'ambition du plan — éviter de reproduire une approche qui a déjà échoué sans l'adapter
 
 === FORMAT DU PLAN DE BASE ===
 Structure : 5 piliers NAPSO™
