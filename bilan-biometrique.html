@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Bilan Biométrique Gevlon — Saisie Client</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#00308F;--navy-dk:#001F5E;--navy-lt:#1a4ba8;
+  --orange:#F9921C;--orange-lt:#fbb04c;
+  --green:#278a01;--green-lt:#e6f4e0;
+  --red:#dc2626;--red-lt:#fff1f2;
+  --amber:#d97706;--amber-lt:#fffbeb;
+  --teal:#0891b2;--teal-lt:#e0f7fa;
+  --purple:#7c3aed;--purple-lt:#f5f3ff;
+  --gray-50:#f8fafc;--gray-100:#f1f5f9;--gray-200:#e2e8f0;
+  --gray-300:#cbd5e1;--gray-400:#94a3b8;--gray-500:#64748b;
+  --gray-600:#475569;--gray-700:#334155;--gray-800:#1e293b;
+  --border:#e2e8f0;--radius:12px;--radius-sm:8px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Poppins',sans-serif;background:#eef2f8;color:var(--gray-800);min-height:100vh;font-size:14px;}
+
+/* HEADER */
+.header{background:var(--navy-dk);padding:.75rem 1.25rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.25);}
+.logo{height:30px;object-fit:contain;mix-blend-mode:screen;}
+.header-badge{background:rgba(249,146,28,.2);border:1px solid rgba(249,146,28,.4);color:var(--orange-lt);font-size:.6rem;font-weight:700;padding:3px 9px;border-radius:12px;text-transform:uppercase;letter-spacing:.08em;font-family:'Montserrat',sans-serif;}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--navy-dk) 0%,var(--navy) 60%,var(--navy-lt) 100%);padding:1.5rem 1.25rem 1.75rem;text-align:center;}
+.hero-title{font-family:'Montserrat',sans-serif;font-size:1.35rem;font-weight:800;color:white;margin-bottom:.35rem;letter-spacing:-.01em;}
+.hero-sub{font-size:.78rem;color:rgba(255,255,255,.58);line-height:1.6;}
+
+/* PROGRESS */
+.progress-bar{background:rgba(255,255,255,.12);height:3px;margin-top:1rem;border-radius:2px;}
+.progress-fill{background:var(--orange);height:3px;border-radius:2px;transition:width .4s;width:0%;}
+
+/* MAIN */
+.main{padding:.875rem .875rem 6rem;max-width:540px;margin:0 auto;}
+
+/* SECTION HEADERS */
+.section-head{display:flex;align-items:center;gap:.6rem;margin:.75rem 0 .5rem;}
+.section-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.section-icon.id   {background:rgba(0,48,143,.12);color:var(--navy);}
+.section-icon.ant  {background:rgba(39,138,1,.12);color:var(--green);}
+.section-icon.comp {background:rgba(8,145,178,.12);color:var(--teal);}
+.section-icon.yas  {background:rgba(220,38,38,.12);color:var(--red);}
+.section-icon.labo {background:rgba(124,58,237,.12);color:var(--purple);}
+.section-icon.act  {background:rgba(249,146,28,.12);color:var(--orange);}
+.section-icon.slp  {background:rgba(0,48,143,.1);color:var(--navy-lt);}
+.section-icon.str  {background:rgba(217,119,6,.12);color:var(--amber);}
+.section-icon.feel {background:rgba(39,138,1,.12);color:var(--green);}
+.section-label{font-family:'Montserrat',sans-serif;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--gray-500);}
+
+/* CARDS */
+.card{background:white;border-radius:var(--radius);padding:1.125rem;margin-bottom:.75rem;box-shadow:0 1px 6px rgba(0,48,143,.07),0 0 0 1px rgba(0,48,143,.04);}
+.card-title{font-family:'Montserrat',sans-serif;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gray-500);margin-bottom:.875rem;display:flex;align-items:center;gap:.45rem;}
+.card-title-icon{font-size:.95rem;}
+
+/* DIVIDER bands inside card */
+.band{border-radius:var(--radius-sm);padding:.6rem .875rem;margin:.75rem 0 .6rem;display:flex;align-items:flex-start;gap:.5rem;}
+.band.navy{background:linear-gradient(135deg,var(--navy-dk),var(--navy));color:white;}
+.band.navy .band-title{font-family:'Montserrat',sans-serif;font-size:.72rem;font-weight:700;color:white;}
+.band.navy .band-sub{font-size:.65rem;color:rgba(255,255,255,.55);margin-top:.1rem;}
+.band.green{background:var(--green-lt);border-left:3px solid var(--green);}
+.band.green .band-title{font-family:'Montserrat',sans-serif;font-size:.7rem;font-weight:700;color:var(--green);}
+.band.purple{background:var(--purple-lt);border-left:3px solid var(--purple);}
+.band.purple .band-title{font-family:'Montserrat',sans-serif;font-size:.7rem;font-weight:700;color:var(--purple);}
+.band.orange{background:#fff8f0;border-left:3px solid var(--orange);}
+.band.orange .band-title{font-family:'Montserrat',sans-serif;font-size:.7rem;font-weight:700;color:var(--orange);}
+.band.red{background:var(--red-lt);border-left:3px solid var(--red);}
+.band.red .band-title{font-family:'Montserrat',sans-serif;font-size:.7rem;font-weight:700;color:var(--red);}
+.band.teal{background:var(--teal-lt);border-left:3px solid var(--teal);}
+.band.teal .band-title{font-family:'Montserrat',sans-serif;font-size:.7rem;font-weight:700;color:var(--teal);}
+.band.amber{background:var(--amber-lt);border-left:3px solid var(--amber);}
+.band.amber .band-title{font-family:'Montserrat',sans-serif;font-size:.7rem;font-weight:700;color:var(--amber);}
+.band-body{flex:1;}
+
+/* FIELDS */
+.field{margin-bottom:.75rem;}
+.field:last-child{margin-bottom:0;}
+.field label{display:block;font-size:.75rem;font-weight:600;color:var(--gray-600);margin-bottom:.35rem;}
+.field input,.field select,.field textarea{
+  width:100%;padding:.6rem .8rem;border:1.5px solid var(--border);border-radius:var(--radius-sm);
+  font-family:'Poppins',sans-serif;font-size:.875rem;color:var(--gray-800);outline:none;
+  transition:border-color .15s,box-shadow .15s;background:white;
+}
+.field input:focus,.field select:focus,.field textarea:focus{
+  border-color:var(--navy);box-shadow:0 0 0 3px rgba(0,48,143,.08);
+}
+.field input[readonly]{background:var(--gray-100);color:var(--gray-600);cursor:default;}
+
+/* GRIDS */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;}
+.span2{grid-column:span 2;}
+
+/* FIELD ROW (input + unit) */
+.fr{display:flex;gap:5px;align-items:center;}
+.fr input{flex:1;min-width:0;}
+.unit{font-size:.72rem;color:var(--gray-500);font-weight:600;white-space:nowrap;min-width:38px;text-align:right;}
+
+/* INLINE SELECT ROW */
+.isr{display:flex;gap:5px;align-items:center;width:100%;}
+.isr input{flex:1;min-width:0;padding:.6rem .7rem;}
+.isr select{flex:0 0 auto;width:auto;padding:.6rem .45rem;font-size:.78rem;}
+
+/* COMPUTED */
+.computed{font-size:.7rem;color:var(--gray-500);margin-top:.25rem;line-height:1.4;}
+.computed strong{color:var(--gray-700);}
+
+/* STATUS BADGES */
+.badge{display:inline-block;font-size:.68rem;font-weight:700;padding:2px 7px;border-radius:20px;margin-top:.3rem;}
+.badge-ok{background:#dcfce7;color:#166534;}
+.badge-warn{background:#fef9c3;color:#854d0e;}
+.badge-bad{background:#fee2e2;color:#991b1b;}
+.badge-info{background:#dbeafe;color:#1e40af;}
+
+/* SOURCE TAG */
+.src-tag{font-size:.72rem;color:var(--gray-500);font-weight:500;margin-top:.6rem;}
+.src-tag select{display:inline-block;width:auto;padding:.3rem .5rem;font-size:.72rem;border:1px solid var(--border);border-radius:6px;background:var(--gray-50);}
+
+/* INFO BOX */
+.info{background:#eff6ff;border-radius:var(--radius-sm);padding:.55rem .8rem;font-size:.7rem;color:#1e40af;border-left:3px solid #3b82f6;margin-bottom:.7rem;line-height:1.5;}
+
+/* SCALE / SLIDER */
+.scale-wrap{margin-bottom:.75rem;}
+.scale-wrap label{display:block;font-size:.75rem;font-weight:600;color:var(--gray-600);margin-bottom:.4rem;}
+.scale-wrap input[type=range]{width:100%;accent-color:var(--navy);}
+.scale-val{text-align:center;font-family:'Montserrat',sans-serif;font-weight:700;color:var(--navy);font-size:1.25rem;line-height:1;}
+.scale-labels{display:flex;justify-content:space-between;font-size:.62rem;color:var(--gray-400);margin-top:.15rem;}
+
+/* RADIO CHIPS */
+.chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.35rem;}
+.chip{padding:.3rem .7rem;border:1.5px solid var(--border);border-radius:20px;font-size:.72rem;font-weight:500;cursor:pointer;transition:all .15s;background:white;color:var(--gray-600);}
+.chip.active,.chip:hover{border-color:var(--navy);background:rgba(0,48,143,.07);color:var(--navy);}
+
+/* NAPSO SCORE */
+.napso-score{background:linear-gradient(135deg,var(--navy-dk),var(--navy));border-radius:var(--radius);padding:.875rem 1rem;margin-bottom:.75rem;display:flex;align-items:center;gap:.75rem;}
+.napso-score-icon{font-size:1.5rem;}
+.napso-score-body{flex:1;}
+.napso-score-label{font-family:'Montserrat',sans-serif;font-size:.6rem;font-weight:700;color:rgba(255,255,255,.5);letter-spacing:.08em;text-transform:uppercase;}
+.napso-score-val{font-family:'Montserrat',sans-serif;font-size:1rem;font-weight:800;color:white;margin-top:.1rem;}
+
+/* SUBMIT */
+.submit-area{background:white;border-radius:var(--radius);padding:1.125rem;margin-bottom:1.5rem;box-shadow:0 1px 6px rgba(0,48,143,.07);}
+.btn-submit{width:100%;background:var(--orange);color:white;border:none;padding:.8rem;border-radius:var(--radius-sm);font-family:'Montserrat',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:background .2s;letter-spacing:.02em;}
+.btn-submit:hover{background:#e8830f;}
+.btn-submit:disabled{background:var(--gray-300);cursor:not-allowed;}
+.wa-btn{width:100%;background:#25D366;color:white;border:none;padding:.65rem;border-radius:var(--radius-sm);font-family:'Montserrat',sans-serif;font-size:.82rem;font-weight:700;cursor:pointer;margin-top:.5rem;display:flex;align-items:center;justify-content:center;gap:.5rem;}
+
+/* SUCCESS */
+.success-banner{display:none;background:#f0fdf4;border:2px solid #86efac;border-radius:var(--radius);padding:1rem;text-align:center;margin-bottom:.875rem;}
+.success-banner .s-icon{font-size:2rem;margin-bottom:.4rem;}
+.success-banner .s-title{font-family:'Montserrat',sans-serif;font-size:1rem;color:#166534;font-weight:700;}
+.success-banner .s-sub{font-size:.75rem;color:#15803d;margin-top:.25rem;}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <img src="data:image/png;base64,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" alt="Gevlon" class="logo">
+  <span class="header-badge">Bilan Biométrique</span>
+</header>
+
+<div class="hero">
+  <h1 class="hero-title">📋 Bilan Biométrique Gevlon</h1>
+  <p class="hero-sub">Saisissez vos mesures avec soin — chaque donnée alimente votre plan NAPSO™ personnalisé.<br>Vos résultats sont transmis directement à votre nutritionniste Gevlon.</p>
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+</div>
+
+<div class="main">
+
+<!-- SUCCESS -->
+<div class="success-banner" id="success-banner">
+  <div class="s-icon">✅</div>
+  <div class="s-title">Bilan enregistré avec succès !</div>
+  <div class="s-sub">Votre nutritionniste Gevlon analysera vos résultats et vous contactera sous peu.</div>
+</div>
+
+<!-- ═══ 1. IDENTIFICATION ═══ -->
+<div class="section-head">
+  <div class="section-icon id">👤</div>
+  <span class="section-label">Identification</span>
+</div>
+<div class="card">
+  <div class="g2">
+    <div class="field span2">
+      <label>📱 Numéro WhatsApp <span style="color:var(--red)">*</span></label>
+      <input type="tel" id="whatsapp" placeholder="+229 XX XX XX XX" inputmode="tel">
+    </div>
+    <div class="field">
+      <label>Prénom</label>
+      <input type="text" id="prenom" placeholder="Votre prénom">
+    </div>
+    <div class="field">
+      <label>Date du bilan</label>
+      <input type="date" id="date_mesure">
+    </div>
+    <div class="field">
+      <label>Âge</label>
+      <div class="fr"><input type="number" id="age" placeholder="35" min="10" max="99"><span class="unit">ans</span></div>
+    </div>
+    <div class="field">
+      <label>Sexe</label>
+      <select id="sexe">
+        <option value="">— choisir —</option>
+        <option value="H">Homme</option>
+        <option value="F">Femme</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 2. ANTHROPOMÉTRIE ═══ -->
+<div class="section-head">
+  <div class="section-icon ant">📏</div>
+  <span class="section-label">Anthropométrie</span>
+</div>
+<div class="card">
+  <div class="info">📐 Mesurez-vous debout, à jeun si possible, toujours au même moment de la journée (Centisouple + Toise).</div>
+
+  <div class="band navy">
+    <div class="band-body">
+      <div class="band-title">⚖️ Poids & Taille — Balance Gevlon + Toise</div>
+      <div class="band-sub">Saisie manuelle des valeurs lues sur la balance et la toise</div>
+    </div>
+  </div>
+  <div class="g2">
+    <div class="field">
+      <label>Poids <span style="color:var(--red)">*</span></label>
+      <div class="fr"><input type="number" id="poids" placeholder="72.5" step="0.1" oninput="computeAll()"><span class="unit">kg</span></div>
+    </div>
+    <div class="field">
+      <label>Taille</label>
+      <div class="fr"><input type="number" id="taille" placeholder="165" step="0.5" oninput="computeAll()"><span class="unit">cm</span></div>
+    </div>
+    <div class="field">
+      <label>IMC <span style="font-weight:400;font-size:.68rem;color:var(--gray-400)">(calculé auto)</span></label>
+      <div class="fr"><input type="number" id="imc" placeholder="auto" step="0.1" readonly><span class="unit">kg/m²</span></div>
+      <div class="computed" id="imc_label">&nbsp;</div>
+    </div>
+    <div class="field">&nbsp;</div>
+  </div>
+
+  <div class="band green" style="margin-top:.25rem;">
+    <div class="band-body">
+      <div class="band-title">📐 Périmètres — Centisouple</div>
+    </div>
+  </div>
+  <div class="g2">
+    <div class="field">
+      <label>Tour de taille</label>
+      <div class="fr"><input type="number" id="tour_taille" placeholder="90" step="0.5" oninput="computeAll()"><span class="unit">cm</span></div>
+    </div>
+    <div class="field">
+      <label>Tour de hanche</label>
+      <div class="fr"><input type="number" id="tour_hanches" placeholder="100" step="0.5" oninput="computeAll()"><span class="unit">cm</span></div>
+    </div>
+    <div class="field">
+      <label>Rapport T/H <span style="font-weight:400;font-size:.68rem;color:var(--gray-400)">(calculé)</span></label>
+      <div class="fr"><input type="number" id="rth" placeholder="auto" step="0.01" readonly><span class="unit">ratio</span></div>
+      <div class="computed" id="rth_label">&nbsp;</div>
+    </div>
+    <div class="field">
+      <label>Tour de bras</label>
+      <div class="fr"><input type="number" id="tour_bras" placeholder="32" step="0.5"><span class="unit">cm</span></div>
+    </div>
+    <div class="field">
+      <label>Tour de cuisse</label>
+      <div class="fr"><input type="number" id="tour_cuisse" placeholder="55" step="0.5"><span class="unit">cm</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 3. COMPOSITION CORPORELLE ═══ -->
+<div class="section-head">
+  <div class="section-icon comp">🔬</div>
+  <span class="section-label">Composition corporelle — Balance Gevlon</span>
+</div>
+<div class="card">
+  <div class="info">📱 Lisez les valeurs directement sur l'écran de la balance Gevlon ou dans l'application AiCare après stabilisation.</div>
+  <div class="g2">
+    <div class="field">
+      <label>% Masse grasse</label>
+      <div class="fr"><input type="number" id="mg_pct" placeholder="28.5" step="0.1" oninput="computeAll()"><span class="unit">%</span></div>
+    </div>
+    <div class="field">
+      <label>Masse grasse</label>
+      <div class="fr"><input type="number" id="mg_kg" placeholder="auto" step="0.1" readonly><span class="unit">kg</span></div>
+    </div>
+    <div class="field">
+      <label>Masse maigre</label>
+      <div class="fr"><input type="number" id="mm_kg" placeholder="auto" step="0.1" readonly><span class="unit">kg</span></div>
+    </div>
+    <div class="field">
+      <label>Masse musculaire</label>
+      <div class="fr"><input type="number" id="muscle_kg" placeholder="—" step="0.1"><span class="unit">kg</span></div>
+    </div>
+    <div class="field">
+      <label>Graisse viscérale <span style="font-weight:400;font-size:.68rem">(indice)</span></label>
+      <div class="fr"><input type="number" id="gv_indice" placeholder="8" step="1"><span class="unit">ind.</span></div>
+      <div class="computed" id="gv_label">&nbsp;</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 4. BILAN YASEE ═══ -->
+<div class="section-head">
+  <div class="section-icon yas">🩺</div>
+  <span class="section-label">Mesures YASEE 4-en-1</span>
+</div>
+<div class="card">
+  <div class="info">⚡ Effectuez les mesures dans l'application YASEE, puis reportez les valeurs ci-dessous.</div>
+
+  <div class="band red">
+    <div class="band-body">
+      <div class="band-title">❤️ Pression artérielle</div>
+    </div>
+  </div>
+  <div class="g2">
+    <div class="field">
+      <label>Systolique</label>
+      <div class="fr"><input type="number" id="sys" placeholder="120" oninput="computeTension()"><span class="unit">mmHg</span></div>
+    </div>
+    <div class="field">
+      <label>Diastolique</label>
+      <div class="fr"><input type="number" id="dia" placeholder="80" oninput="computeTension()"><span class="unit">mmHg</span></div>
+    </div>
+  </div>
+  <div class="computed">Statut : <strong id="ta_label">—</strong></div>
+
+  <div class="band teal" style="margin-top:.75rem;">
+    <div class="band-body">
+      <div class="band-title">🩸 Glycémie capillaire (YASEE)</div>
+    </div>
+  </div>
+  <div class="field">
+    <label>Glycémie</label>
+    <div class="isr">
+      <input type="number" id="glycemie" placeholder="5.2" step="0.1" oninput="computeGlycemie()">
+      <select id="glycemie_unite" onchange="computeGlycemie()">
+        <option value="mmol">mmol/L</option>
+        <option value="mgdl">mg/dL</option>
+      </select>
+      <select id="glycemie_ctx">
+        <option value="jeun">À jeun</option>
+        <option value="post-repas-2h">Post-repas 2h</option>
+        <option value="autre">Autre</option>
+      </select>
+    </div>
+    <div class="computed">Statut : <strong id="gluco_label">—</strong></div>
+  </div>
+
+  <div class="band orange" style="margin-top:.25rem;">
+    <div class="band-body">
+      <div class="band-title">🍋 Acide urique</div>
+    </div>
+  </div>
+  <div class="field">
+    <label>Acide urique</label>
+    <div class="isr">
+      <input type="number" id="au" placeholder="350" oninput="computeAU()">
+      <select id="au_unite" onchange="computeAU()">
+        <option value="umol">µmol/L</option>
+        <option value="mgdl">mg/dL</option>
+      </select>
+    </div>
+    <div class="computed">Statut : <strong id="au_label">—</strong></div>
+  </div>
+
+  <div class="band amber" style="margin-top:.25rem;">
+    <div class="band-body">
+      <div class="band-title">⚡ Cétonémie</div>
+    </div>
+  </div>
+  <div class="g2">
+    <div class="field">
+      <label>Cétones</label>
+      <div class="fr"><input type="number" id="ceto" placeholder="0.5" step="0.1" oninput="computeCeto()"><span class="unit">mmol/L</span></div>
+      <div class="computed">Statut : <strong id="ceto_label">—</strong></div>
+    </div>
+    <div class="field">
+      <label>Contexte</label>
+      <select id="ceto_ctx">
+        <option value="matin">Matin à jeun</option>
+        <option value="soir">Soir</option>
+        <option value="autre">Autre</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="src-tag">Mesures effectuées : <select id="auto_yasee">
+    <option value="seul">Seul(e)</option>
+    <option value="guide_ps">Guidé(e) par un Point Santé</option>
+    <option value="cabinet">Au cabinet Gevlon</option>
+  </select></div>
+</div>
+
+<!-- ═══ 5. ANALYSES DE LABORATOIRE ═══ -->
+<div class="section-head">
+  <div class="section-icon labo">🧪</div>
+  <span class="section-label">Résultats de laboratoire</span>
+</div>
+<div class="card">
+  <div class="info">📄 Reportez les valeurs de vos analyses biologiques récentes (si disponibles). Ces données permettent une évaluation complète du risque cardiométabolique.</div>
+
+  <div class="band purple">
+    <div class="band-body">
+      <div class="band-title">🩸 Glycémie à jeun & HbA1c — Labo</div>
+    </div>
+  </div>
+  <div class="g2">
+    <div class="field">
+      <label>Glycémie à jeun (labo)</label>
+      <div class="fr"><input type="number" id="gaj_labo" placeholder="5.4" step="0.1" oninput="computeGAJ()"><span class="unit">mmol/L</span></div>
+      <div class="computed" id="gaj_label">&nbsp;</div>
+    </div>
+    <div class="field">
+      <label>HbA1c</label>
+      <div class="fr"><input type="number" id="hba1c" placeholder="5.7" step="0.1" oninput="computeHbA1c()"><span class="unit">%</span></div>
+      <div class="computed" id="hba1c_label">&nbsp;</div>
+    </div>
+  </div>
+
+  <div class="band purple" style="margin-top:.25rem;">
+    <div class="band-body">
+      <div class="band-title">💛 Bilan lipidique</div>
+    </div>
+  </div>
+  <div class="g2">
+    <div class="field">
+      <label>Triglycérides</label>
+      <div class="fr"><input type="number" id="tg" placeholder="1.2" step="0.01" oninput="computeLipides()"><span class="unit">mmol/L</span></div>
+    </div>
+    <div class="field">
+      <label>HDL-Cholestérol</label>
+      <div class="fr"><input type="number" id="hdl" placeholder="1.3" step="0.01" oninput="computeLipides()"><span class="unit">mmol/L</span></div>
+    </div>
+    <div class="field">
+      <label>Ratio TG/HDL <span style="font-weight:400;font-size:.68rem">(calculé)</span></label>
+      <div class="fr"><input type="number" id="tg_hdl" placeholder="auto" step="0.01" readonly><span class="unit">ratio</span></div>
+      <div class="computed" id="tg_hdl_label">&nbsp;</div>
+    </div>
+  </div>
+
+  <div class="band purple" style="margin-top:.25rem;">
+    <div class="band-body">
+      <div class="band-title">🔬 Insulinorésistance</div>
+    </div>
+  </div>
+  <div class="g2">
+    <div class="field">
+      <label>Insulinémie à jeun</label>
+      <div class="fr"><input type="number" id="insuline" placeholder="8.5" step="0.1" oninput="computeHOMA()"><span class="unit">µUI/mL</span></div>
+    </div>
+    <div class="field">
+      <label>HOMA-IR <span style="font-weight:400;font-size:.68rem">(calculé)</span></label>
+      <div class="fr"><input type="number" id="homa_ir" placeholder="auto" step="0.01" readonly><span class="unit">index</span></div>
+      <div class="computed" id="homa_label">&nbsp;</div>
+    </div>
+  </div>
+
+  <div class="src-tag">Analyses datées de : <input type="date" id="date_labo" style="display:inline-block;width:auto;padding:.25rem .5rem;font-size:.72rem;border:1px solid var(--border);border-radius:6px;"></div>
+</div>
+
+<!-- ═══ 6. LIFESTYLE NAPSO ═══ -->
+<div class="section-head">
+  <div class="section-icon act">🏃</div>
+  <span class="section-label">Lifestyle NAPSO™ — Activité</span>
+</div>
+<div class="card">
+  <div class="band orange">
+    <div class="band-body"><div class="band-title">💪 Activité physique — semaine passée</div></div>
+  </div>
+
+  <div class="field">
+    <label>Nombre de séances la semaine passée</label>
+    <div class="fr"><input type="number" id="act_freq" placeholder="3" min="0" max="21" step="1" oninput="computeNAPSO_Act()"><span class="unit">séances</span></div>
+  </div>
+  <div class="field">
+    <label>Durée moyenne par séance (dernière séance)</label>
+    <div class="fr"><input type="number" id="act_duree" placeholder="45" min="0" max="240" step="5" oninput="computeNAPSO_Act()"><span class="unit">min</span></div>
+  </div>
+  <div class="field">
+    <label>Type d'activité principale</label>
+    <div class="chips" id="act_type_chips">
+      <span class="chip" data-v="marche">Marche</span>
+      <span class="chip" data-v="course">Course</span>
+      <span class="chip" data-v="muscu">Musculation</span>
+      <span class="chip" data-v="sport_collectif">Sport collectif</span>
+      <span class="chip" data-v="velo">Vélo</span>
+      <span class="chip" data-v="natation">Natation</span>
+      <span class="chip" data-v="autre_act">Autre</span>
+    </div>
+    <input type="hidden" id="act_type" value="">
+  </div>
+
+  <div class="scale-wrap" style="margin-top:.5rem;">
+    <label>Intensité perçue lors de la dernière séance (RPE)</label>
+    <input type="range" id="act_rpe" min="1" max="10" value="5" step="1" oninput="document.getElementById('rpe_val').textContent=this.value;computeNAPSO_Act()">
+    <div class="scale-val" id="rpe_val">5</div>
+    <div class="scale-labels"><span>1 — Très facile</span><span>6 — Parle encore</span><span>10 — Maximal</span></div>
+  </div>
+
+  <div class="field" style="margin-top:.625rem;">
+    <label>Heures assis(e) par jour en moyenne</label>
+    <div class="fr"><input type="number" id="act_sedent" placeholder="8" min="0" max="18" step="0.5" oninput="computeNAPSO_Act()"><span class="unit">h/j</span></div>
+  </div>
+
+  <div class="computed" style="margin-top:.35rem;">Niveau activité NAPSO : <strong id="napso_act_label">—</strong></div>
+</div>
+
+<!-- SOMMEIL -->
+<div class="section-head">
+  <div class="section-icon slp">😴</div>
+  <span class="section-label">Lifestyle NAPSO™ — Sommeil</span>
+</div>
+<div class="card">
+  <div class="band navy">
+    <div class="band-body"><div class="band-title">🌙 Sommeil — semaine passée</div></div>
+  </div>
+
+  <div class="g2">
+    <div class="field">
+      <label>Heure de coucher habituelle</label>
+      <input type="time" id="slp_coucher" value="22:30" oninput="computeNAPSO_Sleep()">
+    </div>
+    <div class="field">
+      <label>Heure de lever habituelle</label>
+      <input type="time" id="slp_lever" value="06:30" oninput="computeNAPSO_Sleep()">
+    </div>
+  </div>
+  <div class="computed">Durée estimée : <strong id="slp_duree_label">—</strong></div>
+
+  <div class="scale-wrap" style="margin-top:.75rem;">
+    <label>Temps pour vous endormir (minutes)</label>
+    <input type="range" id="slp_endorm" min="0" max="60" value="15" step="5" oninput="document.getElementById('endorm_val').textContent=this.value+' min';computeNAPSO_Sleep()">
+    <div class="scale-val" id="endorm_val" style="font-size:.95rem;">15 min</div>
+    <div class="scale-labels"><span>0 min</span><span>30 min</span><span>60 min</span></div>
+  </div>
+
+  <div class="field" style="margin-top:.25rem;">
+    <label>Réveils nocturnes par nuit</label>
+    <div class="chips" id="slp_reveils_chips">
+      <span class="chip active" data-v="0">0</span>
+      <span class="chip" data-v="1">1</span>
+      <span class="chip" data-v="2">2</span>
+      <span class="chip" data-v="3+">3+</span>
+    </div>
+    <input type="hidden" id="slp_reveils" value="0">
+  </div>
+
+  <div class="scale-wrap" style="margin-top:.5rem;">
+    <label>Qualité du réveil (comment vous sentez-vous au lever ?)</label>
+    <input type="range" id="slp_qualite" min="1" max="5" value="3" step="1" oninput="document.getElementById('slp_q_val').textContent=SLP_Q[this.value-1];computeNAPSO_Sleep()">
+    <div class="scale-val" id="slp_q_val" style="font-size:.78rem;font-family:'Poppins',sans-serif;font-weight:600;color:var(--navy);">Neutre</div>
+    <div class="scale-labels"><span>Épuisé(e)</span><span></span><span>Parfaitement reposé(e)</span></div>
+  </div>
+
+  <div class="field" style="margin-top:.5rem;">
+    <label>Extinction des écrans avant le sommeil</label>
+    <div class="chips" id="ecran_chips">
+      <span class="chip" data-v="0">Pas d'écran avant dormir</span>
+      <span class="chip active" data-v="30">30 min avant</span>
+      <span class="chip" data-v="60">1h avant</span>
+      <span class="chip" data-v="non">Pas de routine</span>
+    </div>
+    <input type="hidden" id="slp_ecrans" value="30">
+  </div>
+
+  <div class="field">
+    <label>Chronotype</label>
+    <div class="chips" id="chrono_chips">
+      <span class="chip active" data-v="intermediaire">Intermédiaire</span>
+      <span class="chip" data-v="couche_tot">Couche-tôt 🌅</span>
+      <span class="chip" data-v="couche_tard">Couche-tard 🦉</span>
+    </div>
+    <input type="hidden" id="slp_chronotype" value="intermediaire">
+  </div>
+
+  <div class="computed" style="margin-top:.35rem;">Niveau sommeil NAPSO : <strong id="napso_slp_label">—</strong></div>
+</div>
+
+<!-- STRESS -->
+<div class="section-head">
+  <div class="section-icon str">🧠</div>
+  <span class="section-label">Lifestyle NAPSO™ — Stress</span>
+</div>
+<div class="card">
+  <div class="info">📋 Les 4 questions suivantes sont basées sur l'échelle PSS-4 (Perceived Stress Scale), validée scientifiquement. Référez-vous aux <strong>4 dernières semaines</strong>.</div>
+
+  <div class="band amber">
+    <div class="band-body"><div class="band-title">🧠 Échelle de stress perçu — PSS-4</div></div>
+  </div>
+
+  <div class="field" style="margin-top:.25rem;">
+    <label>1. Vous êtes-vous senti(e) dépassé(e) par les événements ?</label>
+    <div class="chips" id="pss1_chips">
+      <span class="chip" data-v="0">Jamais</span>
+      <span class="chip active" data-v="1">Rarement</span>
+      <span class="chip" data-v="2">Parfois</span>
+      <span class="chip" data-v="3">Souvent</span>
+      <span class="chip" data-v="4">Très souvent</span>
+    </div>
+    <input type="hidden" id="pss1" value="1">
+  </div>
+
+  <div class="field">
+    <label>2. Avez-vous eu du mal à contrôler les choses importantes de votre vie ?</label>
+    <div class="chips" id="pss2_chips">
+      <span class="chip" data-v="0">Jamais</span>
+      <span class="chip active" data-v="1">Rarement</span>
+      <span class="chip" data-v="2">Parfois</span>
+      <span class="chip" data-v="3">Souvent</span>
+      <span class="chip" data-v="4">Très souvent</span>
+    </div>
+    <input type="hidden" id="pss2" value="1">
+  </div>
+
+  <div class="field">
+    <label>3. Vous êtes-vous senti(e) confiant(e) dans votre capacité à gérer vos problèmes ? <em style="font-size:.68rem;color:var(--green)">(score inversé)</em></label>
+    <div class="chips" id="pss3_chips">
+      <span class="chip" data-v="4">Jamais</span>
+      <span class="chip" data-v="3">Rarement</span>
+      <span class="chip" data-v="2">Parfois</span>
+      <span class="chip active" data-v="1">Souvent</span>
+      <span class="chip" data-v="0">Très souvent</span>
+    </div>
+    <input type="hidden" id="pss3" value="1">
+  </div>
+
+  <div class="field">
+    <label>4. Avez-vous senti que les difficultés s'accumulaient au point de ne plus pouvoir les surmonter ?</label>
+    <div class="chips" id="pss4_chips">
+      <span class="chip" data-v="0">Jamais</span>
+      <span class="chip active" data-v="1">Rarement</span>
+      <span class="chip" data-v="2">Parfois</span>
+      <span class="chip" data-v="3">Souvent</span>
+      <span class="chip" data-v="4">Très souvent</span>
+    </div>
+    <input type="hidden" id="pss4" value="1">
+  </div>
+
+  <div class="computed" style="margin-top:.35rem;">Score PSS-4 : <strong id="pss_score_label">—</strong></div>
+
+  <div class="field" style="margin-top:.75rem;">
+    <label>Source de stress dominante</label>
+    <div class="chips" id="stress_src_chips">
+      <span class="chip" data-v="pro">Professionnel</span>
+      <span class="chip" data-v="familial">Familial</span>
+      <span class="chip" data-v="financier">Financier</span>
+      <span class="chip" data-v="sante">Santé</span>
+      <span class="chip" data-v="combine">Combiné</span>
+      <span class="chip" data-v="autre_stress">Autre</span>
+    </div>
+    <input type="hidden" id="stress_source" value="">
+  </div>
+
+  <div class="field">
+    <label>Signes physiques associés (cochez tout ce qui s'applique)</label>
+    <div class="chips" id="stress_signes_chips" style="gap:.35rem;">
+      <span class="chip" data-v="nuque">Tension nuque/épaules</span>
+      <span class="chip" data-v="cephalees">Maux de tête</span>
+      <span class="chip" data-v="digestion">Digestion difficile</span>
+      <span class="chip" data-v="palpitations">Palpitations</span>
+      <span class="chip" data-v="insomnie">Insomnie</span>
+      <span class="chip" data-v="aucun">Aucun</span>
+    </div>
+    <input type="hidden" id="stress_signes" value="">
+  </div>
+
+  <div class="computed" style="margin-top:.35rem;">Niveau stress NAPSO : <strong id="napso_str_label">—</strong></div>
+</div>
+
+<!-- ═══ 7. RESSENTI ═══ -->
+<div class="section-head">
+  <div class="section-icon feel">💬</div>
+  <span class="section-label">Votre ressenti</span>
+</div>
+<div class="card">
+  <div class="g2">
+    <div class="scale-wrap">
+      <label>Énergie aujourd'hui (1–10)</label>
+      <input type="range" id="energie" min="1" max="10" value="5" step="1" oninput="document.getElementById('energie_val').textContent=this.value">
+      <div class="scale-val" id="energie_val">5</div>
+    </div>
+    <div class="scale-wrap">
+      <label>Niveau de faim (1–10)</label>
+      <input type="range" id="faim" min="1" max="10" value="5" step="1" oninput="document.getElementById('faim_val').textContent=this.value">
+      <div class="scale-val" id="faim_val">5</div>
+    </div>
+  </div>
+  <div class="field" style="margin-top:.25rem;">
+    <label>Commentaire pour votre nutritionniste</label>
+    <textarea id="commentaire" placeholder="Comment vous sentez-vous ? Difficultés, questions, observations..." style="width:100%;padding:.65rem .875rem;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:'Poppins',sans-serif;font-size:.85rem;resize:vertical;min-height:80px;outline:none;"></textarea>
+  </div>
+</div>
+
+<!-- SUBMIT -->
+<div class="submit-area">
+  <button class="btn-submit" id="submit-btn" onclick="envoyerDonnees()">
+    🚀 Envoyer mon bilan à Gevlon
+  </button>
+  <button class="wa-btn" onclick="confirmerWA()">
+    📲 Confirmer aussi via WhatsApp
+  </button>
+</div>
+
+</div><!-- /main -->
+
+<script>
+// ── Init ───────────────────────────────────────────────
+document.getElementById('date_mesure').value = new Date().toISOString().split('T')[0];
+var SLP_Q = ['Épuisé(e)','Fatigué(e)','Neutre','Reposé(e)','Parfaitement reposé(e)'];
+
+// ── Progress bar ───────────────────────────────────────
+function updateProgress() {
+  var fields = ['whatsapp','poids','taille','sys','dia'];
+  var filled = fields.filter(function(id){ var v = document.getElementById(id); return v && v.value; }).length;
+  document.getElementById('progress-fill').style.width = Math.round((filled/fields.length)*100) + '%';
+}
+document.querySelectorAll('input,select,textarea').forEach(function(el){
+  el.addEventListener('input', updateProgress);
+});
+
+// ── CHIP logic (single select) ─────────────────────────
+function initChips(containerId, hiddenId, multi) {
+  var c = document.getElementById(containerId);
+  if (!c) return;
+  c.querySelectorAll('.chip').forEach(function(chip){
+    chip.addEventListener('click', function(){
+      if (multi) {
+        chip.classList.toggle('active');
+        var vals = Array.from(c.querySelectorAll('.chip.active')).map(function(ch){ return ch.dataset.v; });
+        document.getElementById(hiddenId).value = vals.join(',');
+      } else {
+        c.querySelectorAll('.chip').forEach(function(ch){ ch.classList.remove('active'); });
+        chip.classList.add('active');
+        document.getElementById(hiddenId).value = chip.dataset.v;
+      }
+      if (containerId.startsWith('pss')) computeNAPSO_Stress();
+      if (containerId === 'slp_reveils_chips' || containerId === 'ecran_chips' || containerId === 'chrono_chips') computeNAPSO_Sleep();
+    });
+  });
+}
+initChips('act_type_chips','act_type',false);
+initChips('slp_reveils_chips','slp_reveils',false);
+initChips('ecran_chips','slp_ecrans',false);
+initChips('chrono_chips','slp_chronotype',false);
+initChips('stress_src_chips','stress_source',false);
+initChips('stress_signes_chips','stress_signes',true);
+initChips('pss1_chips','pss1',false);
+initChips('pss2_chips','pss2',false);
+initChips('pss3_chips','pss3',false);
+initChips('pss4_chips','pss4',false);
+
+// ── Computed fields ────────────────────────────────────
+function computeAll() {
+  computeIMC();
+  computeRTH();
+  computeCompo();
+}
+
+function computeIMC() {
+  var p = parseFloat(document.getElementById('poids').value);
+  var t = parseFloat(document.getElementById('taille').value);
+  if (!isNaN(t) && t > 0 && t < 3) { t = Math.round(t * 100); document.getElementById('taille').value = t; }
+  if (!isNaN(p) && !isNaN(t) && t > 0) {
+    var imc = p / Math.pow(t/100, 2);
+    document.getElementById('imc').value = imc.toFixed(1);
+    var lbl = imc < 18.5 ? '⚠️ Insuffisance pondérale' : imc < 25 ? '✅ Poids normal' : imc < 30 ? '⚠️ Surpoids' : imc < 35 ? '🔴 Obésité modérée' : '🔴 Obésité sévère';
+    document.getElementById('imc_label').innerHTML = '<strong>' + lbl + '</strong>';
+  }
+}
+
+function computeRTH() {
+  var tt = parseFloat(document.getElementById('tour_taille').value);
+  var th = parseFloat(document.getElementById('tour_hanches').value);
+  if (!isNaN(tt) && !isNaN(th) && th > 0) {
+    var r = (tt / th).toFixed(2);
+    document.getElementById('rth').value = r;
+    var sexe = document.getElementById('sexe').value;
+    var risk = (sexe === 'F' && r > 0.85) || (sexe === 'H' && r > 0.90) || (!sexe && r > 0.88);
+    document.getElementById('rth_label').innerHTML = '<strong>' + (risk ? '🔴 Risque abdominale élevé' : '✅ Ratio normal') + '</strong>';
+  }
+}
+
+function computeCompo() {
+  var p = parseFloat(document.getElementById('poids').value);
+  var mgp = parseFloat(document.getElementById('mg_pct').value);
+  if (!isNaN(p) && !isNaN(mgp)) {
+    var mgkg = (p * mgp / 100).toFixed(1);
+    var mmkg = (p - parseFloat(mgkg)).toFixed(1);
+    document.getElementById('mg_kg').value = mgkg;
+    document.getElementById('mm_kg').value = mmkg;
+  }
+  var gv = parseFloat(document.getElementById('gv_indice').value);
+  if (!isNaN(gv)) {
+    var gl = gv <= 9 ? '✅ Normal' : gv <= 14 ? '⚠️ Élevé' : '🔴 Très élevé — risque métabolique';
+    document.getElementById('gv_label').innerHTML = '<strong>' + gl + '</strong>';
+  }
+}
+
+function computeTension() {
+  var s = parseFloat(document.getElementById('sys').value);
+  var d = parseFloat(document.getElementById('dia').value);
+  if (isNaN(s) || isNaN(d)) return;
+  var t = s >= 140 || d >= 90 ? '🔴 HTA — consultez un médecin' : s >= 130 || d >= 85 ? '⚠️ Normale haute' : s >= 120 ? '✅ Normale' : '✅ Optimale';
+  document.getElementById('ta_label').textContent = t;
+}
+
+function computeGlycemie() {
+  var g = parseFloat(document.getElementById('glycemie').value);
+  var u = document.getElementById('glycemie_unite').value;
+  if (isNaN(g)) return;
+  var mmol = u === 'mgdl' ? g / 18.0182 : g;
+  var t = mmol < 3.9 ? '🔴 Hypoglycémie' : mmol <= 5.5 ? '✅ Normale' : mmol <= 7.0 ? '⚠️ Légèrement élevée' : '🔴 Élevée — signalez à votre nutritionniste';
+  document.getElementById('gluco_label').textContent = t;
+}
+
+function computeAU() {
+  var a = parseFloat(document.getElementById('au').value);
+  var u = document.getElementById('au_unite').value;
+  var s = document.getElementById('sexe').value;
+  if (isNaN(a)) return;
+  var umol = u === 'mgdl' ? a * 59.485 : a;
+  var lim = s === 'F' ? 360 : 420;
+  document.getElementById('au_label').textContent = umol <= lim ? '✅ Normal' : '⚠️ Élevé — hyperuricémie';
+}
+
+function computeCeto() {
+  var c = parseFloat(document.getElementById('ceto').value);
+  if (isNaN(c)) return;
+  var t = c < 0.5 ? 'Pas de cétose' : c <= 1.0 ? '🟡 Légère' : c <= 3.0 ? '✅ Cétose nutritionnelle optimale' : c <= 5.0 ? '⚠️ Élevée' : '🔴 Très élevée — consultez';
+  document.getElementById('ceto_label').textContent = t;
+}
+
+function computeGAJ() {
+  var g = parseFloat(document.getElementById('gaj_labo').value);
+  if (isNaN(g)) return;
+  var t = g < 5.6 ? '✅ Normale (&lt;5.6)' : g < 7.0 ? '⚠️ Prédiabète (5.6–6.9)' : '🔴 Diabète probable (≥7.0) — avis médical';
+  document.getElementById('gaj_label').innerHTML = '<strong>' + t + '</strong>';
+}
+
+function computeHbA1c() {
+  var h = parseFloat(document.getElementById('hba1c').value);
+  if (isNaN(h)) return;
+  var t = h < 5.7 ? '✅ Normale (&lt;5.7%)' : h < 6.5 ? '⚠️ Prédiabète (5.7–6.4%)' : '🔴 Diabète probable (≥6.5%) — avis médical';
+  document.getElementById('hba1c_label').innerHTML = '<strong>' + t + '</strong>';
+}
+
+function computeLipides() {
+  var tg = parseFloat(document.getElementById('tg').value);
+  var hdl = parseFloat(document.getElementById('hdl').value);
+  if (!isNaN(tg) && !isNaN(hdl) && hdl > 0) {
+    var r = (tg / hdl).toFixed(2);
+    document.getElementById('tg_hdl').value = r;
+    var t = r < 1.8 ? '✅ Excellent — faible résistance insulinique' : r < 2.5 ? '✅ Bon' : r < 3.5 ? '⚠️ Modéré — surveiller' : '🔴 Élevé — insulinorésistance probable';
+    document.getElementById('tg_hdl_label').innerHTML = '<strong>' + t + '</strong>';
+  }
+}
+
+function computeHOMA() {
+  var ins = parseFloat(document.getElementById('insuline').value);
+  var gaj = parseFloat(document.getElementById('gaj_labo').value);
+  if (!isNaN(ins) && !isNaN(gaj)) {
+    var homa = (ins * gaj / 22.5).toFixed(2);
+    document.getElementById('homa_ir').value = homa;
+    var t = homa < 1.0 ? '✅ Normal — bonne sensibilité insulinique' : homa < 2.5 ? '⚠️ Légère résistance' : homa < 5.0 ? '🔴 Résistance modérée' : '🔴 Résistance sévère — avis médical urgent';
+    document.getElementById('homa_label').innerHTML = '<strong>' + t + '</strong>';
+  }
+}
+
+// ── NAPSO Scoring ──────────────────────────────────────
+function computeNAPSO_Act() {
+  var freq = parseFloat(document.getElementById('act_freq').value) || 0;
+  var dur  = parseFloat(document.getElementById('act_duree').value) || 0;
+  var rpe  = parseFloat(document.getElementById('act_rpe').value) || 5;
+  var sed  = parseFloat(document.getElementById('act_sedent').value);
+  var score = freq * Math.min(dur/45, 2) * (rpe/10);
+  var lvl = score < 0.5 ? '🔴 Sédentaire' : score < 2 ? '⚠️ Actif modéré' : score < 5 ? '✅ Actif régulier' : '⭐ Très actif';
+  var sedNote = !isNaN(sed) && sed >= 8 ? ' | ⚠️ Sédentarité résiduelle élevée (' + sed + 'h/j)' : '';
+  document.getElementById('napso_act_label').textContent = lvl + sedNote;
+}
+
+function computeNAPSO_Sleep() {
+  var coucher = document.getElementById('slp_coucher').value;
+  var lever   = document.getElementById('slp_lever').value;
+  if (coucher && lever) {
+    var ch = parseInt(coucher.split(':')[0]); var cm = parseInt(coucher.split(':')[1]);
+    var lh = parseInt(lever.split(':')[0]);   var lm = parseInt(lever.split(':')[1]);
+    var mins = (lh*60+lm) - (ch*60+cm);
+    if (mins < 0) mins += 1440;
+    var h = Math.floor(mins/60); var m = mins % 60;
+    document.getElementById('slp_duree_label').textContent = h + 'h' + (m ? m + 'min' : '') + (mins < 360 ? ' 🔴 Insuffisant' : mins < 420 ? ' ⚠️ Limite' : mins <= 540 ? ' ✅ Optimal' : ' ⚠️ Excessif');
+  }
+  var q = parseInt(document.getElementById('slp_qualite').value) || 3;
+  var rev = parseInt(document.getElementById('slp_reveils').value) || 0;
+  var score = q - rev;
+  var lvl = score >= 4 ? '✅ Sommeil récupérateur' : score >= 2 ? '⚠️ Qualité moyenne' : '🔴 Sommeil perturbé';
+  document.getElementById('napso_slp_label').textContent = lvl;
+}
+
+function computeNAPSO_Stress() {
+  var ids = ['pss1','pss2','pss3','pss4'];
+  var total = ids.reduce(function(s,id){ return s + (parseInt(document.getElementById(id).value)||0); }, 0);
+  var lvl = total <= 5 ? '✅ Faible ('+total+'/16)' : total <= 9 ? '⚠️ Modéré ('+total+'/16)' : total <= 13 ? '🔴 Élevé ('+total+'/16)' : '🔴 Critique ('+total+'/16) — charge allostasique maximale';
+  document.getElementById('pss_score_label').textContent = lvl;
+  document.getElementById('napso_str_label').textContent = lvl;
+}
+
+// ── Envoi données ──────────────────────────────────────
+function envoyerDonnees() {
+  var wa = document.getElementById('whatsapp').value.trim().replace(/[^0-9]/g,'');
+  var p  = document.getElementById('poids').value;
+  if (!wa) { alert('Entrez votre numéro WhatsApp pour continuer.'); return; }
+  if (!p)  { alert('Entrez votre poids.'); return; }
+  var btn = document.getElementById('submit-btn');
+  btn.disabled = true; btn.textContent = '⏳ Envoi en cours...';
+
+  var data = {
+    type: 'bilan_cardiometabolique',
+    source: 'client_autonome',
+    // Identification
+    whatsapp: wa,
+    prenom: document.getElementById('prenom').value,
+    date_mesure: document.getElementById('date_mesure').value,
+    age: document.getElementById('age').value,
+    sexe: document.getElementById('sexe').value,
+    // Anthropométrie
+    poids: p,
+    taille: document.getElementById('taille').value,
+    imc: document.getElementById('imc').value,
+    tour_taille: document.getElementById('tour_taille').value,
+    tour_hanches: document.getElementById('tour_hanches').value,
+    rapport_taille_hanche: document.getElementById('rth').value,
+    tour_bras: document.getElementById('tour_bras').value,
+    tour_cuisse: document.getElementById('tour_cuisse').value,
+    // Composition
+    mg_pct: document.getElementById('mg_pct').value,
+    mg_kg: document.getElementById('mg_kg').value,
+    mm_kg: document.getElementById('mm_kg').value,
+    muscle_kg: document.getElementById('muscle_kg').value,
+    graisse_viscerale: document.getElementById('gv_indice').value,
+    // YASEE
+    tension_sys: document.getElementById('sys').value,
+    tension_dia: document.getElementById('dia').value,
+    glycemie: document.getElementById('glycemie').value,
+    glycemie_unite: document.getElementById('glycemie_unite').value,
+    glycemie_contexte: document.getElementById('glycemie_ctx').value,
+    acide_urique: document.getElementById('au').value,
+    acide_urique_unite: document.getElementById('au_unite').value,
+    cetonemie: document.getElementById('ceto').value,
+    cetonemie_contexte: document.getElementById('ceto_ctx').value,
+    source_yasee: document.getElementById('auto_yasee').value,
+    // Labo
+    glycemie_jeun_labo: document.getElementById('gaj_labo').value,
+    hba1c: document.getElementById('hba1c').value,
+    triglycerides: document.getElementById('tg').value,
+    hdl: document.getElementById('hdl').value,
+    ratio_tg_hdl: document.getElementById('tg_hdl').value,
+    insulinemie: document.getElementById('insuline').value,
+    homa_ir: document.getElementById('homa_ir').value,
+    date_labo: document.getElementById('date_labo').value,
+    // NAPSO Activité
+    act_frequence: document.getElementById('act_freq').value,
+    act_duree: document.getElementById('act_duree').value,
+    act_type: document.getElementById('act_type').value,
+    act_rpe: document.getElementById('act_rpe').value,
+    act_sedentarite_h: document.getElementById('act_sedent').value,
+    // NAPSO Sommeil
+    slp_coucher: document.getElementById('slp_coucher').value,
+    slp_lever: document.getElementById('slp_lever').value,
+    slp_endormissement_min: document.getElementById('slp_endorm').value,
+    slp_reveils: document.getElementById('slp_reveils').value,
+    slp_qualite_reveil: document.getElementById('slp_qualite').value,
+    slp_ecrans: document.getElementById('slp_ecrans').value,
+    slp_chronotype: document.getElementById('slp_chronotype').value,
+    // NAPSO Stress PSS-4
+    pss1: document.getElementById('pss1').value,
+    pss2: document.getElementById('pss2').value,
+    pss3: document.getElementById('pss3').value,
+    pss4: document.getElementById('pss4').value,
+    stress_source: document.getElementById('stress_source').value,
+    stress_signes: document.getElementById('stress_signes').value,
+    // Ressenti
+    energie: document.getElementById('energie').value,
+    faim: document.getElementById('faim').value,
+    commentaire: document.getElementById('commentaire').value
+  };
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', 'https://hook.eu1.make.com/h96s5ywsuuoah4rz5q7jkc3xqs35ebjn', true);
+  xhr.setRequestHeader('Content-Type','application/json');
+  xhr.onreadystatechange = function(){
+    if (xhr.readyState === 4) {
+      document.getElementById('success-banner').style.display = 'block';
+      document.getElementById('success-banner').scrollIntoView({behavior:'smooth'});
+      btn.disabled = false;
+      btn.textContent = '✅ Envoyé — Renvoyer';
+    }
+  };
+  xhr.send(JSON.stringify(data));
+}
+
+function confirmerWA() {
+  var wa  = document.getElementById('whatsapp').value || '?';
+  var p   = document.getElementById('poids').value || '?';
+  var sys = document.getElementById('sys').value;
+  var dia = document.getElementById('dia').value;
+  var d   = document.getElementById('date_mesure').value;
+  var msg = '🩺 Bonjour Gevlon ! Bilan du ' + d + ' :\n\n';
+  msg += '📱 WhatsApp : ' + wa + '\n';
+  msg += '⚖️ Poids : ' + p + ' kg\n';
+  if (document.getElementById('imc').value) msg += '📊 IMC : ' + document.getElementById('imc').value + ' kg/m²\n';
+  if (document.getElementById('tour_taille').value) msg += '📐 Tour de taille : ' + document.getElementById('tour_taille').value + ' cm\n';
+  if (sys && dia) msg += '❤️ Tension : ' + sys + '/' + dia + ' mmHg\n';
+  if (document.getElementById('glycemie').value) msg += '🩸 Glycémie : ' + document.getElementById('glycemie').value + ' ' + document.getElementById('glycemie_unite').value + '\n';
+  if (document.getElementById('ceto').value) msg += '⚡ Cétonémie : ' + document.getElementById('ceto').value + ' mmol/L\n';
+  if (document.getElementById('hba1c').value) msg += '🔬 HbA1c : ' + document.getElementById('hba1c').value + '%\n';
+  if (document.getElementById('commentaire').value) msg += '\n💬 ' + document.getElementById('commentaire').value;
+  window.open('https://wa.me/22952798080?text=' + encodeURIComponent(msg), '_blank');
+}
+</script>
+</body>
+</html>
