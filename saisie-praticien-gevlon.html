@@ -128,6 +128,7 @@ body{font-family:'Poppins',sans-serif;background:#F0F4FA;color:var(--dark);min-h
     <input type="tel" id="whatsapp" placeholder="+229 01 XX XX XX XX" oninput="genHash()">
     <div class="id-hash" id="hash_display">GEV-????</div>
     <button class="load-btn" onclick="chargerClient()">⬇ Charger</button>
+    <button class="load-btn" style="background:#7A1F1F" onclick="reinitialiserFiche()">🗑 Vider tout</button>
   </div>
 
   <div class="load-banner" id="loadBanner"></div>
@@ -571,6 +572,40 @@ body{font-family:'Poppins',sans-serif;background:#F0F4FA;color:var(--dark);min-h
 <script>
 // ── HASH WHATSAPP ──────────────────────────────────────────────
 const GEVLON_API = 'https://script.google.com/macros/s/AKfycbz5fXTf-PI_U80Wu4A3HpS27SL4GuoAYuA_DGikCg_m6AlDi3bTT3JiAUQ8fvMXHXMp/exec';
+
+function reinitialiserFiche(){
+  if(!confirm('Vider tous les champs de la fiche ? Cette action est irréversible.')) return;
+
+  // Vider tous les champs texte/nombre/date/time/textarea
+  document.querySelectorAll('input[type="text"], input[type="number"], input[type="date"], input[type="time"], input[type="tel"], textarea').forEach(el=>{
+    el.value='';
+  });
+
+  // Remettre les select à leur première option
+  document.querySelectorAll('select').forEach(el=>{ el.selectedIndex=0; });
+
+  // Décocher toutes les chips sélectionnées
+  document.querySelectorAll('.chip.sel-ok').forEach(chip=>{ chip.classList.remove('sel-ok'); });
+
+  // Masquer l'alerte apnée
+  const alertEl=document.getElementById('apnee_alert');
+  if(alertEl) alertEl.style.display='none';
+
+  // Réinitialiser hash et bannière
+  document.getElementById('hash_display').textContent='GEV-????';
+  const banner=document.getElementById('loadBanner');
+  banner.className='load-banner';
+  banner.textContent='🗑 Fiche réinitialisée — prête pour un nouveau test.';
+  banner.style.display='block';
+
+  // Masquer un éventuel plan généré précédemment
+  const planOut=document.getElementById('planResult');
+  if(planOut) planOut.textContent='';
+  const copyBtn=document.getElementById('copyBtn');
+  if(copyBtn) copyBtn.style.display='none';
+
+  window.scrollTo({top:0, behavior:'smooth'});
+}
 
 async function chargerClient(){
   const wa = document.getElementById('whatsapp').value.trim();
