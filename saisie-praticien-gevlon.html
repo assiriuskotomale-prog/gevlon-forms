@@ -673,6 +673,10 @@ async function chargerClient(){
       if(q.cuisine) nutr.push('Cuisine : '+String(q.cuisine).replace(/_/g,' '));
       if(q.nb_repas) nutr.push('Repas/jour : '+q.nb_repas);
       if(q.grignotage) nutr.push('Grignotage : '+q.grignotage);
+      // Câblage direct des selects résumés
+      if(q.nb_repas){const r=gs('h_repas'); if(r){const val=String(q.nb_repas)>='4'?'4+':String(q.nb_repas); if([...r.options].some(o=>o.value===val||o.textContent===val)) r.value=val;}}
+      if(q.grignotage){const gr=gs('h_grigno'); if(gr && [...gr.options].some(o=>o.value===q.grignotage)) gr.value=q.grignotage;}
+      if(q.alcool){const al=gs('h_alcool'); if(al && [...al.options].some(o=>o.value===q.alcool)) al.value=q.alcool;}
       if(q.repas_apres) nutr.push('Repas après 20h : '+q.repas_apres);
       if(q.boissons_sucrees) nutr.push('Boissons sucrées : '+q.boissons_sucrees);
       if(nutr.length) sv('h_rappel24', nutr.join('\n'));
@@ -804,6 +808,43 @@ async function chargerClient(){
       svm('h_acttype_precis', m.act_type);
       svm('h_actrpe', m.act_rpe);
       svm('h_actsedent', m.act_sedentarite_h);
+
+      // Câblage des selects résumés Habitudes depuis les données NAPSO précises
+      if(m.act_frequence!==undefined){
+        const aj=g('h_actjours');
+        if(aj){const n=parseInt(m.act_frequence); const val=isNaN(n)?'':(n>=5?'5+':String(n)); if([...aj.options].some(o=>o.value===val)) aj.value=val;}
+      }
+      if(m.act_type){
+        const at=g('h_acttype');
+        const atMap={'sport_collectif':'Sport (gym, fitness)','marche':'Marche / déplacements','musculation':'Sport (gym, fitness)','travail_physique':'Travail physique'};
+        if(at){const mapped=atMap[m.act_type]; if(mapped && [...at.options].some(o=>o.value===mapped)) at.value=mapped;}
+      }
+      if(m.act_sedentarite_h!==undefined){
+        const sj=g('h_sedjours');
+        const h=parseFloat(m.act_sedentarite_h);
+        if(sj && !isNaN(h)){
+          const val = h<2?'Moins de 2h':h<4?'2–4h':h<6?'4–6h':h<8?'6–8h':'Plus de 8h';
+          if([...sj.options].some(o=>o.value===val)) sj.value=val;
+        }
+      }
+      if(m.slp_coucher && m.slp_lever){
+        const so=g('h_sommeil');
+        const toMin=t=>{const [h,mi]=String(t).split(':').map(Number); return (isNaN(h)||isNaN(mi))?null:h*60+mi;};
+        const c=toMin(m.slp_coucher), l=toMin(m.slp_lever);
+        if(so && c!==null && l!==null){
+          let dur=l-c; if(dur<0) dur+=1440; const hrs=dur/60;
+          const val = hrs<5?'Moins de 5h':hrs<6?'5–6h':hrs<7?'6–7h':hrs<8?'7–8h':'Plus de 8h';
+          if([...so.options].some(o=>o.value===val)) so.value=val;
+        }
+      }
+      if(m.slp_qualite_reveil!==undefined){
+        const qs=g('h_qualsom');
+        const q5=parseInt(m.slp_qualite_reveil);
+        if(qs && !isNaN(q5)){
+          const val = q5<=1?'Mauvaise':q5<=2?'Mauvaise':q5===3?'Moyenne':q5===4?'Bonne':'Excellente';
+          if([...qs.options].some(o=>o.value===val)) qs.value=val;
+        }
+      }
 
       // NAPSO Sommeil
       svm('h_coucher', m.slp_coucher);
