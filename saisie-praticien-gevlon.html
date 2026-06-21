@@ -594,7 +594,7 @@ async function chargerClient(){
       if(q.profession) sv('p_prof', String(q.profession).replace(/_/g,' '));
       if(q.sexe){const s=gs('p_sexe');if(s)s.value=(q.sexe==='Femme'||q.sexe==='F')?'F':'M';}
       sv('p_motiv', q.niveau_motivation);
-      sv('p_stress', q.niveau_stress);
+      // p_stress est désormais dérivé du score PSS-4 (voir bloc mesures plus bas)
 
       // Objectif — mapper les codes vers les options du select
       if(q.objectif_principal){
@@ -784,6 +784,9 @@ async function chargerClient(){
       if(m.pss1!==undefined && m.pss2!==undefined && m.pss3!==undefined && m.pss4!==undefined){
         const pssTotal = (parseInt(m.pss1)||0)+(4-(parseInt(m.pss2)||0))+(4-(parseInt(m.pss3)||0))+(parseInt(m.pss4)||0);
         const pssEl=g('h_pss_total'); if(pssEl) pssEl.value=pssTotal;
+        // Conversion proportionnelle PSS-4 (0-16) → échelle résumé Stress perçu (0-10)
+        const stressEl=g('p_stress');
+        if(stressEl) stressEl.value=Math.round(pssTotal/16*10);
       }
       svm('h_stress_src_precis', m.stress_source);
       svm('h_stress_src', m.stress_source);
