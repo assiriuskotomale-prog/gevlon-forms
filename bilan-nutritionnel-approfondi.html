@@ -304,9 +304,17 @@
   <div class="qcard">
     <div class="qcard-top"><div class="qnum">3</div><div><div class="qlabel">Numéro WhatsApp <span class="req">*</span></div><div class="qhint">Ce numéro est votre identifiant unique — utilisez le même numéro à chaque séance de mesure.</div></div></div>
     <input type="tel" name="whatsapp" id="wa_field" placeholder="+229 01 XX XX XX XX" required
-  oninput="autoGenRef(); this.value=this.value.replace(/[^0-9]/g,'');"
-  onpaste="setTimeout(()=>{this.value=this.value.replace(/[^0-9]/g,'');autoGenRef();},0)">
+  oninput="autoGenRef(); this.value=this.value.replace(/[^0-9]/g,''); checkWaMatchQMV();"
+  onpaste="setTimeout(()=>{this.value=this.value.replace(/[^0-9]/g,'');autoGenRef();checkWaMatchQMV();},0)">
 <div style="font-size:.75rem;color:var(--text-muted);margin-top:.3rem">Saisissez uniquement les chiffres — ex : 22901527980</div>
+  </div>
+
+  <div class="qcard">
+    <div class="qcard-top"><div class="qnum">3b</div><div><div class="qlabel">Confirmez le numéro WhatsApp <span class="req">*</span></div><div class="qhint">Resaisissez le même numéro pour confirmer.</div></div></div>
+    <input type="tel" id="wa_field_confirm" placeholder="Resaisissez le même numéro" required
+  oninput="this.value=this.value.replace(/[^0-9]/g,''); checkWaMatchQMV();"
+  onpaste="setTimeout(()=>{this.value=this.value.replace(/[^0-9]/g,'');checkWaMatchQMV();},0)">
+<div id="wa_match_msg_qmv" style="font-size:.75rem;margin-top:.3rem"></div>
   </div>
 
   <div class="qcard" style="background:var(--blue-light); border:1.5px solid rgba(0,48,143,0.15);">
@@ -1093,6 +1101,23 @@ function autoGenRef() {
   }
 }
 
+function checkWaMatchQMV() {
+  const wa = (document.getElementById('wa_field')?.value || '').replace(/[^0-9]/g,'');
+  const waConfirm = (document.getElementById('wa_field_confirm')?.value || '').replace(/[^0-9]/g,'');
+  const msg = document.getElementById('wa_match_msg_qmv');
+  if (!msg) return true;
+  if (!wa || !waConfirm) { msg.textContent = ''; return false; }
+  if (wa === waConfirm) {
+    msg.style.color = 'var(--green, #278A01)';
+    msg.textContent = '✓ Les deux numéros correspondent.';
+    return true;
+  } else {
+    msg.style.color = 'var(--red, #C0392B)';
+    msg.textContent = '✗ Les numéros ne correspondent pas. Vérifiez votre saisie.';
+    return false;
+  }
+}
+
 function updateUI() {
   for (let i = 1; i <= totalSections; i++) {
     document.getElementById(`section-${i}`).classList.toggle('active', i === currentSection);
@@ -1128,6 +1153,12 @@ function prevSection() {
 }
 
 function submitForm() {
+  const wa = (document.getElementById('wa_field')?.value || '').replace(/[^0-9]/g,'');
+  const waConfirm = (document.getElementById('wa_field_confirm')?.value || '').replace(/[^0-9]/g,'');
+  if (!wa) { alert('Entrez votre numéro WhatsApp pour continuer.'); return; }
+  if (!waConfirm) { alert('Confirmez votre numéro WhatsApp pour continuer.'); return; }
+  if (wa !== waConfirm) { alert('Les deux numéros WhatsApp saisis ne correspondent pas. Merci de vérifier avant de soumettre.'); return; }
+
   const nomInput = document.querySelector('input[name="nom_prenom"]');
   const prenom = nomInput ? nomInput.value.split(' ')[0] : '';
   document.getElementById('success-prenom').textContent = prenom;
