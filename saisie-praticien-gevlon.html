@@ -236,23 +236,23 @@ body{font-family:'Poppins',sans-serif;background:#F0F4FA;color:var(--dark);min-h
 
       <div class="pilier-label"><span class="pl-badge" style="background:#E6F1FB;color:#0C447C">Anthropométrie</span><div class="pl-line"></div></div>
       <div class="grid g3">
-        <div class="fg"><label>Taille (cm)</label><input id="b_taille" type="number" placeholder="161" oninput="calcIMC()"></div>
-        <div class="fg"><label>Poids (kg)</label><input id="b_poids" type="number" step="0.1" placeholder="65,9" oninput="calcIMC()"></div>
+        <div class="fg"><label>Taille (cm)</label><input id="b_taille" type="number" placeholder="—" oninput="calcIMC()"></div>
+        <div class="fg"><label>Poids (kg)</label><input id="b_poids" type="number" step="0.1" placeholder="—" oninput="calcIMC()"></div>
         <div class="fg"><label>IMC calculé</label><input id="b_imc" placeholder="—" readonly style="background:#f0f0f0;color:var(--ny);font-weight:600"></div>
       </div>
       <div id="imc_interp" class="interp info" style="display:none"></div>
 
       <div class="pilier-label" style="margin-top:14px"><span class="pl-badge" style="background:#EAF3DE;color:#27500A">Composition</span><div class="pl-line"></div></div>
       <div class="grid g4">
-        <div class="fg"><label>% Masse grasse</label><input id="b_pcg" type="number" step="0.1" placeholder="36,6" oninput="interpMG()"><div class="unit">BFR</div></div>
-        <div class="fg"><label>Masse grasse (kg)</label><input id="b_mg" type="number" step="0.1" placeholder="24,1"></div>
-        <div class="fg"><label>Masse maigre (kg)</label><input id="b_mm" type="number" step="0.1" placeholder="41,8"></div>
-        <div class="fg"><label>Graisse viscérale</label><input id="b_gv" type="number" step="0.1" placeholder="6" oninput="interpGV()"></div>
+        <div class="fg"><label>% Masse grasse</label><input id="b_pcg" type="number" step="0.1" placeholder="—" oninput="interpMG()"><div class="unit">BFR</div></div>
+        <div class="fg"><label>Masse grasse (kg)</label><input id="b_mg" type="number" step="0.1" placeholder="—"></div>
+        <div class="fg"><label>Masse maigre (kg)</label><input id="b_mm" type="number" step="0.1" placeholder="—"></div>
+        <div class="fg"><label>Graisse viscérale</label><input id="b_gv" type="number" step="0.1" placeholder="—" oninput="interpGV()"></div>
       </div>
       <div id="mg_interp" class="interp" style="display:none"></div>
 
       <div class="grid g4" style="margin-top:8px">
-        <div class="fg"><label>Masse musculaire (kg)</label><input id="b_muscle" type="number" step="0.1" placeholder="31,3"></div>
+        <div class="fg"><label>Masse musculaire (kg)</label><input id="b_muscle" type="number" step="0.1" placeholder="—"></div>
       </div>
     </div>
   </div>
@@ -267,13 +267,13 @@ body{font-family:'Poppins',sans-serif;background:#F0F4FA;color:var(--dark);min-h
     <div class="section-body">
       <div class="grid g3">
         <div class="fg"><label>Tour de taille (cm) <span style="color:var(--cp)">★</span></label><input id="c_taille" type="number" step="0.5" placeholder="—" oninput="interpTailleC()"></div>
-        <div class="fg"><label>Tour de hanche (cm)</label><input id="c_hanche" type="number" step="0.5" placeholder="89"></div>
+        <div class="fg"><label>Tour de hanche (cm)</label><input id="c_hanche" type="number" step="0.5" placeholder="—"></div>
         <div class="fg"><label>Rapport Taille/Hanche</label><input id="c_rth" placeholder="—" readonly style="background:#f0f0f0;color:var(--ny);font-weight:600"></div>
       </div>
       <div id="taille_interp" class="interp" style="display:none"></div>
       <div class="grid g2" style="margin-top:8px">
-        <div class="fg"><label>Tour de cuisse (cm)</label><input id="c_cuisse" type="number" step="0.5" placeholder="54"></div>
-        <div class="fg"><label>Tour de bras (cm)</label><input id="c_bras" type="number" step="0.5" placeholder="25"></div>
+        <div class="fg"><label>Tour de cuisse (cm)</label><input id="c_cuisse" type="number" step="0.5" placeholder="—"></div>
+        <div class="fg"><label>Tour de bras (cm)</label><input id="c_bras" type="number" step="0.5" placeholder="—"></div>
       </div>
     </div>
   </div>
@@ -290,7 +290,7 @@ body{font-family:'Poppins',sans-serif;background:#F0F4FA;color:var(--dark);min-h
       <div class="grid g2">
         <div class="fg">
           <label>Glycémie à jeun (mmol/L ou mg/dL)</label>
-          <input id="y_glyc" type="number" step="0.1" placeholder="Ex : 5,2 mmol/L ou 94 mg/dL" oninput="interpGlyc()">
+          <input id="y_glyc" type="number" step="0.1" placeholder="—" oninput="interpGlyc()">
           <div class="status-row" id="glyc_unit">
             <div class="chip sel-ok" onclick="selUnit(this,'mmol')">mmol/L</div>
             <div class="chip" onclick="selUnit(this,'mgdl')">mg/dL</div>
@@ -299,8 +299,8 @@ body{font-family:'Poppins',sans-serif;background:#F0F4FA;color:var(--dark);min-h
         <div class="fg">
           <label>Tension artérielle</label>
           <div style="display:flex;gap:6px;align-items:center">
-            <input id="y_tas" type="number" placeholder="120" style="flex:1"> <span style="font-size:12px;color:var(--mid)">/</span>
-            <input id="y_tad" type="number" placeholder="80" style="flex:1">
+            <input id="y_tas" type="number" placeholder="—" style="flex:1"> <span style="font-size:12px;color:var(--mid)">/</span>
+            <input id="y_tad" type="number" placeholder="—" style="flex:1">
           </div>
           <div class="unit">mmHg (sys / dia)</div>
           <div id="ta_interp" class="interp" style="display:none;margin-top:4px"></div>
@@ -309,7 +309,7 @@ body{font-family:'Poppins',sans-serif;background:#F0F4FA;color:var(--dark);min-h
       <div class="grid g2" style="margin-top:8px">
         <div class="fg">
           <label>Acide urique (µmol/L ou mg/dL)</label>
-          <input id="y_uric" type="number" step="0.1" placeholder="Ex : 350 µmol/L ou 5,9 mg/dL" oninput="interpUric()">
+          <input id="y_uric" type="number" step="0.1" placeholder="—" oninput="interpUric()">
           <div class="status-row" id="uric_unit">
             <div class="chip sel-ok" onclick="selUnitU(this,'umol')">µmol/L</div>
             <div class="chip" onclick="selUnitU(this,'mgdl')">mg/dL</div>
@@ -317,7 +317,7 @@ body{font-family:'Poppins',sans-serif;background:#F0F4FA;color:var(--dark);min-h
         </div>
         <div class="fg">
           <label>Cétonémie (mmol/L)</label>
-          <input id="y_ceto" type="number" step="0.1" placeholder="Ex : 0,3 mmol/L" oninput="interpCeto()">
+          <input id="y_ceto" type="number" step="0.1" placeholder="—" oninput="interpCeto()">
           <div id="ceto_interp" class="interp" style="display:none;margin-top:4px"></div>
         </div>
       </div>
@@ -430,17 +430,17 @@ body{font-family:'Poppins',sans-serif;background:#F0F4FA;color:var(--dark);min-h
     <div class="section-body">
       <div class="info-box">Renseigner uniquement si le client a fourni des analyses de laboratoire récentes.</div>
       <div class="grid g3">
-        <div class="fg"><label>Glycémie à jeun labo (mmol/L)</label><input id="lb_gaj" type="number" step="0.1" placeholder="5,4"></div>
-        <div class="fg"><label>HbA1c (%)</label><input id="lb_hba1c" type="number" step="0.1" placeholder="5,0"></div>
-        <div class="fg"><label>Triglycérides (mmol/L)</label><input id="lb_tg" type="number" step="0.1" placeholder="1,2"></div>
+        <div class="fg"><label>Glycémie à jeun labo (mmol/L)</label><input id="lb_gaj" type="number" step="0.1" placeholder="—"></div>
+        <div class="fg"><label>HbA1c (%)</label><input id="lb_hba1c" type="number" step="0.1" placeholder="—"></div>
+        <div class="fg"><label>Triglycérides (mmol/L)</label><input id="lb_tg" type="number" step="0.1" placeholder="—"></div>
       </div>
       <div class="grid g3" style="margin-top:8px">
-        <div class="fg"><label>HDL (mmol/L)</label><input id="lb_hdl" type="number" step="0.1" placeholder="1,3"></div>
-        <div class="fg"><label>Insulinémie (µUI/mL)</label><input id="lb_insuline" type="number" step="0.1" placeholder="8,5"></div>
-        <div class="fg"><label>HOMA-IR</label><input id="lb_homa" type="number" step="0.01" placeholder="2,04"></div>
+        <div class="fg"><label>HDL (mmol/L)</label><input id="lb_hdl" type="number" step="0.1" placeholder="—"></div>
+        <div class="fg"><label>Insulinémie (µUI/mL)</label><input id="lb_insuline" type="number" step="0.1" placeholder="—"></div>
+        <div class="fg"><label>HOMA-IR</label><input id="lb_homa" type="number" step="0.01" placeholder="—"></div>
       </div>
       <div class="grid g2" style="margin-top:8px">
-        <div class="fg"><label>Ratio TG/HDL</label><input id="lb_ratio" type="number" step="0.01" placeholder="0,92"></div>
+        <div class="fg"><label>Ratio TG/HDL</label><input id="lb_ratio" type="number" step="0.01" placeholder="—"></div>
         <div class="fg"><label>Date des analyses</label><input id="lb_date" type="date"></div>
       </div>
     </div>
@@ -799,6 +799,8 @@ async function chargerClient(){
 
       try{ calcIMC(); interpMG(); interpGV(); interpTailleC(); calcRTH(); interpTa(); interpGlyc(); interpUric(); interpCeto(); }catch(e){}
       msg+=' mesures ('+(m.date_mesure||'')+') ✓';
+    } else {
+      msg+=' — ⚠ aucun Bilan Biométrique soumis pour ce numéro (Balance/Centisouple/YASEE/Labo/NAPSO restent à saisir manuellement)';
     }
     banner.className='load-banner ok'; banner.textContent=msg;
   }catch(err){
