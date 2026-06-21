@@ -576,13 +576,16 @@ const GEVLON_API = 'https://script.google.com/macros/s/AKfycbz5fXTf-PI_U80Wu4A3H
 function reinitialiserFiche(){
   if(!confirm('Vider tous les champs de la fiche ? Cette action est irréversible.')) return;
 
-  // Vider tous les champs texte/nombre/date/time/textarea
-  document.querySelectorAll('input[type="text"], input[type="number"], input[type="date"], input[type="time"], input[type="tel"], textarea').forEach(el=>{
+  // Vider tous les champs texte/nombre/date/time/textarea — y compris les <input> sans attribut type explicite (= text par défaut)
+  document.querySelectorAll('input, textarea').forEach(el=>{
+    if(el.type==='button' || el.type==='submit' || el.type==='checkbox' || el.type==='radio') return;
     el.value='';
   });
 
-  // Remettre les select à leur première option
-  document.querySelectorAll('select').forEach(el=>{ el.selectedIndex=0; });
+  // Selects : revenir à une valeur neutre. S'il n'y a pas d'option vide, on insère un index visuel neutre via la sélection désactivée du premier item réel n'est pas fiable — on force donc une valeur hors-norme reconnaissable
+  document.querySelectorAll('select').forEach(el=>{
+    el.selectedIndex=-1; // aucune option sélectionnée visuellement
+  });
 
   // Décocher toutes les chips sélectionnées
   document.querySelectorAll('.chip.sel-ok').forEach(chip=>{ chip.classList.remove('sel-ok'); });
