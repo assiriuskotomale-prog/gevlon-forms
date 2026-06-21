@@ -188,7 +188,13 @@ body{font-family:'Poppins',sans-serif;background:#eef2f8;color:var(--gray-800);m
   <div class="g2">
     <div class="field span2">
       <label>📱 Numéro WhatsApp <span style="color:var(--red)">*</span></label>
-      <input type="tel" id="whatsapp" placeholder="+229 XX XX XX XX" inputmode="tel">
+      <input type="tel" id="whatsapp" placeholder="Ex : 22901xxxxxxxx (numéro complet, avec le 01 si applicable)" inputmode="tel">
+      <small style="color:var(--muted);display:block;margin-top:4px">⚠️ Saisissez votre numéro complet exactement comme sur votre carte SIM (avec le 01 au Bénin depuis 2026). Ce numéro doit être identique à celui utilisé dans le questionnaire.</small>
+    </div>
+    <div class="field span2">
+      <label>📱 Confirmez le numéro WhatsApp <span style="color:var(--red)">*</span></label>
+      <input type="tel" id="whatsapp_confirm" placeholder="Resaisissez le même numéro" inputmode="tel">
+      <small id="wa_match_msg" style="display:block;margin-top:4px"></small>
     </div>
     <div class="field">
       <label>Prénom</label>
@@ -715,6 +721,25 @@ body{font-family:'Poppins',sans-serif;background:#eef2f8;color:var(--gray-800);m
 document.getElementById('date_mesure').value = new Date().toISOString().split('T')[0];
 var SLP_Q = ['Épuisé(e)','Fatigué(e)','Neutre','Reposé(e)','Parfaitement reposé(e)'];
 
+// ── Validation correspondance numéro WhatsApp ──────────
+function checkWaMatch(){
+  var wa = document.getElementById('whatsapp').value.replace(/[^0-9]/g,'');
+  var waConfirm = document.getElementById('whatsapp_confirm').value.replace(/[^0-9]/g,'');
+  var msg = document.getElementById('wa_match_msg');
+  if(!wa || !waConfirm){ msg.textContent=''; return false; }
+  if(wa === waConfirm){
+    msg.style.color = 'var(--green, #278A01)';
+    msg.textContent = '✓ Les deux numéros correspondent.';
+    return true;
+  } else {
+    msg.style.color = 'var(--red, #C0392B)';
+    msg.textContent = '✗ Les numéros ne correspondent pas. Vérifiez votre saisie.';
+    return false;
+  }
+}
+document.getElementById('whatsapp').addEventListener('input', checkWaMatch);
+document.getElementById('whatsapp_confirm').addEventListener('input', checkWaMatch);
+
 // ── Progress bar ───────────────────────────────────────
 function updateProgress() {
   var fields = ['whatsapp','poids','taille','sys','dia'];
@@ -914,8 +939,11 @@ function computeNAPSO_Stress() {
 // ── Envoi données ──────────────────────────────────────
 function envoyerDonnees() {
   var wa = document.getElementById('whatsapp').value.trim().replace(/[^0-9]/g,'');
+  var waConfirm = document.getElementById('whatsapp_confirm').value.trim().replace(/[^0-9]/g,'');
   var p  = document.getElementById('poids').value;
   if (!wa) { alert('Entrez votre numéro WhatsApp pour continuer.'); return; }
+  if (!waConfirm) { alert('Confirmez votre numéro WhatsApp pour continuer.'); return; }
+  if (wa !== waConfirm) { alert('Les deux numéros WhatsApp saisis ne correspondent pas. Merci de vérifier.'); return; }
   if (!p)  { alert('Entrez votre poids.'); return; }
   var btn = document.getElementById('submit-btn');
   btn.disabled = true; btn.textContent = '⏳ Envoi en cours...';
