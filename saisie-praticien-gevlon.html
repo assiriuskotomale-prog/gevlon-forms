@@ -675,8 +675,9 @@ async function chargerClient(){
       if(q.grignotage) nutr.push('Grignotage : '+q.grignotage);
       // Câblage direct des selects résumés
       if(q.nb_repas){const r=gs('h_repas'); if(r){const val=String(q.nb_repas)>='4'?'4+':String(q.nb_repas); if([...r.options].some(o=>o.value===val||o.textContent===val)) r.value=val;}}
-      if(q.grignotage){const gr=gs('h_grigno'); if(gr && [...gr.options].some(o=>o.value===q.grignotage)) gr.value=q.grignotage;}
-      if(q.alcool){const al=gs('h_alcool'); if(al && [...al.options].some(o=>o.value===q.alcool)) al.value=q.alcool;}
+      if(q.grignotage){const grMap={'Jamais':'Jamais','Rarement':'Parfois','Souvent':'Souvent','Tres_souvent':'Souvent'};const gr=gs('h_grigno');if(gr){const mapped=grMap[q.grignotage];if(mapped)gr.value=mapped;}}
+      if(q.alcool){const alMap={'Jamais':'Jamais','Rarement':'Occasionnel','Moderement':'Hebdomadaire','Regulierement':'Quotidien'};const al=gs('h_alcool');if(al){const mapped=alMap[q.alcool];if(mapped)al.value=mapped;}}
+      if(q.tabac){const taMap={'Non_fumeur':'Non-fumeur','Ex_fumeur':'Ex-fumeur','Occasionnel':'Occasionnel','Regulier':'Régulier'};const ta=gs('h_tabac');if(ta){const mapped=taMap[q.tabac];if(mapped)ta.value=mapped;}}
       if(q.repas_apres) nutr.push('Repas après 20h : '+q.repas_apres);
       if(q.boissons_sucrees) nutr.push('Boissons sucrées : '+q.boissons_sucrees);
       if(nutr.length) sv('h_rappel24', nutr.join('\n'));
