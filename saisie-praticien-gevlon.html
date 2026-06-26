@@ -1191,34 +1191,30 @@ Ton chaleureux, bienveillant, vouvoiement systématique.`;
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
         system: systemPrompt,
-        prompt: prompt
+        prompt: prompt,
+        client_nom: d.nom,
+        client_tel: d.whatsapp,
+        action: 'generer_plan_base'
       })
     });
 
+    // Mode fire-and-forget : Make.com répond immédiatement 200
+    // Claude génère le plan en arrière-plan → livraison par email
     if(!resp.ok) throw new Error('Erreur webhook Make.com : '+resp.status);
 
-    const txt=await resp.text();
-    if(!txt || txt.trim()==='') throw new Error('Réponse vide du webhook.');
-
-    // Afficher le texte dans la zone résultat
-    out.textContent=txt;
-    copyBtn.style.display='block';
-
-    // Stocker le plan pour génération PDF
-    window._dernierPlan={texte:txt, client:d};
-
-    // Afficher bouton PDF
-    let pdfBtn=document.getElementById('pdfBtn');
-    if(!pdfBtn){
-      pdfBtn=document.createElement('button');
-      pdfBtn.id='pdfBtn';
-      pdfBtn.className='copy-btn';
-      pdfBtn.style.cssText='background:var(--ny);color:#fff;margin-left:8px;';
-      pdfBtn.innerHTML='📄 Télécharger PDF';
-      pdfBtn.onclick=exporterPDF;
-      copyBtn.parentNode.insertBefore(pdfBtn, copyBtn.nextSibling);
-    }
-    pdfBtn.style.display='inline-block';
+    out.innerHTML=`
+      <div style="background:var(--cnl);border:1px solid var(--cn2);border-radius:10px;padding:16px 20px;color:var(--cn8);line-height:1.7">
+        <div style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:15px;margin-bottom:8px">
+          ✅ Demande envoyée avec succès
+        </div>
+        <div style="font-size:13px">
+          Le plan de base NAPSO™ de <strong>${d.nom||'ce client'}</strong> est en cours de génération.<br>
+          Vous recevrez le plan complet par email à <strong>gevlon.nutrition@gmail.com</strong> dans <strong>1 à 2 minutes</strong>.<br><br>
+          <span style="font-size:11px;color:var(--cn8);opacity:.8">
+            Vous pouvez continuer à travailler — le plan sera disponible dans votre boîte mail.
+          </span>
+        </div>
+      </div>`;
 
   }catch(err){
     out.textContent='❌ Erreur : '+err.message;
@@ -1372,16 +1368,4 @@ async function exporterPDF(){
 
     // Texte normal
     doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(40,40,60);
-    const sl=doc.splitTextToSize(ligne,CW);
-    doc.text(sl,M,y);y+=sl.length*4.8+1;
-  }
-
-  drawFooter();
-
-  // Télécharger
-  const nomFichier='Plan_NAPSO_'+nomAff+'_'+new Date().toISOString().slice(0,10)+'.pdf';
-  doc.save(nomFichier);
-}
-</script>
-</body>
-</html>
+    
