@@ -1368,4 +1368,16 @@ async function exporterPDF(){
 
     // Texte normal
     doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(40,40,60);
-    
+    const sl=doc.splitTextToSize(ligne,CW);
+    doc.text(sl,M,y);y+=sl.length*4.8+1;
+  }
+
+  drawFooter();
+
+  // Télécharger
+  const nomFichier='Plan_NAPSO_'+nomAff+'_'+new Date().toISOString().slice(0,10)+'.pdf';
+  doc.save(nomFichier);
+}
+</script>
+</body>
+</html>
