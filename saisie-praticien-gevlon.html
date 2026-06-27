@@ -1186,12 +1186,20 @@ Protocole de mesures hebdomadaires en fin de document.
 Ton chaleureux, bienveillant, vouvoiement systématique.`;
 
   try{
+    // Nettoyer les caractères de contrôle avant injection dans JSON Make.com
+    const cleanStr = (s) => s
+      .replace(/\r\n/g, ' ')
+      .replace(/\n/g, ' ')
+      .replace(/\r/g, ' ')
+      .replace(/\t/g, ' ')
+      .replace(/"/g, '\\"');
+
     const resp=await fetch(NAPSO_WEBHOOK,{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
-        system: systemPrompt,
-        prompt: prompt,
+        system: cleanStr(systemPrompt),
+        prompt: cleanStr(prompt),
         client_nom: d.nom,
         client_tel: d.whatsapp,
         action: 'generer_plan_base'
