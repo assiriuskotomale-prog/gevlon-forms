@@ -571,7 +571,7 @@ body{font-family:'Poppins',sans-serif;background:#F0F4FA;color:var(--dark);min-h
 
 <script>
 // ── HASH WHATSAPP ──────────────────────────────────────────────
-const GEVLON_API = 'https://script.google.com/macros/s/AKfycbz5fXTf-PI_U80Wu4A3HpS27SL4GuoAYuA_DGikCg_m6AlDi3bTT3JiAUQ8fvMXHXMp/exec';
+const GEVLON_API = 'https://script.google.com/macros/s/AKfycbzsQdsi6wyNtLtQbp1JkxPhAjpke2-hBK8SWNc8QUCIAyyMZ_QXf3snf6SYYYvNjAqH/exec';
 
 function reinitialiserFiche(){
   if(!confirm('Vider tous les champs de la fiche ? Cette action est irréversible.')) return;
@@ -1064,8 +1064,8 @@ function collectData(){
 }
 
 // ── GÉNÉRATION PLAN DE BASE ────────────────────────────────────
-// ── WEBHOOK MAKE.COM (remplace appel direct Anthropic bloqué par CORS) ──
-const NAPSO_WEBHOOK = 'https://hook.eu1.make.com/1c0t4w5t3uktkllh6j3iirk9hymos1rt';
+// ── GEVLON-API (Google Apps Script — proxy Claude sans CORS ni timeout) ──
+const NAPSO_WEBHOOK = 'https://script.google.com/macros/s/AKfycbzsQdsi6wyNtLtQbp1JkxPhAjpke2-hBK8SWNc8QUCIAyyMZ_QXf3snf6SYYYvNjAqH/exec';
 
 async function genererPlan(){
   const btn=document.getElementById('genBtn');
@@ -1202,7 +1202,7 @@ Ton chaleureux, bienveillant, vouvoiement systématique.`;
         prompt: cleanStr(prompt),
         client_nom: d.nom,
         client_tel: d.whatsapp,
-        action: 'generer_plan_base'
+        action: 'genererPlan'
       })
     });
 
