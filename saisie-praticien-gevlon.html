@@ -1194,16 +1194,16 @@ Ton chaleureux, bienveillant, vouvoiement systématique.`;
       .replace(/\t/g, ' ')
       .replace(/"/g, '\\"');
 
-    const resp=await fetch(NAPSO_WEBHOOK,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        system: cleanStr(systemPrompt),
-        prompt: cleanStr(prompt),
-        client_nom: d.nom,
-        client_tel: d.whatsapp,
-        action: 'genererPlan'
-      })
+    // Apps Script: GET avec paramètres URL évite les problèmes CORS du POST
+    const params = new URLSearchParams({
+      action: 'genererPlan',
+      system: cleanStr(systemPrompt),
+      prompt: cleanStr(prompt),
+      client_nom: d.nom || '',
+      client_tel: d.whatsapp || ''
+    });
+    const resp=await fetch(NAPSO_WEBHOOK + '?' + params.toString(), {
+      method: 'GET'
     });
 
     // Mode fire-and-forget : Make.com répond immédiatement 200
