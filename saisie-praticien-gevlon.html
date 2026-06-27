@@ -571,7 +571,7 @@ body{font-family:'Poppins',sans-serif;background:#F0F4FA;color:var(--dark);min-h
 
 <script>
 // ── HASH WHATSAPP ──────────────────────────────────────────────
-const GEVLON_API = 'https://script.google.com/macros/s/AKfycbxDzJgbsCjU6iGkpjqnM4hwVzTFVrX-JJbsahJqlGE6uYtyYDXFW_DV5ukeAzgw6uLI/exec';
+const GEVLON_API = 'https://script.google.com/macros/s/AKfycbymAEzEGburZhIFJP_AhkH4wjYjdxbGSy7Uq1TcDdNzmNIvSwb2_py_aatFCEC4Kuq9/exec';
 
 function reinitialiserFiche(){
   if(!confirm('Vider tous les champs de la fiche ? Cette action est irréversible.')) return;
@@ -1065,7 +1065,7 @@ function collectData(){
 
 // ── GÉNÉRATION PLAN DE BASE ────────────────────────────────────
 // ── GEVLON-API (Google Apps Script — proxy Claude sans CORS ni timeout) ──
-const NAPSO_WEBHOOK = 'https://script.google.com/macros/s/AKfycbxDzJgbsCjU6iGkpjqnM4hwVzTFVrX-JJbsahJqlGE6uYtyYDXFW_DV5ukeAzgw6uLI/exec';
+const NAPSO_WEBHOOK = 'https://script.google.com/macros/s/AKfycbymAEzEGburZhIFJP_AhkH4wjYjdxbGSy7Uq1TcDdNzmNIvSwb2_py_aatFCEC4Kuq9/exec';
 
 async function genererPlan(){
   const btn=document.getElementById('genBtn');
@@ -1194,24 +1194,18 @@ Ton chaleureux, bienveillant, vouvoiement systématique.`;
       .replace(/\t/g, ' ')
       .replace(/"/g, '\\"');
 
-    // Apps Script: mode no-cors (fire and forget)
-    // Le plan est généré en arrière-plan et livré par email
+    // Apps Script lit directement les données depuis Sheets via le numéro WhatsApp
+    // Pas de prompt à transmettre, pas de CORS, pas de limite de taille
     const params = new URLSearchParams({
       action: 'genererPlan',
-      system: cleanStr(systemPrompt),
-      prompt: cleanStr(prompt),
-      client_nom: d.nom || '',
-      client_tel: d.whatsapp || ''
+      wa: d.whatsapp || ''
     });
-    
-    // no-cors : le navigateur envoie la requête sans attendre de réponse lisible
-    fetch(NAPSO_WEBHOOK + '?' + params.toString(), {
+    const resp = await fetch(NAPSO_WEBHOOK + '?' + params.toString(), {
       method: 'GET',
       mode: 'no-cors'
-    }).catch(()=>{}); // ignorer les erreurs réseau silencieuses
-    
-    // Simuler un resp ok pour continuer le flow
-    const resp = { ok: true };
+    });
+    // no-cors : réponse opaque, on considère que c'est ok
+    const fakeResp = { ok: true };
 
     out.innerHTML=`
       <div style="background:var(--cnl);border:1px solid var(--cn2);border-radius:10px;padding:16px 20px;color:var(--cn8);line-height:1.7">
