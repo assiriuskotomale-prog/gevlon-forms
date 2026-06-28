@@ -587,7 +587,7 @@ body{font-family:'Poppins',sans-serif;background:#F0F4FA;color:var(--dark);min-h
 
 <script>
 // ── HASH WHATSAPP ──────────────────────────────────────────────
-const GEVLON_API = 'https://script.google.com/macros/s/AKfycbw2008X1TEmZ2VcLZ4Xp85K5TxoWYtAPvv7QmOGDxeyxZZgUrJNpCNQiU4ljudacRkn/exec';
+const GEVLON_API = 'https://script.google.com/macros/s/AKfycbyim7hrFwVi07kNQDiqyhWcB4eek3PYrTwWzpY4W9TDcf4t6QO5C0wG_-ytfrJB1dOi/exec';
 
 function reinitialiserFiche(){
   if(!confirm('Vider tous les champs de la fiche ? Cette action est irréversible.')) return;
@@ -1081,7 +1081,7 @@ function collectData(){
 
 // ── GÉNÉRATION PLAN DE BASE ────────────────────────────────────
 // ── GEVLON-API (Google Apps Script — proxy Claude sans CORS ni timeout) ──
-const NAPSO_WEBHOOK = 'https://script.google.com/macros/s/AKfycbw2008X1TEmZ2VcLZ4Xp85K5TxoWYtAPvv7QmOGDxeyxZZgUrJNpCNQiU4ljudacRkn/exec';
+const NAPSO_WEBHOOK = 'https://script.google.com/macros/s/AKfycbyim7hrFwVi07kNQDiqyhWcB4eek3PYrTwWzpY4W9TDcf4t6QO5C0wG_-ytfrJB1dOi/exec';
 
 async function genererPlan(){
   const btn=document.getElementById('genBtn');
@@ -1244,6 +1244,43 @@ Ton chaleureux, bienveillant, vouvoiement systématique.`;
   // Afficher zone corrections + bouton envoi client
   document.getElementById('correctionsZone').style.display='block';
   document.getElementById('sendBtn').style.display='inline-block';
+}
+
+async function envoyerAuClient(){
+  const sendBtn = document.getElementById('sendBtn');
+  const corrections = document.getElementById('correctionsText').value.trim();
+  const d = collectData();
+
+  if(!d.whatsapp){
+    alert("Aucun client chargé. Veuillez charger un client avant d'envoyer.");
+    return;
+  }
+
+  sendBtn.disabled = true;
+  sendBtn.textContent = '⏳ Envoi en cours…';
+
+  try {
+    const params = new URLSearchParams({
+      action: 'envoyerPlanClient',
+      wa: d.whatsapp,
+      corrections: corrections
+    });
+    await fetch(NAPSO_WEBHOOK + '?' + params.toString(), {
+      method: 'GET',
+      mode: 'no-cors'
+    });
+
+    sendBtn.textContent = '✅ Plan envoyé au client !';
+    sendBtn.style.background = '#278a01';
+    setTimeout(() => {
+      sendBtn.disabled = false;
+      sendBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,12 2,6"></polyline></svg>Envoyer le plan au client';
+      sendBtn.style.background = '';
+    }, 4000);
+  } catch(err) {
+    sendBtn.textContent = '❌ Erreur : ' + err.message;
+    sendBtn.disabled = false;
+  }
 }
 
 function copierPlan(){
