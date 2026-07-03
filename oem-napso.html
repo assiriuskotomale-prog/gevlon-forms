@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OEM NAPSO™ — Gevlon Nutrition &amp; Lifestyle</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET ===== */
+*{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:15px;}
+body{font-family:'Poppins',sans-serif;background:#f0f4fb;color:#1a1a2e;min-height:100vh;}
+
+/* ===== VARIABLES ===== */
+:root{
+  --navy:#00308F;
+  --navy-d:#001f6b;
+  --navy-l:#e8edf8;
+  --orange:#F9921C;
+  --orange-d:#c97200;
+  --orange-l:#fff4e8;
+  --green:#278a01;
+  --green-l:#eaf3e6;
+  --muted:#6b7280;
+  --border:#dde3f0;
+  --white:#ffffff;
+  --bg:#f0f4fb;
+  --radius:10px;
+  --shadow:0 2px 12px rgba(0,48,143,0.08);
+}
+
+/* ===== LAYOUT ===== */
+.page{max-width:760px;margin:0 auto;padding:1.5rem 1rem 4rem;}
+
+/* ===== HEADER ===== */
+.hdr{
+  background:var(--navy);
+  border-radius:14px;
+  padding:1.25rem 1.75rem;
+  margin-bottom:1rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1rem;
+  box-shadow:var(--shadow);
+}
+.hdr-logo{display:flex;flex-direction:column;align-items:flex-start;}
+.hdr-logo img{height:38px;width:auto;object-fit:contain;}
+.hdr-logo-sub{font-family:'Montserrat',sans-serif;font-size:8px;color:rgba(255,255,255,0.55);letter-spacing:3px;text-transform:uppercase;margin-top:4px;margin-left:2px;}
+.hdr-center{text-align:center;flex:1;}
+.hdr-center-title{font-size:11px;color:rgba(255,255,255,0.65);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px;}
+.hdr-badge{
+  background:var(--orange);
+  color:#fff;
+  font-family:'Montserrat',sans-serif;
+  font-weight:700;
+  font-size:11px;
+  padding:5px 14px;
+  border-radius:20px;
+  display:inline-block;
+  letter-spacing:.5px;
+}
+.hdr-right{text-align:right;}
+.hdr-pct{
+  font-family:'Montserrat',sans-serif;
+  font-size:22px;
+  font-weight:800;
+  color:#fff;
+  display:block;
+  line-height:1;
+}
+.hdr-pct-lbl{font-size:10px;color:rgba(255,255,255,0.6);margin-top:2px;display:block;}
+
+/* ===== MOIS SELECTOR ===== */
+.mois-bar{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:.8rem 1.2rem;
+  margin-bottom:.9rem;
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  box-shadow:var(--shadow);
+}
+.mois-bar label{
+  font-family:'Montserrat',sans-serif;
+  font-size:11px;
+  font-weight:700;
+  color:var(--navy);
+  text-transform:uppercase;
+  letter-spacing:.5px;
+  white-space:nowrap;
+}
+.mois-pills{display:flex;gap:6px;flex-wrap:wrap;}
+.mois-pill{
+  padding:5px 14px;
+  border:1.5px solid var(--border);
+  border-radius:20px;
+  background:#fafafa;
+  cursor:pointer;
+  font-family:'Montserrat',sans-serif;
+  font-size:11px;
+  font-weight:700;
+  color:var(--muted);
+  transition:all .15s;
+}
+.mois-pill:hover{border-color:var(--navy);color:var(--navy);}
+.mois-pill.active{background:var(--navy);color:#fff;border-color:var(--navy);}
+
+/* ===== CTX CLIENT ===== */
+.ctx-client{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:.9rem 1.2rem;
+  margin-bottom:.9rem;
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:12px;
+  box-shadow:var(--shadow);
+}
+.ctx-client label{font-size:10px;color:var(--muted);font-weight:600;display:block;margin-bottom:3px;text-transform:uppercase;letter-spacing:.5px;}
+.ctx-client input{
+  width:100%;
+  border:1px solid var(--border);
+  border-radius:6px;
+  padding:6px 10px;
+  font-family:'Poppins',sans-serif;
+  font-size:12.5px;
+  color:#1a1a2e;
+  background:#fafafa;
+  outline:none;
+  transition:border .15s;
+}
+.ctx-client input:focus{border-color:var(--navy);background:#fff;}
+
+/* ===== CTX ALERT ===== */
+.ctx-alert{
+  background:var(--navy-l);
+  border-left:3px solid var(--navy);
+  border-radius:0 8px 8px 0;
+  padding:.75rem 1rem;
+  margin-bottom:.9rem;
+  font-size:12px;
+  color:var(--navy);
+  line-height:1.55;
+}
+.ctx-alert strong{font-weight:600;}
+
+/* ===== PILIER NAV ===== */
+.pnav{display:flex;gap:6px;margin-bottom:.9rem;flex-wrap:nowrap;}
+.pill{
+  flex:1;
+  padding:8px 4px;
+  border:1.5px solid var(--border);
+  border-radius:9px;
+  background:#fff;
+  cursor:pointer;
+  text-align:center;
+  transition:all .18s;
+  box-shadow:var(--shadow);
+}
+.pill-letter{
+  font-family:'Montserrat',sans-serif;
+  font-size:17px;
+  font-weight:800;
+  color:var(--muted);
+  display:block;
+  line-height:1;
+}
+.pill-lbl{font-size:9px;color:var(--muted);margin-top:3px;display:block;line-height:1.2;}
+.pill.done .pill-letter,.pill.done .pill-lbl{color:var(--green);}
+.pill.done{border-color:var(--green);}
+.pill.active{border-color:var(--navy);background:var(--navy);}
+.pill.active .pill-letter,.pill.active .pill-lbl{color:#fff;}
+.pill:hover:not(.active){border-color:var(--navy);background:var(--navy-l);}
+.pill:hover:not(.active) .pill-letter,.pill:hover:not(.active) .pill-lbl{color:var(--navy);}
+
+/* ===== SECTIONS ===== */
+.sec{display:none;}
+.sec.active{display:block;}
+
+/* ===== CARDS ===== */
+.card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:1.25rem 1.5rem;
+  margin-bottom:.9rem;
+  box-shadow:var(--shadow);
+}
+.card-title{
+  font-family:'Montserrat',sans-serif;
+  font-size:13px;
+  font-weight:700;
+  color:var(--navy);
+  margin-bottom:1rem;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.card-title .dot{width:8px;height:8px;border-radius:50%;background:var(--orange);display:inline-block;flex-shrink:0;}
+
+/* ===== QUESTIONS ===== */
+.qb{margin-bottom:1.1rem;}
+.qb:last-child{margin-bottom:0;}
+.ql{
+  font-size:12.5px;
+  font-weight:600;
+  color:#1a1a2e;
+  margin-bottom:5px;
+  display:block;
+  line-height:1.5;
+}
+.qhint{
+  font-size:11px;
+  color:var(--muted);
+  margin-bottom:6px;
+  display:block;
+  font-style:italic;
+  line-height:1.4;
+}
+.qopts{display:flex;flex-wrap:wrap;gap:6px;}
+.qo{
+  padding:5px 12px;
+  border:1px solid var(--border);
+  border-radius:20px;
+  background:#fafafa;
+  cursor:pointer;
+  font-size:11.5px;
+  font-family:'Poppins',sans-serif;
+  color:var(--muted);
+  transition:all .15s;
+  user-select:none;
+}
+.qo:hover{border-color:var(--orange);color:var(--orange-d);}
+.qo.sel{background:var(--navy);color:#fff;border-color:var(--navy);}
+textarea.qt{
+  width:100%;
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:8px 12px;
+  font-family:'Poppins',sans-serif;
+  font-size:12.5px;
+  resize:vertical;
+  min-height:60px;
+  color:#1a1a2e;
+  outline:none;
+  background:#fafafa;
+  line-height:1.55;
+  transition:border .15s;
+}
+textarea.qt:focus{border-color:var(--navy);background:#fff;}
+
+/* ===== SCALE ===== */
+.scw{display:flex;align-items:center;gap:10px;}
+.scw input[type=range]{flex:1;accent-color:var(--navy);cursor:pointer;}
+.scv{
+  font-family:'Montserrat',sans-serif;
+  font-size:18px;
+  font-weight:800;
+  color:var(--navy);
+  min-width:26px;
+  text-align:center;
+}
+.sclb{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:3px;}
+
+/* ===== ENGAGEMENT ===== */
+.eng-box{
+  background:var(--orange-l);
+  border:1px solid #f5c980;
+  border-radius:9px;
+  padding:.9rem 1.1rem;
+  margin-top:.8rem;
+}
+.eng-box label{
+  font-family:'Montserrat',sans-serif;
+  font-size:10px;
+  color:#8a5200;
+  font-weight:700;
+  display:block;
+  margin-bottom:5px;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+}
+textarea.eng-ta{
+  width:100%;
+  border:1px solid #f5c980;
+  border-radius:7px;
+  padding:7px 11px;
+  font-family:'Poppins',sans-serif;
+  font-size:12px;
+  resize:vertical;
+  min-height:52px;
+  background:#fffdf7;
+  outline:none;
+  color:#1a1a2e;
+  line-height:1.5;
+}
+textarea.eng-ta:focus{border-color:var(--orange);}
+
+/* ===== OBS COACH ===== */
+.obs-card{
+  background:#f8faff;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:.9rem 1.25rem;
+  margin-bottom:.9rem;
+}
+.obs-lbl{
+  font-family:'Montserrat',sans-serif;
+  font-size:10px;
+  color:var(--navy);
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin-bottom:7px;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+}
+.obs-lbl::before{content:'';width:10px;height:2px;background:var(--orange);border-radius:1px;display:inline-block;}
+
+/* ===== SEANCES ===== */
+.seance-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:.9rem;}
+.seance-card{
+  background:#fff;
+  border:1.5px solid var(--border);
+  border-radius:9px;
+  padding:1rem 1.1rem;
+  box-shadow:var(--shadow);
+}
+.seance-num{
+  font-family:'Montserrat',sans-serif;
+  font-size:9px;
+  font-weight:700;
+  color:var(--orange);
+  text-transform:uppercase;
+  letter-spacing:.5px;
+  margin-bottom:3px;
+}
+.seance-title{
+  font-family:'Montserrat',sans-serif;
+  font-size:12px;
+  font-weight:700;
+  color:var(--navy);
+  margin-bottom:5px;
+}
+.seance-desc{font-size:11px;color:var(--muted);line-height:1.45;margin-bottom:7px;}
+.seance-opts{display:flex;gap:5px;flex-wrap:wrap;}
+.seance-opts .qo{font-size:11px;padding:4px 10px;}
+.seance-opts .qo.sel{background:var(--orange);border-color:var(--orange);}
+
+/* ===== FOOTER NAV ===== */
+.fnav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:1rem;
+  gap:8px;
+}
+.btn{
+  padding:9px 22px;
+  border-radius:8px;
+  font-family:'Poppins',sans-serif;
+  font-size:12.5px;
+  font-weight:600;
+  cursor:pointer;
+  border:none;
+  transition:all .15s;
+}
+.btn-back{background:#fff;border:1px solid var(--border);color:var(--muted);}
+.btn-back:hover{border-color:var(--navy);color:var(--navy);}
+.btn-fwd{background:var(--navy);color:#fff;}
+.btn-fwd:hover{background:var(--navy-d);}
+.btn-or{background:var(--orange);color:#fff;}
+.btn-or:hover{background:var(--orange-d);}
+.step-lbl{font-size:11px;color:var(--muted);}
+
+/* ===== SYNTHESE ===== */
+.synth-hdr{
+  background:var(--navy);
+  border-radius:10px;
+  padding:1.1rem 1.4rem;
+  color:#fff;
+  margin-bottom:.9rem;
+}
+.synth-hdr h2{font-family:'Montserrat',sans-serif;font-size:15px;font-weight:800;}
+.synth-hdr p{font-size:11px;opacity:.7;margin-top:3px;}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:.9rem;}
+.sc{background:var(--navy-l);border-radius:9px;padding:10px 13px;border:1px solid var(--border);}
+.sc.full{grid-column:1/-1;}
+.sct{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px;}
+.scn{font-family:'Montserrat',sans-serif;font-size:24px;font-weight:800;color:var(--navy);}
+.scn span{font-size:13px;font-weight:500;color:var(--muted);}
+.badge{display:inline-block;padding:2px 9px;border-radius:10px;font-size:10.5px;font-weight:600;margin-top:3px;}
+.bv{background:#e6f4e1;color:var(--green);}
+.bo{background:var(--orange-l);color:#c97200;}
+.br{background:#fdecea;color:#c0392b;}
+.sbar{height:5px;background:var(--border);border-radius:3px;overflow:hidden;margin-top:6px;}
+.sbf{height:100%;border-radius:3px;}
+.prio-list{list-style:none;margin:0;}
+.prio-item{
+  padding:8px 11px;
+  border-radius:7px;
+  margin-bottom:6px;
+  font-size:12px;
+  display:flex;
+  gap:9px;
+  align-items:flex-start;
+  background:var(--navy-l);
+  border-left:3px solid var(--orange);
+  line-height:1.45;
+}
+.prio-item.pv{background:var(--green-l);border-color:var(--green);}
+.eng-recap-item{
+  margin-bottom:8px;
+  padding:8px 11px;
+  background:var(--navy-l);
+  border-radius:7px;
+  border-left:3px solid var(--navy);
+}
+.eng-recap-label{
+  font-family:'Montserrat',sans-serif;
+  font-size:10px;
+  color:var(--navy);
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.4px;
+  margin-bottom:3px;
+}
+.eng-recap-val{font-size:12.5px;color:#1a1a2e;line-height:1.5;}
+.eng-recap-empty{font-size:12px;color:var(--muted);font-style:italic;}
+.btn-gen{width:100%;padding:14px;font-size:14px;border-radius:10px;margin-top:.6rem;font-family:'Montserrat',sans-serif;font-weight:700;letter-spacing:.3px;}
+
+/* ===== FOOTER PAGE ===== */
+.page-footer{
+  text-align:center;
+  font-size:11px;
+  color:var(--muted);
+  margin-top:2.5rem;
+  padding-top:1rem;
+  border-top:1px solid var(--border);
+}
+.page-footer strong{color:var(--navy);}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:560px){
+  .ctx-client{grid-template-columns:1fr 1fr;}
+  .pnav{gap:4px;}
+  .pill-letter{font-size:14px;}
+  .seance-grid{grid-template-columns:1fr;}
+  .sg{grid-template-columns:1fr;}
+  .sc.full{grid-column:1;}
+  .hdr{flex-direction:column;text-align:center;}
+  .hdr-logo{align-items:center;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-logo">
+    <img id="logo-img" src="data:image/png;base64,/9j/4AAQSkZJRgABAgAAAQABAAD/wAARCAREBEQDACIAAREBAhEB/9sAQwAIBgYHBgUIBwcHCQkICgwUDQwLCwwZEhMPFB0aHx4dGhwcICQuJyAiLCMcHCg3KSwwMTQ0NB8nOT04MjwuMzQy/9sAQwEJCQkMCwwYDQ0YMiEcITIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIy/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMAAAERAhEAPwD3+iiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAorlfE/i6PQde8P6WNpk1K62SE/wR9M/ixX8jXVVTg0lJ7MSabsFFFFSMKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAPnT4x6jMvxIUoxDWUEPlex5fP5mvfdG1KLWNGstRhIMdzCsox2yM4/DpXz58aLdofiFLIRxPbROPwBX/2Wu6+B/iMXmh3GhTP++sm8yEE9YmPP5Nn/voV6teipYOE49P13/E46c7V5RfU9XpkU0c8YkidXQkgMpyODg/qKpa5q0Gh6HeancECO2iLkHuew/E4H41y3wkv5tQ8BQSztukFxOCfq5b/ANmrzVTbg59F+p1OSUlE7miiioKCiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAPGPjzpBaPStZReFLW0h+vzL/Jq8s8K+IZ/C/iO01WDLCJsSoP44zwy/l+oFfTfjTQB4l8JahpgAMrx7oSe0i8r+ox+NfJjKyOyOpVlOCD1Br3stmqlF0pdPyf9M87FRcaimj074rfEKDxGYNJ0iYvp0e2WaQDHmvjgfRc/n9K9P8AhNZNZfDnTN4w02+b8Gc4/TFfOOh6Rca9rdnpdqCZbmQJn+6O7fQDJ/CvryxtIdPsLezt12wwRrEg9AowP5VhjoQoUI0Y9Xc0w8pVKjmyeiiivIO0KKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoJwMmmySJFG0kjKiKCWZjgADuTXg3xI+Kj6qZdG0CZksOVnul4M/qF9F9+/0660aM60uWBFSpGCuzS+JPxWx52ieHJ+eUuL5D09VjP82/L1rxUnPJor0L4XeA28T6oNRv4j/ZFo43AjidxzsHsO/5d6+ipUqWEpN/e/6/I8yc51p2O8+Dfgs6Vpx8Q38WLu8TFurDmOL1+rfyx610HiP4laV4Z8VW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+gz3r1WmuiSIyOoZGGGVhkEehrSjU9nUU+xM480XE+LqK938V/BO31G/+1+H7mGwEhzLbygmMH1THI+nSuf/AOFDa5/0F9O/J/8ACvo4Y6hKN+a3qeXLD1E7WPKKK9X/AOFDa5/0F9O/J/8ACj/hQ2uf9BfTvyf/AAqvrlD+ZE+xqdjyiivX7b4Cagzj7Vrlsi9/KhZj+pFdx4Z+E3h3w9Ml1IkmoXaHKyXOCqn1CDj881nUzChBb39C44ao+ljG+DfgufRrKXXdRhMd1eIEgjcYZIuuSOxY4/AD1r1WiivAxFeVao5yPSp01CPKgooorEsKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA//9k=" alt="Gevlon Nutrition &amp; Lifestyle">
+    <span class="hdr-logo-sub">Nutrition &amp; Lifestyle</span>
+  </div>
+  <div class="hdr-center">
+    <div class="hdr-center-title">Outil d'Entretien Motivationnel</div>
+    <div class="hdr-badge" id="badge-mois">OEM NAPSO™ — M1</div>
+  </div>
+  <div class="hdr-right">
+    <span class="hdr-pct" id="pct">0%</span>
+    <span class="hdr-pct-lbl">complété</span>
+  </div>
+</div>
+
+<!-- SÉLECTEUR DE MOIS -->
+<div class="mois-bar">
+  <label>Entretien du mois :</label>
+  <div class="mois-pills">
+    <div class="mois-pill active" onclick="setMois(1,this)">M1</div>
+    <div class="mois-pill" onclick="setMois(2,this)">M2</div>
+    <div class="mois-pill" onclick="setMois(3,this)">M3</div>
+    <div class="mois-pill" onclick="setMois(4,this)">M4</div>
+    <div class="mois-pill" onclick="setMois(5,this)">M5</div>
+    <div class="mois-pill" onclick="setMois(6,this)">M6</div>
+  </div>
+</div>
+
+<!-- CLIENT -->
+<div class="ctx-client">
+  <div><label>Nom du client</label><input id="c-nom" placeholder="Prénom Nom" oninput="upd()"></div>
+  <div><label>WhatsApp</label><input id="c-wa" placeholder="+229 …"></div>
+  <div><label>Coach / Point Santé</label><input id="c-coach" placeholder="Nom du coach"></div>
+</div>
+
+<!-- ALERTE CONTEXTUELLE (dynamique) -->
+<div class="ctx-alert" id="ctx-alert">
+  <strong>Contexte M1 :</strong> Le Plan de base NAPSO™ a été partagé avec le client. Cet entretien explore sa compréhension, lève ses premiers freins et co-construit les engagements concrets du mois 1 (4 séances d'accompagnement WhatsApp).
+</div>
+
+<!-- PILIER NAV -->
+<div class="pnav">
+  <div class="pill active" id="pill-0" onclick="goTo(0)"><span class="pill-letter">N</span><span class="pill-lbl">Nutrition</span></div>
+  <div class="pill" id="pill-1" onclick="goTo(1)"><span class="pill-letter">A</span><span class="pill-lbl">Activité</span></div>
+  <div class="pill" id="pill-2" onclick="goTo(2)"><span class="pill-letter">P</span><span class="pill-lbl">Physiologie</span></div>
+  <div class="pill" id="pill-3" onclick="goTo(3)"><span class="pill-letter">S</span><span class="pill-lbl">Sommeil</span></div>
+  <div class="pill" id="pill-4" onclick="goTo(4)"><span class="pill-letter">O</span><span class="pill-lbl">Objectifs</span></div>
+  <div class="pill" id="pill-5" onclick="goTo(5)"><span class="pill-letter">✓</span><span class="pill-lbl">Plan M<span id="pill-m">1</span></span></div>
+</div>
+
+<!-- ============================================================ -->
+<!-- N — NUTRITION -->
+<!-- ============================================================ -->
+<div class="sec active" id="sec-0">
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>N — Nutrition AfroKeto™</div>
+
+    <div class="qb">
+      <span class="ql" id="n-q1-lbl">1. Avez-vous lu la partie Nutrition de votre Plan de base ?</span>
+      <div class="qopts">
+        <div class="qo" onclick="tog(this,'n1')">Oui, lu entièrement</div>
+        <div class="qo" onclick="tog(this,'n1')">Lu en partie</div>
+        <div class="qo" onclick="tog(this,'n1')">Parcouru rapidement</div>
+        <div class="qo" onclick="tog(this,'n1')">Pas encore lu</div>
+      </div>
+    </div>
+
+    <div class="qb">
+      <span class="ql" id="n-q2-lbl">2. Qu'est-ce qui vous a le plus interpellé dans les recommandations nutritionnelles ?</span>
+      <span class="qhint">Laisser le client s'exprimer librement — noter les points de résistance ou d'enthousiasme.</span>
+      <textarea class="qt" id="n2" placeholder="Ce qui l'a surpris, motivé ou questionné…" oninput="upd()"></textarea>
+    </div>
+
+    <div class="qb">
+      <span class="ql">3. Quels aliments du Code Alimentaire Gevlon sont déjà présents dans vos habitudes ?</span>
+      <div class="qopts">
+        <div class="qo" onclick="tog(this,'n3',true)">Poissons locaux (capitaine, sardinelle, lanhouin)</div>
+        <div class="qo" onclick="tog(this,'n3',true)">Huile de palme rouge non raffinée</div>
+        <div class="qo" onclick="tog(this,'n3',true)">Feuilles vertes (gboma, amanvivè, moringa)</div>
+        <div class="qo" onclick="tog(this,'n3',true)">Wagashi / œufs</div>
+        <div class="qo" onclick="tog(this,'n3',true)">Viandes / abats locaux</div>
+        <div class="qo" onclick="tog(this,'n3',true)">Beurre de karité alimentaire</div>
+        <div class="qo" onclick="tog(this,'n3',true)">Noix / arachides naturelles</div>
+        <div class="qo" onclick="tog(this,'n3',true)">Aucun pour l'instant</div>
+      </div>
+    </div>
+
+    <div class="qb">
+      <span class="ql">4. Quel aliment de la Liste rouge vous sera le plus difficile à supprimer ?</span>
+      <span class="qhint">Identifier le frein alimentaire principal pour l'anticiper dans le plan.</span>
+      <div class="qopts">
+        <div class="qo" onclick="tog(this,'n4')">Riz blanc / ablo / atassi / attiéké</div>
+        <div class="qo" onclick="tog(this,'n4')">Pâte de maïs / mawè / akassa</div>
+        <div class="qo" onclick="tog(this,'n4')">Pain / biscuits / viennoiseries</div>
+        <div class="qo" onclick="tog(this,'n4')">Boissons sucrées / sodas</div>
+        <div class="qo" onclick="tog(this,'n4')">Igname / manioc / gari / patate douce</div>
+        <div class="qo" onclick="tog(this,'n4')">Sucre / miel / confiseries</div>
+      </div>
+    </div>
+
+    <div class="qb">
+      <span class="ql">5. Des repas sociaux ou familiaux risquent-ils de compliquer la transition ce mois-ci ?</span>
+      <span class="qhint">Cérémonies, repas de famille, cantines, déjeuners professionnels…</span>
+      <textarea class="qt" id="n5" placeholder="Contexte, fréquence, solutions envisagées ensemble…" oninput="upd()"></textarea>
+    </div>
+
+    <div class="qb">
+      <span class="ql" id="n-q6-lbl">6. À quel point êtes-vous prêt(e) à démarrer la phase AfroKeto™ ce mois-ci ? (0–10)</span>
+      <div class="scw">
+        <input type="range" min="0" max="10" value="5" id="sl-n" oninput="sv('n',this.value)">
+        <span class="scv" id="sv-n">5</span>
+      </div>
+      <div class="sclb"><span>0 — Pas encore prêt(e)</span><span>10 — Je démarre demain</span></div>
+    </div>
+
+    <div class="eng-box">
+      <label>Engagement nutritionnel <span id="eng-n-mois">M1</span> — co-construit avec le client</label>
+      <textarea class="eng-ta" id="eng-n" placeholder="Ex : Remplacer le riz du soir par légumes + poisson 5j/7 dès la semaine 1. Supprimer les sodas. Préparer 2 repas-types AfroKeto™ par semaine…"></textarea>
+    </div>
+  </div>
+
+  <div class="obs-card">
+    <div class="obs-lbl">Notes coach — N</div>
+    <textarea class="qt" id="obs-n" placeholder="Freins identifiés, ressources à mobiliser, point à approfondir en séance 2, spécificités culturelles à intégrer…" rows="3"></textarea>
+  </div>
+
+  <div class="fnav">
+    <span class="step-lbl">Pilier 1 / 5</span>
+    <button class="btn btn-fwd" onclick="goTo(1)">Activité →</button>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- A — ACTIVITE -->
+<!-- ============================================================ -->
+<div class="sec" id="sec-1">
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>A — Activité physique</div>
+
+    <div class="qb">
+      <span class="ql" id="a-q1-lbl">1. Avez-vous regardé l'option Fit@Domicile proposée dans votre plan ? Qu'en pensez-vous ?</span>
+      <span class="qhint">Explorer la réaction concrète — intérêt, résistances, questions sur le format.</span>
+      <div class="qopts">
+        <div class="qo" onclick="tog(this,'a1')">Oui, je suis partant(e)</div>
+        <div class="qo" onclick="tog(this,'a1')">Oui, mais j'ai des questions</div>
+        <div class="qo" onclick="tog(this,'a1')">Je préfère une autre option</div>
+        <div class="qo" onclick="tog(this,'a1')">Pas encore regardé</div>
+      </div>
+    </div>
+
+    <div class="qb">
+      <span class="ql">2. Quel est votre niveau d'activité physique réel en ce moment (hors déplacements) ?</span>
+      <div class="qopts">
+        <div class="qo" onclick="tog(this,'a2')">Aucune activité</div>
+        <div class="qo" onclick="tog(this,'a2')">Marche occasionnelle</div>
+        <div class="qo" onclick="tog(this,'a2')">Marche régulière (&gt; 30 min/j)</div>
+        <div class="qo" onclick="tog(this,'a2')">Sport 1–2×/semaine</div>
+        <div class="qo" onclick="tog(this,'a2')">Sport 3+/semaine</div>
+      </div>
+    </div>
+
+    <div class="qb">
+      <span class="ql">3. À quelle fréquence réaliste pouvez-vous prévoir une activité ce mois-ci ?</span>
+      <div class="qopts">
+        <div class="qo" onclick="tog(this,'a3')">1×/semaine</div>
+        <div class="qo" onclick="tog(this,'a3')">2×/semaine</div>
+        <div class="qo" onclick="tog(this,'a3')">3×/semaine</div>
+        <div class="qo" onclick="tog(this,'a3')">Tous les jours</div>
+        <div class="qo" onclick="tog(this,'a3')">Pas encore certain(e)</div>
+      </div>
+    </div>
+
+    <div class="qb">
+      <span class="ql">4. Quels créneaux horaires vous conviendraient le mieux ?</span>
+      <div class="qopts">
+        <div class="qo" onclick="tog(this,'a4',true)">Très tôt le matin (avant 7h)</div>
+        <div class="qo" onclick="tog(this,'a4',true)">Matin (7h–12h)</div>
+        <div class="qo" onclick="tog(this,'a4',true)">Pause déjeuner</div>
+        <div class="qo" onclick="tog(this,'a4',true)">Après-midi</div>
+        <div class="qo" onclick="tog(this,'a4',true)">Soir (après 18h)</div>
+        <div class="qo" onclick="tog(this,'a4',true)">Week-end uniquement</div>
+      </div>
+    </div>
+
+    <div class="qb">
+      <span class="ql">5. Y a-t-il des contraintes physiques à prendre en compte (douleurs, blessures, mobilité réduite) ?</span>
+      <textarea class="qt" id="a5" placeholder="Zone douloureuse, antécédents orthopédiques, limitations fonctionnelles…" oninput="upd()"></textarea>
+    </div>
+
+    <div class="qb">
+      <span class="ql" id="a-q6-lbl">6. Motivation à bouger régulièrement ce mois-ci (0–10)</span>
+      <div class="scw">
+        <input type="range" min="0" max="10" value="5" id="sl-a" oninput="sv('a',this.value)">
+        <span class="scv" id="sv-a">5</span>
+      </div>
+      <div class="sclb"><span>0 — Pas du tout</span><span>10 — Très motivé(e)</span></div>
+    </div>
+
+    <div class="eng-box">
+      <label>Engagement activité <span id="eng-a-mois">M1</span></label>
+      <textarea class="eng-ta" id="eng-a" placeholder="Ex : Fit@Domicile 3×/sem (lun-mer-ven), 20 min, avant le petit-déjeuner. Marche de 20 min les autres jours…"></textarea>
+    </div>
+  </div>
+
+  <div class="obs-card">
+    <div class="obs-lbl">Notes coach — A</div>
+    <textarea class="qt" id="obs-a" placeholder="Capacité fonctionnelle réelle, programme Fit@Domicile adapté au niveau, progression envisagée…" rows="3"></textarea>
+  </div>
+
+  <div class="fnav">
+    <button class="btn btn-back" onclick="goTo(0)">← Nutrition</button>
+    <span class="step-lbl">Pilier 2 / 5</span>
+    <button class="btn btn-fwd" onclick="goTo(2)">Physiologie →</button>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- P — PHYSIOLOGIE -->
+<!-- ============================================================ -->
+<div class="sec" id="sec-2">
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>P — Physiologie &amp; Suivi</div>
+
+    <div class="qb">
+      <span class="ql" id="p-q1-lbl">1. Avez-vous compris les indicateurs de suivi mentionnés dans votre plan ?</span>
+      <span class="qhint">Poids, masse musculaire squelettique, graisse viscérale, BMR, glycémie, tension…</span>
+      <div class="qopts">
+        <div class="qo" onclick="tog(this,'p1')">Oui, tout à fait</div>
+        <div class="qo" onclick="tog(this,'p1')">En grande partie</div>
+        <div class="qo" onclick="tog(this,'p1')">J'ai des questions</div>
+        <div class="qo" onclick="tog(this,'p1')">Pas du tout compris</div>
+      </div>
+    </div>
+
+    <div class="qb">
+      <span class="ql">2. Avez-vous réalisé des mesures depuis la réception du plan ?</span>
+      <div class="qopts">
+        <div class="qo" onclick="tog(this,'p2',true)">Poids (balance AiLink)</div>
+        <div class="qo" onclick="tog(this,'p2',true)">Glycémie à jeun</div>
+        <div class="qo" onclick="tog(this,'p2',true)">Tension artérielle</div>
+        <div class="qo" onclick="tog(this,'p2',true)">Corps cétoniques</div>
+        <div class="qo" onclick="tog(this,'p2',true)">Tour de taille</div>
+        <div class="qo" onclick="tog(this,'p2',true)">Aucune mesure encore</div>
+      </div>
+    </div>
+
+    <div class="qb">
+      <span class="ql">3. Avez-vous un bilan biologique récent ?</span>
+      <span class="qhint">Glycémie à jeun, HbA1c, bilan lipidique, uricémie, NFS, créatinine…</span>
+      <div class="qopts">
+        <div class="qo" onclick="tog(this,'p3')">Oui, disponible</div>
+        <div class="qo" onclick="tog(this,'p3')">Partiel</div>
+        <div class="qo" onclick="tog(this,'p3')">Non — à prévoir</div>
+        <div class="qo" onclick="tog(this,'p3')">Pas jugé nécessaire</div>
+      </div>
+    </div>
+
+    <div class="qb">
+      <span class="ql">4. Comment envisagez-vous de réaliser votre pesée hebdomadaire ?</span>
+      <div class="qopts">
+        <div class="qo" onclick="tog(this,'p4')">Au centre Gevlon</div>
+        <div class="qo" onclick="tog(this,'p4')">Balance à domicile</div>
+        <div class="qo" onclick="tog(this,'p4')">Point Santé partenaire</div>
+        <div class="qo" onclick="tog(this,'p4')">Pas encore défini</div>
+      </div>
+    </div>
+
+    <div class="qb">
+      <span class="ql" id="p-q5-lbl">5. Prêt(e) à noter et partager vos mesures chaque semaine sur WhatsApp ? (0–10)</span>
+      <div class="scw">
+        <input type="range" min="0" max="10" value="5" id="sl-p" oninput="sv('p',this.value)">
+        <span class="scv" id="sv-p">5</span>
+      </div>
+      <div class="sclb"><span>0 — Difficile pour moi</span><span>10 — Je le ferai</span></div>
+    </div>
+
+    <div class="eng-box">
+      <label>Protocole de mesure convenu — <span id="eng-p-mois">M1</span></label>
+      <textarea class="eng-ta" id="eng-p" placeholder="Ex : Pesée chaque lundi matin à jeun, photo du tableau de bord AiLink envoyée au coach sur WA avant 9h…"></textarea>
+    </div>
+  </div>
+
+  <div class="obs-card">
+    <div class="obs-lbl">Notes coach — P</div>
+    <textarea class="qt" id="obs-p" placeholder="Profil à risque identifié, coordination médicale si nécessaire, examens biologiques à recommander…" rows="3"></textarea>
+  </div>
+
+  <div class="fnav">
+    <button class="btn btn-back" onclick="goTo(1)">← Activité</button>
+    <span class="step-lbl">Pilier 3 / 5</span>
+    <button class="btn btn-fwd" onclick="goTo(3)">Sommeil →</button>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- S — SOMMEIL -->
+<!-- ============================================================ -->
+<div class="sec" id="sec-3">
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>S — Sommeil &amp; Récupération</div>
+
+    <div class="qb">
+      <span class="ql" id="s-q1-lbl">1. Les recommandations sommeil de votre plan vous ont-elles paru réalistes ?</span>
+      <div class="qopts">
+        <div class="qo" onclick="tog(this,'s1')">Oui, tout à fait réalistes</div>
+        <div class="qo" onclick="tog(this,'s1')">Certaines oui, d'autres non</div>
+        <div class="qo" onclick="tog(this,'s1')">Plutôt difficiles à tenir</div>
+        <div class="qo" onclick="tog(this,'s1')">Je n'ai pas encore lu cette partie</div>
+      </div>
+    </div>
+
+    <div class="qb">
+      <span class="ql">2. À quelle heure vous couchez-vous et levez-vous habituellement ?</span>
+      <textarea class="qt" id="s2" placeholder="Ex : 23h–6h en semaine, 1h–8h le week-end…" oninput="upd()"></textarea>
+    </div>
+
+    <div class="qb">
+      <span class="ql">3. Quels facteurs perturbent le plus votre sommeil en ce moment ?</span>
+      <div class="qopts">
+        <div class="qo" onclick="tog(this,'s3',true)">Écrans (téléphone, TV)</div>
+        <div class="qo" onclick="tog(this,'s3',true)">Stress / ruminations</div>
+        <div class="qo" onclick="tog(this,'s3',true)">Chaleur / bruit</div>
+        <div class="qo" onclick="tog(this,'s3',true)">Ronflements / apnée suspectée</div>
+        <div class="qo" onclick="tog(this,'s3',true)">Repas ou boissons tardifs</div>
+        <div class="qo" onclick="tog(this,'s3',true)">Contraintes familiales</div>
+        <div class="qo" onclick="tog(this,'s3',true)">Aucun problème particulier</div>
+      </div>
+    </div>
+
+    <div class="qb">
+      <span class="ql">4. Quelle action sommeil êtes-vous prêt(e) à adopter concrètement ce mois-ci ?</span>
+      <div class="qopts">
+        <div class="qo" onclick="tog(this,'s4',true)">Couper les écrans 30 min avant le coucher</div>
+        <div class="qo" onclick="tog(this,'s4',true)">Heure de coucher fixe</div>
+        <div class="qo" onclick="tog(this,'s4',true)">Dernier repas avant 20h</div>
+        <div class="qo" onclick="tog(this,'s4',true)">Marche ou étirements le soir</div>
+        <div class="qo" onclick="tog(this,'s4',true)">Tisane / respiration / lecture</div>
+        <div class="qo" onclick="tog(this,'s4',true)">Pas encore prêt(e) pour cette partie</div>
+      </div>
+    </div>
+
+    <div class="qb">
+      <span class="ql" id="s-q5-lbl">5. Priorité accordée à améliorer votre sommeil ce mois-ci (0–10)</span>
+      <div class="scw">
+        <input type="range" min="0" max="10" value="5" id="sl-s" oninput="sv('s',this.value)">
+        <span class="scv" id="sv-s">5</span>
+      </div>
+      <div class="sclb"><span>0 — Pas prioritaire</span><span>10 — Objectif principal</span></div>
+    </div>
+
+    <div class="eng-box">
+      <label>Engagement sommeil <span id="eng-s-mois">M1</span></label>
+      <textarea class="eng-ta" id="eng-s" placeholder="Ex : Téléphone rangé à 22h, coucher au plus tard 23h en semaine, dernier repas avant 20h…"></textarea>
+    </div>
+  </div>
+
+  <div class="obs-card">
+    <div class="obs-lbl">Notes coach — S</div>
+    <textarea class="qt" id="obs-s" placeholder="Impact du déficit de sommeil sur glycémie/cortisol, ronflements à investiguer, stress chronique…" rows="3"></textarea>
+  </div>
+
+  <div class="fnav">
+    <button class="btn btn-back" onclick="goTo(2)">← Physiologie</button>
+    <span class="step-lbl">Pilier 4 / 5</span>
+    <button class="btn btn-fwd" onclick="goTo(4)">Objectifs →</button>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- O — OBJECTIFS -->
+<!-- ============================================================ -->
+<div class="sec" id="sec-4">
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>O — Objectifs &amp; Motivation</div>
+
+    <div class="qb">
+      <span class="ql" id="o-q1-lbl">1. Quel objectif du plan de base vous a le plus résonné ?</span>
+      <span class="qhint">Laisser le client formuler dans ses propres mots — c'est l'ancrage motivationnel à réactiver à chaque séance.</span>
+      <textarea class="qt" id="o1" placeholder="Ce que le client retient spontanément comme sa raison principale de s'engager…" oninput="upd()"></textarea>
+    </div>
+
+    <div class="qb">
+      <span class="ql" id="o-q2-lbl">2. Quel résultat concret attendez-vous à la fin de ce mois ?</span>
+      <span class="qhint">Reformuler ensemble pour en faire un objectif SMART : Spécifique, Mesurable, Atteignable, Réaliste, Temporel.</span>
+      <textarea class="qt" id="o2" placeholder="Ex : Perdre 2 kg, glycémie à jeun &lt; 1,26 g/L, ne plus ressentir de fatigue après les repas…" oninput="upd()"></textarea>
+    </div>
+
+    <div class="qb">
+      <span class="ql">3. Qu'est-ce qui pourrait vous faire décrocher durant ce mois ?</span>
+      <span class="qhint">Anticiper les risques d'abandon pour les intégrer dans le plan d'accompagnement.</span>
+      <div class="qopts">
+        <div class="qo" onclick="tog(this,'o3',true)">Absence de résultats rapides</div>
+        <div class="qo" onclick="tog(this,'o3',true)">Pression sociale ou familiale</div>
+        <div class="qo" onclick="tog(this,'o3',true)">Voyage ou déplacement prévu</div>
+        <div class="qo" onclick="tog(this,'o3',true)">Surcharge professionnelle</div>
+        <div class="qo" onclick="tog(this,'o3',true)">Manque d'accompagnement</div>
+        <div class="qo" onclick="tog(this,'o3',true)">Contraintes financières</div>
+        <div class="qo" onclick="tog(this,'o3',true)">Rien — je suis confiant(e)</div>
+      </div>
+    </div>
+
+    <div class="qb">
+      <span class="ql">4. Qui dans votre entourage peut vous soutenir dans ce parcours ?</span>
+      <div class="qopts">
+        <div class="qo" onclick="tog(this,'o4',true)">Conjoint(e) / partenaire</div>
+        <div class="qo" onclick="tog(this,'o4',true)">Famille proche</div>
+        <div class="qo" onclick="tog(this,'o4',true)">Ami(e)s</div>
+        <div class="qo" onclick="tog(this,'o4',true)">Collègues</div>
+        <div class="qo" onclick="tog(this,'o4',true)">Personne pour l'instant</div>
+      </div>
+    </div>
+
+    <div class="qb">
+      <span class="ql" id="o-q5-lbl">5. Confiance en votre capacité à tenir vos engagements ce mois-ci (0–10)</span>
+      <div class="scw">
+        <input type="range" min="0" max="10" value="5" id="sl-o" oninput="sv('o',this.value)">
+        <span class="scv" id="sv-o">5</span>
+      </div>
+      <div class="sclb"><span>0 — Très incertain(e)</span><span>10 — Pleinement confiant(e)</span></div>
+    </div>
+
+    <div class="eng-box">
+      <label>Objectif SMART <span id="eng-o-mois">M1</span> — co-construit</label>
+      <textarea class="eng-ta" id="eng-o" placeholder="Ex : D'ici le [date], je vise -2 kg sur la balance, glycémie à jeun &lt; 1,26 g/L, et 3 séances Fit@Domicile/sem réalisées…"></textarea>
+    </div>
+  </div>
+
+  <!-- AGENDA 4 SÉANCES -->
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>Agenda des 4 séances WhatsApp — <span id="agenda-mois">M1</span></div>
+    <div class="seance-grid">
+      <div class="seance-card">
+        <div class="seance-num">Séance 1 — Semaine 1</div>
+        <div class="seance-title">Lancement &amp; démarrage</div>
+        <div class="seance-desc">Vérifier le démarrage alimentaire, lever les premières questions pratiques, confirmer l'engagement.</div>
+        <div class="seance-opts">
+          <div class="qo" onclick="togS(this,'w1')">Lun</div>
+          <div class="qo" onclick="togS(this,'w1')">Mar</div>
+          <div class="qo" onclick="togS(this,'w1')">Mer</div>
+          <div class="qo" onclick="togS(this,'w1')">Jeu</div>
+          <div class="qo" onclick="togS(this,'w1')">Ven</div>
+          <div class="qo" onclick="togS(this,'w1')">WE</div>
+        </div>
+      </div>
+      <div class="seance-card">
+        <div class="seance-num">Séance 2 — Semaine 2</div>
+        <div class="seance-title">Bilan mi-parcours</div>
+        <div class="seance-desc">Revue premières mesures (poids, énergie), lever les obstacles, ajuster si nécessaire.</div>
+        <div class="seance-opts">
+          <div class="qo" onclick="togS(this,'w2')">Lun</div>
+          <div class="qo" onclick="togS(this,'w2')">Mar</div>
+          <div class="qo" onclick="togS(this,'w2')">Mer</div>
+          <div class="qo" onclick="togS(this,'w2')">Jeu</div>
+          <div class="qo" onclick="togS(this,'w2')">Ven</div>
+          <div class="qo" onclick="togS(this,'w2')">WE</div>
+        </div>
+      </div>
+      <div class="seance-card">
+        <div class="seance-num">Séance 3 — Semaine 3</div>
+        <div class="seance-title">Renforcement</div>
+        <div class="seance-desc">Consolider les acquis, introduire un ajustement ciblé si les résultats le permettent.</div>
+        <div class="seance-opts">
+          <div class="qo" onclick="togS(this,'w3')">Lun</div>
+          <div class="qo" onclick="togS(this,'w3')">Mar</div>
+          <div class="qo" onclick="togS(this,'w3')">Mer</div>
+          <div class="qo" onclick="togS(this,'w3')">Jeu</div>
+          <div class="qo" onclick="togS(this,'w3')">Ven</div>
+          <div class="qo" onclick="togS(this,'w3')">WE</div>
+        </div>
+      </div>
+      <div class="seance-card">
+        <div class="seance-num">Séance 4 — Semaine 4</div>
+        <div class="seance-title">Bilan M<span class="agenda-m">1</span> &amp; cap M<span class="agenda-m-next">2</span></div>
+        <div class="seance-desc">Évaluation complète du mois, données pour construire le Plan du mois suivant.</div>
+        <div class="seance-opts">
+          <div class="qo" onclick="togS(this,'w4')">Lun</div>
+          <div class="qo" onclick="togS(this,'w4')">Mar</div>
+          <div class="qo" onclick="togS(this,'w4')">Mer</div>
+          <div class="qo" onclick="togS(this,'w4')">Jeu</div>
+          <div class="qo" onclick="togS(this,'w4')">Ven</div>
+          <div class="qo" onclick="togS(this,'w4')">WE</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="obs-card">
+    <div class="obs-lbl">Notes coach — O &amp; séances</div>
+    <textarea class="qt" id="obs-o" placeholder="Levier motivationnel principal, risque d'abandon anticipé, ressources de soutien identifiées, particularités à surveiller…" rows="3"></textarea>
+  </div>
+
+  <div class="fnav">
+    <button class="btn btn-back" onclick="goTo(3)">← Sommeil</button>
+    <span class="step-lbl">Pilier 5 / 5</span>
+    <button class="btn btn-or" onclick="goTo(5)">Voir plan M<span id="fnav-m">1</span> ✓</button>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SYNTHESE -->
+<!-- ============================================================ -->
+<div class="sec" id="sec-5">
+  <div class="synth-hdr">
+    <h2>Synthèse OEM — Plan M<span id="synth-mois-num">1</span></h2>
+    <p id="synth-line">Client : — | Coach : — | Date : —</p>
+  </div>
+
+  <div class="sg" id="sg"></div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>Engagements co-construits — M<span id="synth-eng-mois">1</span></div>
+    <div id="eng-recap"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>Axes prioritaires pour le Plan M<span id="synth-prio-mois">1</span></div>
+    <ul class="prio-list" id="prio-list"></ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>Observations globales du coach</div>
+    <textarea class="qt" id="obs-global" placeholder="Synthèse motivationnelle, points de vigilance M1, éléments à reprendre en séance 2, coordination médicale si nécessaire…" rows="4"></textarea>
+  </div>
+
+  <button class="btn btn-or btn-gen" id="btn-gen" onclick="generer()">
+    Générer le Plan M<span id="btn-gen-mois">1</span> dans eCareOne
+  </button>
+
+  <div class="fnav" style="margin-top:12px;">
+    <button class="btn btn-back" onclick="goTo(4)">← Retour Objectifs</button>
+    <span class="step-lbl" id="synth-date-lbl"></span>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="page-footer">
+  <strong>Gevlon | Nutrition &amp; Lifestyle</strong> — OEM NAPSO™ v1.0 — eCareOne<br>
+  +229 01 52 79 80 80 | contact@gevlon.com | www.gevlon.com<br>
+  Hôtel Ayélawadjè 1, Tokpota, Porto-Novo, Bénin
+</div>
+
+</div><!-- /page -->
+
+<script>
+// ===== ÉTAT =====
+let moisActif = 1;
+const SC = {n:5,a:5,p:5,s:5,o:5};
+const PL = ['N','A','P','S','O'];
+const LB = ['Nutrition','Activité','Physiologie','Sommeil','Objectifs'];
+
+const CONTEXTE = {
+  1: '<strong>Contexte M1 :</strong> Le Plan de base NAPSO™ vient d\'être partagé. Cet entretien explore la compréhension du client, lève ses premiers freins et co-construit les engagements concrets du mois 1 (4 séances WhatsApp).',
+  2: '<strong>Contexte M2 :</strong> Le Plan M1 a été exécuté. Cet entretien fait le bilan d\'exécution du mois 1, identifie les acquis et ajuste les engagements pour le mois 2, toujours ancré dans le Plan de base.',
+  3: '<strong>Contexte M3 :</strong> Deux mois de parcours. Bilan M2 et progression vers M3. Consolider les résultats, approfondir les piliers encore fragiles, introduire si nécessaire de nouveaux ajustements.',
+  4: '<strong>Contexte M4 :</strong> Fin du premier trimestre NAPSO™. Évaluation globale des 3 mois, ancrage des habitudes acquises, cap sur le deuxième trimestre.',
+  5: '<strong>Contexte M5 :</strong> Approfondissement du parcours. Identifier les résistances persistantes, consolider les gains, personnaliser davantage selon les résultats physiologiques.',
+  6: '<strong>Contexte M6 :</strong> Bilan semestriel. Revue complète des 6 piliers NAPSO™ depuis le Plan de base. Décision sur la suite du parcours (renouvellement, évolution du programme, plan d\'entretien).'
+};
+
+const Q_ADAPT = {
+  1: {
+    'n-q1-lbl': '1. Avez-vous lu la partie Nutrition de votre Plan de base ?',
+    'n-q2-lbl': '2. Qu\'est-ce qui vous a le plus interpellé dans les recommandations nutritionnelles ?',
+    'n-q6-lbl': '6. À quel point êtes-vous prêt(e) à démarrer la phase AfroKeto™ ce mois-ci ? (0–10)',
+    'a-q1-lbl': '1. Avez-vous regardé l\'option Fit@Domicile proposée dans votre plan ? Qu\'en pensez-vous ?',
+    'a-q6-lbl': '6. Motivation à bouger régulièrement ce mois-ci (0–10)',
+    'p-q1-lbl': '1. Avez-vous compris les indicateurs de suivi mentionnés dans votre plan ?',
+    'p-q5-lbl': '5. Prêt(e) à noter et partager vos mesures chaque semaine sur WhatsApp ? (0–10)',
+    's-q1-lbl': '1. Les recommandations sommeil de votre plan vous ont-elles paru réalistes ?',
+    's-q5-lbl': '5. Priorité accordée à améliorer votre sommeil ce mois-ci (0–10)',
+    'o-q1-lbl': '1. Quel objectif du plan de base vous a le plus résonné ?',
+    'o-q2-lbl': '2. Quel résultat concret attendez-vous à la fin de ce mois ?',
+    'o-q5-lbl': '5. Confiance en votre capacité à tenir vos engagements ce mois-ci (0–10)'
+  },
+  2: {
+    'n-q1-lbl': '1. Avez-vous respecté vos engagements alimentaires du mois 1 ?',
+    'n-q2-lbl': '2. Qu\'est-ce qui a été le plus difficile sur le plan nutritionnel ce mois-ci ?',
+    'n-q6-lbl': '6. Satisfaction globale vis-à-vis de vos changements alimentaires ce mois-ci (0–10)',
+    'a-q1-lbl': '1. Avez-vous réalisé vos séances d\'activité prévues en M1 ?',
+    'a-q6-lbl': '6. Motivation à poursuivre l\'activité physique ce mois-ci (0–10)',
+    'p-q1-lbl': '1. Avez-vous réalisé vos mesures hebdomadaires comme prévu ?',
+    'p-q5-lbl': '5. Régularité du suivi physiologique ce mois-ci (0–10)',
+    's-q1-lbl': '1. Votre sommeil s\'est-il amélioré par rapport au mois dernier ?',
+    's-q5-lbl': '5. Qualité perçue du sommeil ce mois-ci (0–10)',
+    'o-q1-lbl': '1. L\'objectif SMART du mois 1 a-t-il été atteint ?',
+    'o-q2-lbl': '2. Quel résultat concret voulez-vous atteindre à la fin du mois 2 ?',
+    'o-q5-lbl': '5. Confiance en votre capacité à tenir vos engagements ce mois-ci (0–10)'
+  }
+};
+
+// Pour M3-M6, on réutilise M2 avec adaptation du numéro
+for(let m=3;m<=6;m++){
+  Q_ADAPT[m]={...Q_ADAPT[2]};
+  Q_ADAPT[m]['o-q2-lbl']=`2. Quel résultat concret voulez-vous atteindre à la fin du mois ${m} ?`;
+}
+
+// ===== FONCTIONS =====
+function setMois(m, el) {
+  moisActif = m;
+  document.querySelectorAll('.mois-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('badge-mois').textContent = 'OEM NAPSO™ — M' + m;
+  document.getElementById('ctx-alert').innerHTML = CONTEXTE[m] || CONTEXTE[2];
+
+  // Adapter labels questions
+  const qa = Q_ADAPT[m] || Q_ADAPT[2];
+  for(const [id, txt] of Object.entries(qa)){
+    const el2 = document.getElementById(id);
+    if(el2) el2.textContent = txt;
+  }
+
+  // Adapter mois dans labels
+  const mStr = 'M' + m;
+  document.querySelectorAll('[id$="-mois"]').forEach(e => e.textContent = mStr);
+  document.querySelectorAll('.eng-n-mois,.eng-a-mois,.eng-p-mois,.eng-s-mois,.eng-o-mois').forEach(e=>e.textContent=mStr);
+  document.querySelectorAll('.agenda-m').forEach(e=>e.textContent=m);
+  document.querySelectorAll('.agenda-m-next').forEach(e=>e.textContent=m+1);
+  const pms = document.querySelectorAll('[id="pill-m"]');
+  if(pms.length) pms[0].textContent = m;
+  const fnavm = document.getElementById('fnav-m');
+  if(fnavm) fnavm.textContent = m;
+  ['synth-mois-num','synth-eng-mois','synth-prio-mois','btn-gen-mois'].forEach(id=>{
+    const e=document.getElementById(id); if(e) e.textContent=m;
+  });
+  document.getElementById('agenda-mois').textContent = mStr;
+}
+
+function goTo(i) {
+  document.querySelectorAll('.sec').forEach((s,j) => s.classList.toggle('active', j===i));
+  document.querySelectorAll('.pill').forEach((p,j) => {
+    p.classList.remove('active');
+    if(j===i) p.classList.add('active');
+  });
+  if(i===5) renderSynth();
+  window.scrollTo(0,0);
+}
+
+function tog(el, k, multi=false) {
+  if(!multi) el.closest('.qopts').querySelectorAll('.qo').forEach(e => e.classList.remove('sel'));
+  el.classList.toggle('sel');
+  upd();
+}
+
+function togS(el, k) {
+  el.closest('.seance-opts').querySelectorAll('.qo').forEach(e => e.classList.remove('sel'));
+  el.classList.add('sel');
+}
+
+function sv(k, v) {
+  document.getElementById('sv-'+k).textContent = v;
+  SC[k] = parseInt(v);
+  upd();
+}
+
+function upd() {
+  ['n','a','p','s','o'].forEach(k => {
+    const el = document.getElementById('sl-'+k);
+    if(el) SC[k] = parseInt(el.value);
+  });
+  const tot = Object.values(SC).reduce((a,b)=>a+b,0);
+  document.getElementById('pct').textContent = Math.round((tot/50)*100)+'%';
+}
+
+function badge(v) {
+  if(v>=7) return '<span class="badge bv">Favorable</span>';
+  if(v>=4) return '<span class="badge bo">À consolider</span>';
+  return '<span class="badge br">Prioritaire</span>';
+}
+
+const CONSEILS = {
+  n: 'Simplifier : 2–3 repas-types AfroKeto™ faciles à reproduire. Identifier les substituts aux glucides-clés. Travailler la gestion des repas sociaux.',
+  a: 'Démarrer Fit@Domicile en douceur — 20 min, 2×/sem minimum. Insister : chaque séance compte même courte. Ancrer un créneau fixe.',
+  p: 'Mettre en place le protocole de mesure dès S1 — pesée hebdomadaire + photo partagée sur WA. Corriger toute incompréhension des indicateurs.',
+  s: 'Une seule action sommeil à ancrer ce mois. Coucher fixe ou suppression écrans 30 min avant — choisir la plus réaliste avec le client.',
+  o: 'Reprendre l\'objectif SMART en début de chaque appel WA. Identifier le déclencheur motivationnel profond et l\'ancrer dans le discours du client.'
+};
+
+function renderSynth() {
+  const nom = document.getElementById('c-nom').value || '—';
+  const coach = document.getElementById('c-coach').value || '—';
+  const date = new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
+  document.getElementById('synth-line').textContent = 'Client : '+nom+' | Coach : '+coach+' | '+date;
+  document.getElementById('synth-date-lbl').textContent = date;
+
+  const g = document.getElementById('sg'); g.innerHTML='';
+  ['n','a','p','s','o'].forEach((k,i)=>{
+    const v=SC[k], pct=v*10;
+    const col=v>=7?'#278a01':v>=4?'#F9921C':'#c0392b';
+    const c=document.createElement('div'); c.className='sc';
+    c.innerHTML=`<div class="sct">${PL[i]} — ${LB[i]}</div><div class="scn">${v}<span>/10</span></div>${badge(v)}<div class="sbar"><div class="sbf" style="width:${pct}%;background:${col}"></div></div>`;
+    g.appendChild(c);
+  });
+  const tot=Object.values(SC).reduce((a,b)=>a+b,0);
+  const gv=(tot/5).toFixed(1);
+  const gc=document.createElement('div'); gc.className='sc full';
+  gc.innerHTML=`<div class="sct">Score motivationnel global</div><div class="scn">${gv}<span>/10</span></div>${badge(parseFloat(gv))}`;
+  g.appendChild(gc);
+
+  const ENGS=[{k:'eng-n',l:'N — Nutrition'},{k:'eng-a',l:'A — Activité'},{k:'eng-p',l:'P — Physiologie'},{k:'eng-s',l:'S — Sommeil'},{k:'eng-o',l:'O — Objectif SMART'}];
+  let html='';
+  ENGS.forEach(e=>{
+    const v=(document.getElementById(e.k)||{}).value||'';
+    if(v.trim()){
+      html+=`<div class="eng-recap-item"><div class="eng-recap-label">${e.l}</div><div class="eng-recap-val">${v.trim()}</div></div>`;
+    } else {
+      html+=`<div class="eng-recap-item"><div class="eng-recap-label">${e.l}</div><div class="eng-recap-empty">Engagement non renseigné</div></div>`;
+    }
+  });
+  document.getElementById('eng-recap').innerHTML=html;
+
+  const pl=document.getElementById('prio-list'); pl.innerHTML='';
+  const sorted=Object.entries(SC).sort((a,b)=>a[1]-b[1]);
+  sorted.forEach(([k,v])=>{
+    const i='napso'.indexOf(k);
+    const li=document.createElement('li'); li.className='prio-item'+(v>=7?' pv':'');
+    li.innerHTML=`<strong>${PL[i]} — ${LB[i]}</strong>&nbsp;(${v}/10) : ${v>=7?'Axe favorable — capitaliser et maintenir la dynamique.':CONSEILS[k]}`;
+    pl.appendChild(li);
+  });
+}
+
+function generer() {
+  const nom=document.getElementById('c-nom').value||'Client';
+  const wa=document.getElementById('c-wa').value||'';
+  const coach=document.getElementById('c-coach').value||'';
+  const m=moisActif;
+  const fields=[
+    ['Engagement N',document.getElementById('eng-n').value],
+    ['Engagement A',document.getElementById('eng-a').value],
+    ['Protocole P',document.getElementById('eng-p').value],
+    ['Engagement S',document.getElementById('eng-s').value],
+    ['Objectif SMART O',document.getElementById('eng-o').value],
+    ['Obs N',document.getElementById('obs-n').value],
+    ['Obs A',document.getElementById('obs-a').value],
+    ['Obs P',document.getElementById('obs-p').value],
+    ['Obs S',document.getElementById('obs-s').value],
+    ['Obs O',document.getElementById('obs-o').value],
+    ['Synthèse coach',document.getElementById('obs-global').value]
+  ];
+  const corps=fields.map(([l,v])=>`${l}: ${v||'—'}`).join('\n');
+  const scores=`N=${SC.n}/10, A=${SC.a}/10, P=${SC.p}/10, S=${SC.s}/10, O=${SC.o}/10`;
+
+  // Appel Apps Script
+  const apiUrl='https://script.google.com/macros/s/AKfycbyim7hrFwVi07kNQDiqyhWcB4eek3PYrTwWzpY4W9TDcf4t6QO5C0wG_-ytfrJB1dOi/exec';
+  const params=new URLSearchParams({
+    action:'genererPlanM'+m,
+    wa:wa,
+    nom:nom,
+    coach:coach,
+    mois:m,
+    scores:scores,
+    engagements:corps
+  });
+
+  const btn=document.getElementById('btn-gen');
+  btn.textContent='Génération en cours…';
+  btn.disabled=true;
+  btn.style.opacity='.7';
+
+  fetch(apiUrl+'?'+params.toString(),{method:'GET',mode:'no-cors'})
+    .then(()=>{
+      btn.textContent='✓ Demande envoyée à eCareOne';
+      btn.style.background='#278a01';
+    })
+    .catch(()=>{
+      btn.textContent='Erreur — vérifier la connexion';
+      btn.style.background='#c0392b';
+      btn.disabled=false;
+    });
+}
+
+upd();
+</script>
+</body>
+</html>
