@@ -201,6 +201,17 @@ section{padding:96px 0;}
 .team-list li{font-size:.82rem;color:var(--ink-soft);padding:5px 0;border-top:1px solid var(--sand-line);}
 .team-list li:first-child{border-top:none;padding-top:0;}
 
+.quickaccess{background:var(--sand);}
+.qa-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+.qa-card{background:var(--white);border:1px solid var(--sand-line);border-radius:20px;padding:30px 26px;display:flex;flex-direction:column;gap:12px;transition:transform .25s ease, box-shadow .25s ease;}
+.qa-card:hover{transform:translateY(-4px);box-shadow:var(--shadow);}
+.qa-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;font-weight:800;font-size:1.1rem;color:#fff;}
+.qa-card h4{font-size:1.08rem;margin-bottom:2px;}
+.qa-card p{font-size:.88rem;color:var(--ink-soft);margin:0;flex-grow:1;}
+.qa-card ul{list-style:none;margin:0 0 6px;padding:0;}
+.qa-card li{font-size:.82rem;color:var(--ink-soft);padding:4px 0 4px 16px;position:relative;}
+.qa-card li::before{content:"—";position:absolute;left:0;color:var(--orange);}
+
 .reseau{background:var(--sand);}
 .reseau-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
 .reseau-badges{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px;}
@@ -260,6 +271,7 @@ footer{background:var(--blue-ink);color:rgba(255,255,255,0.75);padding:70px 0 30
 
     </div>
     <div class="nav-cta">
+      <a class="btn btn-outline-dark btn-sm" href="https://shop.gevlon.com/" target="_blank" rel="noopener" style="border-color:var(--sand-line);">Boutique</a>
       <a class="btn btn-primary btn-sm" href="https://wa.me/22901527980" target="_blank" rel="noopener">Prendre RDV</a>
       <button class="nav-burger" id="burgerBtn" aria-label="Ouvrir le menu" aria-expanded="false">
         <span></span><span></span><span></span>
@@ -273,6 +285,7 @@ footer{background:var(--blue-ink);color:rgba(255,255,255,0.75);padding:70px 0 30
 <a href="parcours.html">Parcours & outils</a>
 <a href="equipe.html">Équipe & réseau</a>
 
+    <a href="https://shop.gevlon.com/" target="_blank" rel="noopener">Boutique Gevlon ↗</a>
   </div>
 </header>
 
@@ -366,8 +379,9 @@ footer{background:var(--blue-ink);color:rgba(255,255,255,0.75);padding:70px 0 30
       </div>
       <div class="footer-col">
         <h5>Ressources</h5>
-        <a href="parcours.html">Espace client</a>
-        <a href="https://shop.gevlon.com/" target="_blank" rel="noopener">Boutique</a>
+        <a href="parcours.html#espace-client">Espace Client</a>
+        <a href="parcours.html#espace-coach">Espace Coach &amp; Praticien</a>
+        <a href="https://shop.gevlon.com/" target="_blank" rel="noopener">Boutique Gevlon ↗</a>
         <a href="parcours.html#parcours">Parcours de suivi</a>
       </div>
       <div class="footer-col">
