@@ -201,6 +201,17 @@ section{padding:96px 0;}
 .team-list li{font-size:.82rem;color:var(--ink-soft);padding:5px 0;border-top:1px solid var(--sand-line);}
 .team-list li:first-child{border-top:none;padding-top:0;}
 
+.quickaccess{background:var(--sand);}
+.qa-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+.qa-card{background:var(--white);border:1px solid var(--sand-line);border-radius:20px;padding:30px 26px;display:flex;flex-direction:column;gap:12px;transition:transform .25s ease, box-shadow .25s ease;}
+.qa-card:hover{transform:translateY(-4px);box-shadow:var(--shadow);}
+.qa-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;font-weight:800;font-size:1.1rem;color:#fff;}
+.qa-card h4{font-size:1.08rem;margin-bottom:2px;}
+.qa-card p{font-size:.88rem;color:var(--ink-soft);margin:0;flex-grow:1;}
+.qa-card ul{list-style:none;margin:0 0 6px;padding:0;}
+.qa-card li{font-size:.82rem;color:var(--ink-soft);padding:4px 0 4px 16px;position:relative;}
+.qa-card li::before{content:"—";position:absolute;left:0;color:var(--orange);}
+
 .reseau{background:var(--sand);}
 .reseau-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
 .reseau-badges{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px;}
@@ -260,6 +271,7 @@ footer{background:var(--blue-ink);color:rgba(255,255,255,0.75);padding:70px 0 30
 
     </div>
     <div class="nav-cta">
+      <a class="btn btn-outline-dark btn-sm" href="https://shop.gevlon.com/" target="_blank" rel="noopener" style="border-color:var(--sand-line);">Boutique</a>
       <a class="btn btn-primary btn-sm" href="https://wa.me/22901527980" target="_blank" rel="noopener">Prendre RDV</a>
       <button class="nav-burger" id="burgerBtn" aria-label="Ouvrir le menu" aria-expanded="false">
         <span></span><span></span><span></span>
@@ -273,6 +285,7 @@ footer{background:var(--blue-ink);color:rgba(255,255,255,0.75);padding:70px 0 30
 <a href="parcours.html">Parcours & outils</a>
 <a href="equipe.html">Équipe & réseau</a>
 
+    <a href="https://shop.gevlon.com/" target="_blank" rel="noopener">Boutique Gevlon ↗</a>
   </div>
 </header>
 
@@ -310,9 +323,12 @@ footer{background:var(--blue-ink);color:rgba(255,255,255,0.75);padding:70px 0 30
     <div class="section-head center">
       <div class="eyebrow">Espace client &amp; praticiens</div>
       <h2>Les outils numériques Gevlon</h2>
-      <p>Les briques déjà en ligne du parcours Gevlon, accessibles selon votre profil.</p>
+      <p>Les briques déjà en ligne du parcours Gevlon, regroupées selon votre profil.</p>
     </div>
-    <div class="tool-grid">
+
+    <h3 id="espace-client" style="font-size:1.3rem;margin-bottom:6px;scroll-margin-top:100px;">Espace Client</h3>
+    <p style="color:var(--ink-soft);margin-bottom:26px;max-width:600px;">Les questionnaires et bilans que vous complétez vous-même pour démarrer et suivre votre parcours.</p>
+    <div class="tool-grid" style="margin-bottom:56px;">
       <div class="tool-card">
         <span class="tool-tag">Client</span>
         <h4>Bilan nutritionnel approfondi</h4>
@@ -325,12 +341,11 @@ footer{background:var(--blue-ink);color:rgba(255,255,255,0.75);padding:70px 0 30
         <p>Saisie de vos mesures corporelles pour un suivi précis, pilier P du protocole NAPSO™.</p>
         <a class="btn btn-outline-dark btn-sm" href="https://gevlon-nutrition.github.io/gevlon-forms/bilan-biometrique.html" target="_blank" rel="noopener">Saisir mon bilan</a>
       </div>
-      <div class="tool-card">
-        <span class="tool-tag">Client</span>
-        <h4>Entretien motivationnel NAPSO™</h4>
-        <p>L'outil qui vous aide à clarifier vos objectifs avant de démarrer votre plan.</p>
-        <a class="btn btn-outline-dark btn-sm" href="https://gevlon-nutrition.github.io/gevlon-forms/oem-napso.html" target="_blank" rel="noopener">Commencer l'entretien</a>
-      </div>
+    </div>
+
+    <h3 id="espace-coach" style="font-size:1.3rem;margin-bottom:6px;scroll-margin-top:100px;">Espace Coach &amp; Praticien</h3>
+    <p style="color:var(--ink-soft);margin-bottom:26px;max-width:600px;">Réservé aux Points Santé et coachs Gevlon : accueil, entretien motivationnel et suivi mensuel.</p>
+    <div class="tool-grid">
       <div class="tool-card">
         <span class="tool-tag practitioner">Praticien</span>
         <h4>Fiche de saisie praticien</h4>
@@ -338,18 +353,29 @@ footer{background:var(--blue-ink);color:rgba(255,255,255,0.75);padding:70px 0 30
         <a class="btn btn-outline-dark btn-sm" href="https://gevlon-nutrition.github.io/gevlon-forms/saisie-praticien-gevlon.html" target="_blank" rel="noopener">Accéder à la fiche</a>
       </div>
       <div class="tool-card">
-        <span class="tool-tag practitioner">Coach Gevlon</span>
+        <span class="tool-tag practitioner">Coach</span>
+        <h4>Entretien motivationnel NAPSO™</h4>
+        <p>L'outil utilisé par le coach pour clarifier les objectifs du client avant de démarrer son plan.</p>
+        <a class="btn btn-outline-dark btn-sm" href="https://gevlon-nutrition.github.io/gevlon-forms/oem-napso.html" target="_blank" rel="noopener">Ouvrir l'entretien</a>
+      </div>
+      <div class="tool-card">
+        <span class="tool-tag practitioner">Coach</span>
         <h4>Révision du plan du mois</h4>
         <p>Interface de relecture et d'ajustement des plans mensuels par le coach.</p>
         <a class="btn btn-outline-dark btn-sm" href="https://gevlon-nutrition.github.io/gevlon-forms/revision-plan-mois.html" target="_blank" rel="noopener">Ouvrir l'interface</a>
       </div>
-      <div class="tool-card">
-        <span class="tool-tag">Boutique</span>
-        <h4>Kits de suivi Gevlon</h4>
-        <p>Les kits biométriques utilisés dans le cadre de votre suivi mensuel.</p>
-        <a class="btn btn-outline-dark btn-sm" href="https://shop.gevlon.com/" target="_blank" rel="noopener">Voir la boutique</a>
-      </div>
     </div>
+  </div>
+</section>
+
+<section class="boutique">
+  <div class="container boutique-inner">
+    <div>
+      <div class="eyebrow" style="color:var(--blue-deep)">Boutique Gevlon</div>
+      <h2>Les kits qui accompagnent votre suivi mensuel</h2>
+      <p>Retrouvez sur notre boutique les kits utilisés dans le cadre du pilier Physiologie &amp; suivi du protocole NAPSO™.</p>
+    </div>
+    <a class="btn btn-primary" href="https://shop.gevlon.com/" target="_blank" rel="noopener">Visiter shop.gevlon.com</a>
   </div>
 </section>
 
@@ -396,8 +422,9 @@ footer{background:var(--blue-ink);color:rgba(255,255,255,0.75);padding:70px 0 30
       </div>
       <div class="footer-col">
         <h5>Ressources</h5>
-        <a href="parcours.html">Espace client</a>
-        <a href="https://shop.gevlon.com/" target="_blank" rel="noopener">Boutique</a>
+        <a href="parcours.html#espace-client">Espace Client</a>
+        <a href="parcours.html#espace-coach">Espace Coach &amp; Praticien</a>
+        <a href="https://shop.gevlon.com/" target="_blank" rel="noopener">Boutique Gevlon ↗</a>
         <a href="parcours.html#parcours">Parcours de suivi</a>
       </div>
       <div class="footer-col">
