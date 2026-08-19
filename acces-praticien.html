@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Accès Coach & Praticien — Gevlon Nutrition & Lifestyle</title>
+<style>
+  :root{
+    --navy:#00308F; --navy-deep:#001F5C; --navy-soft:#EAF0FB;
+    --orange:#F9921C; --orange-text:#B5650E;
+    --ink:#131C33; --ink-soft:#54617A; --paper:#F6F8FC;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:var(--paper);color:var(--ink);line-height:1.5;padding:40px 16px;}
+  .wrap{max-width:440px;margin:0 auto;}
+  .back{display:inline-block;margin-bottom:22px;font-size:0.88rem;color:var(--navy);font-weight:600;text-decoration:none;}
+  .card{background:#fff;border-radius:16px;padding:32px;box-shadow:0 10px 30px rgba(0,31,92,0.1);}
+  h1{font-size:1.35rem;color:var(--navy-deep);margin-bottom:8px;}
+  p.sub{color:var(--ink-soft);font-size:0.9rem;margin-bottom:24px;}
+  .tabs{display:flex;gap:6px;background:var(--navy-soft);border-radius:10px;padding:4px;margin-bottom:22px;}
+  .tab{flex:1;border:none;background:transparent;padding:9px 0;border-radius:8px;font-weight:700;font-size:0.85rem;color:var(--ink-soft);cursor:pointer;}
+  .tab.active{background:#fff;color:var(--navy-deep);box-shadow:0 2px 6px rgba(0,48,143,0.12);}
+  label{display:block;font-size:0.78rem;font-weight:700;color:var(--ink-soft);margin:14px 0 6px;}
+  input,select{width:100%;padding:11px 14px;border-radius:9px;border:1.5px solid var(--navy-soft);font-size:0.92rem;background:var(--paper);}
+  input:focus,select:focus{outline:none;border-color:var(--navy);}
+  button.submit{
+    width:100%;margin-top:20px;background:var(--orange);color:var(--navy-deep);border:none;
+    padding:13px;border-radius:999px;font-weight:700;font-size:0.95rem;cursor:pointer;
+  }
+  button.submit:disabled{opacity:0.6;cursor:default;}
+  .msg{margin-top:14px;font-size:0.85rem;text-align:center;padding:10px;border-radius:8px;}
+  .msg.error{background:#FCE8E8;color:#A32D2D;}
+  .msg.success{background:#DCF5E3;color:#1a7a3d;}
+  .form-panel{display:none;}
+  .form-panel.active{display:block;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="parcours.html#espace-coach">← Retour au parcours</a>
+  <div class="card">
+    <h1>Espace Coach & Praticien</h1>
+    <p class="sub">Réservé aux Points Santé, coachs et professionnels Gevlon.</p>
+
+    <div class="tabs">
+      <button class="tab active" id="tabLogin" onclick="setTab('login')">J'ai un code</button>
+      <button class="tab" id="tabRequest" onclick="setTab('request')">Demander l'accès</button>
+    </div>
+
+    <!-- CONNEXION AVEC CODE -->
+    <div class="form-panel active" id="panelLogin">
+      <label>Email</label>
+      <input type="email" id="loginEmail" placeholder="vous@email.com">
+      <label>Code reçu par email</label>
+      <input type="text" id="loginCode" placeholder="123456" inputmode="numeric" maxlength="6">
+      <button class="submit" id="loginBtn" onclick="submitLogin()">Se connecter</button>
+      <div id="loginMsg"></div>
+    </div>
+
+    <!-- DEMANDE D'ACCÈS -->
+    <div class="form-panel" id="panelRequest">
+      <label>Nom complet</label>
+      <input type="text" id="reqName" placeholder="Votre nom">
+      <label>Email</label>
+      <input type="email" id="reqEmail" placeholder="vous@email.com">
+      <label>Téléphone</label>
+      <input type="tel" id="reqPhone" placeholder="+229 XX XX XX XX">
+      <label>Vous êtes</label>
+      <select id="reqRole">
+        <option value="Coach">Coach Gevlon</option>
+        <option value="Point Santé">Point Santé</option>
+        <option value="Professionnel de santé">Professionnel de santé partenaire</option>
+        <option value="Autre">Autre</option>
+      </select>
+      <button class="submit" id="reqBtn" onclick="submitRequest()">Envoyer ma demande</button>
+      <div id="reqMsg"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var API_BASE = 'https://gevlon-backend-production.up.railway.app';
+
+  function setTab(tab){
+    document.getElementById('tabLogin').classList.toggle('active', tab==='login');
+    document.getElementById('tabRequest').classList.toggle('active', tab==='request');
+    document.getElementById('panelLogin').classList.toggle('active', tab==='login');
+    document.getElementById('panelRequest').classList.toggle('active', tab==='request');
+  }
+
+  function showMsg(elId, text, type){
+    var el = document.getElementById(elId);
+    el.innerHTML = '<div class="msg ' + type + '">' + text + '</div>';
+  }
+
+  function getRedirectUrl(){
+    var params = new URLSearchParams(window.location.search);
+    return params.get('redirect') || 'parcours.html#espace-coach';
+  }
+
+  async function submitLogin(){
+    var email = document.getElementById('loginEmail').value.trim();
+    var code = document.getElementById('loginCode').value.trim();
+    if(!email || !code){ showMsg('loginMsg', 'Merci de renseigner votre email et votre code.', 'error'); return; }
+
+    var btn = document.getElementById('loginBtn');
+    btn.disabled = true; btn.textContent = 'Un instant…';
+    try{
+      var res = await fetch(API_BASE + '/api/staff-access/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, code: code })
+      });
+      var data = await res.json();
+      if(!res.ok) throw new Error(data.error || 'Email ou code incorrect.');
+
+      var expiry = Date.now() + 12 * 60 * 60 * 1000;
+      sessionStorage.setItem('gevlon_staff_token', data.staffToken);
+      sessionStorage.setItem('gevlon_staff_expiry', String(expiry));
+      showMsg('loginMsg', '✅ Connexion réussie, redirection…', 'success');
+      setTimeout(function(){ window.location.href = getRedirectUrl(); }, 800);
+    }catch(err){
+      showMsg('loginMsg', err.message || 'Erreur, réessayez.', 'error');
+    }finally{
+      btn.disabled = false; btn.textContent = 'Se connecter';
+    }
+  }
+
+  async function submitRequest(){
+    var name = document.getElementById('reqName').value.trim();
+    var email = document.getElementById('reqEmail').value.trim();
+    var phone = document.getElementById('reqPhone').value.trim();
+    var role = document.getElementById('reqRole').value;
+    if(!name || !email){ showMsg('reqMsg', 'Merci de renseigner votre nom et votre email.', 'error'); return; }
+
+    var btn = document.getElementById('reqBtn');
+    btn.disabled = true; btn.textContent = 'Envoi…';
+    try{
+      var res = await fetch(API_BASE + '/api/staff-access/request', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name, email: email, phone: phone, role: role })
+      });
+      var data = await res.json();
+      if(!res.ok) throw new Error(data.error || 'Erreur, réessayez.');
+      showMsg('reqMsg', '✅ Demande envoyée ! L\'équipe Gevlon va valider votre accès, vous recevrez un code par email.', 'success');
+      document.getElementById('reqName').value = '';
+      document.getElementById('reqEmail').value = '';
+      document.getElementById('reqPhone').value = '';
+    }catch(err){
+      showMsg('reqMsg', err.message || 'Erreur, réessayez.', 'error');
+    }finally{
+      btn.disabled = false; btn.textContent = 'Envoyer ma demande';
+    }
+  }
+</script>
+</body>
+</html>
